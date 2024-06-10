@@ -1,0 +1,25 @@
+@model Nop.Plugin.Payments.Tabby.Models.ConfigurationModel
+@{
+    Layout = "_AdminLayout";
+}
+
+<h2>@T("Plugins.Payments.Tabby.Fields.Configuration")</h2>
+
+@using (Html.BeginForm("Configure", "Tabby", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(model => model.PublicKey, T("Plugins.Payments.Tabby.Fields.PublicKey"))
+        @Html.EditorFor(model => model.PublicKey, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.PublicKey, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.SecretKey, T("Plugins.Payments.Tabby.Fields.SecretKey"))
+        @Html.EditorFor(model => model.SecretKey, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.SecretKey, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <input type="submit" name="save" value="@T("Admin.Common.Save")" class="btn btn-primary" />
+    </div>
+}
