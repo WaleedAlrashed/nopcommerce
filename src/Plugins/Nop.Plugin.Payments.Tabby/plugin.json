@@ -1,6 +1,6 @@
 ﻿{
   "Group": "Payment methods",
-  "FriendlyName": "Tabby Payment Plugin",
+  "FriendlyName": "Tabby Payment",
   "SystemName": "Payments.Tabby",
   "Version": "4.70.6",
   "SupportedVersions": [ "4.70" ],
