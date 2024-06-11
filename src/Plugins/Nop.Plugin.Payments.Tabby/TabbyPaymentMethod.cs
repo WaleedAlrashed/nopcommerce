@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Nop.Core;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Payments.Tabby.Components;
 using Nop.Services.Payments;
 using Nop.Services.Plugins;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Nop.Web.Framework.Mvc.Routing;
 
 namespace Nop.Plugin.Payments.Tabby
 {
@@ -15,12 +16,20 @@ namespace Nop.Plugin.Payments.Tabby
     /// </summary>
     public class TabbyPaymentMethod : BasePlugin, IPaymentMethod
     {
-        public TabbyPaymentMethod(IWebHelper webHelper)
+        public TabbyPaymentMethod(IWebHelper webHelper,
+            IUrlHelperFactory urlHelper,
+             IActionContextAccessor actionContextAccessor
+            )
         {
             _webHelper = webHelper;
+            _urlHelperFactory = urlHelper;
+            _actionContextAccessor = actionContextAccessor;
         }
 
+        protected readonly IActionContextAccessor _actionContextAccessor;
         protected readonly IWebHelper _webHelper;
+        protected readonly IUrlHelperFactory _urlHelperFactory;
+
         public bool SupportCapture => false;
 
         public bool SupportPartiallyRefund => true;
@@ -107,7 +116,7 @@ namespace Nop.Plugin.Payments.Tabby
 
         public override string GetConfigurationPageUrl()
         {
-            return $"{_webHelper.GetStoreLocation()}Admin/Tabby/Configure";
+            return _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext).RouteUrl(TabbyDefaults.ConfigurationRouteName);
         }
     }
 }
