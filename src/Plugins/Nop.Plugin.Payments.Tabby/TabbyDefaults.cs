@@ -24,6 +24,11 @@ namespace Nop.Plugin.Payments.Tabby
         public static string ConfigurationRouteName => "Plugin.Payments.Tabby.Configure";
 
         /// <summary>
+        /// Gets the webhook route name
+        /// </summary>
+        public static string WebhookRouteName => "Plugin.Payments.Tabby.Webhook";
+
+        /// <summary>
         /// Gets the session key to get process payment request
         /// </summary>
         public static string PaymentRequestSessionKey => "OrderPaymentInfo";
