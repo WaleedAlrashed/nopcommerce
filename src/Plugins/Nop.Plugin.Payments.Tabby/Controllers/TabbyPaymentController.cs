@@ -16,7 +16,7 @@ namespace Nop.Plugin.Payments.Tabby.Controllers
     [AutoValidateAntiforgeryToken]
     [ValidateIpAddress]
     [AuthorizeAdmin]
-    public class TabbyPaymentController : BasePluginController
+    public class TabbyPaymentController : BasePaymentController
     {
         #region Fields
 
