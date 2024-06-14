@@ -39,9 +39,9 @@ namespace Nop.Plugin.Payments.Tabby
         public static string RefundIdAttributeName => "TabbyRefundId";
 
         /// <summary>
-        /// Gets the service js script URL
+        /// Gets the checkout service URL
         /// </summary>
-        public static string ServiceScriptUrl => "https://checkout.tabby.ai/tabby-pg.js";
+        public static string CheckoutUrl => "https://api.tabby.ai/api/v2/checkout";
 
         /// <summary>
         /// Gets a default period (in seconds) before the request times out
