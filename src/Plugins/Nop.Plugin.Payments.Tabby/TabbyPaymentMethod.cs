@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Net.Http.Headers;
+using System.Text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Newtonsoft.Json;
 using Nop.Core;
 using Nop.Core.Domain.Orders;
+using Nop.Core.Infrastructure;
 using Nop.Plugin.Payments.Tabby.Components;
+using Nop.Plugin.Payments.Tabby.Models;
 using Nop.Services.Payments;
 using Nop.Services.Plugins;
 using Nop.Web.Framework.Mvc.Routing;
@@ -84,10 +89,6 @@ namespace Nop.Plugin.Payments.Tabby
             return await Task.FromResult(false);
         }
 
-        public async Task PostProcessPaymentAsync(PostProcessPaymentRequest postProcessPaymentRequest)
-        {
-            await Task.CompletedTask;
-        }
 
         public async Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
         {
@@ -118,5 +119,103 @@ namespace Nop.Plugin.Payments.Tabby
         {
             return _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext).RouteUrl(TabbyDefaults.ConfigurationRouteName);
         }
+
+        public async Task PostProcessPaymentAsync(PostProcessPaymentRequest postProcessPaymentRequest)
+        {
+            var order = postProcessPaymentRequest.Order;
+
+
+            var url = "https://api.tabby.ai/api/v2/checkout";
+
+
+            var jsonContent = $@"{{
+        ""payment"": {{
+            ""amount"": ""{order.OrderTotal}"", 
+            ""currency"": ""AED"", 
+            ""description"": ""Order # {order.Id}"",
+            ""buyer"": {{
+                ""phone"": ""500000001"", 
+                ""email"": ""card.success@tabby.ai"", 
+                ""name"": ""string"",
+                ""dob"": ""2019-08-24""
+            }},
+            ""buyer_history"": {{
+                ""registered_since"": ""{order.CreatedOnUtc:yyyy-MM-ddTHH:mm:ssZ}"", 
+                ""loyalty_level"": 0,
+                ""wishlist_count"": 0, 
+                ""is_social_networks_connected"": true,
+                ""is_phone_number_verified"": true, 
+                ""is_email_verified"": true 
+            }},
+            ""order"": {{
+                ""tax_amount"": ""{order.OrderTax}"",
+                ""shipping_amount"": ""{order.OrderShippingInclTax}"",
+                ""discount_amount"": ""{order.OrderDiscount}"",
+                ""updated_at"": ""{order.CreatedOnUtc:yyyy-MM-ddTHH:mm:ssZ}"",
+                ""reference_id"": ""{order.Id}"", 
+                ""items"": [
+                    {{
+                        ""title"": ""Product Title"", 
+                        ""description"": ""Product Description"", 
+                        ""quantity"": 1, 
+                        ""unit_price"": ""100"", 
+                        ""discount_amount"": ""0.00"",
+                        ""reference_id"": ""Product Ref ID"",
+                        ""image_url"": ""http://example.com"",
+                        ""product_url"": ""http://example.com"",
+                        ""gender"": ""Male"",
+                        ""category"": ""Category"",  
+                        ""color"": ""Color"",
+                        ""product_material"": ""Material"",
+                        ""size_type"": ""Size Type"",
+                        ""size"": ""Size"",
+                        ""brand"": ""Brand""
+                    }}
+                ]
+            }},
+            ""meta"": {{
+                ""order_id"": ""{order.CustomOrderNumber}"", 
+                ""customer"": ""{order.CustomerId}""
+            }}
+        }},
+        ""lang"": ""en"", 
+        ""merchant_code"": ""KSECRETUAE"", 
+        ""merchant_urls"": {{
+            ""success"": ""https://localhost:44369/"",
+            ""cancel"": ""https://localhost:44369/"",
+            ""failure"": ""https://localhost:44369/""
+        }}
+    }}";
+
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer pk_test_80d3109b-b620-4121-bb99-02cb63faef76");
+                client.DefaultRequestHeaders.Add("Cookie", "_cfuvid=ontr9nE4bG5oNeoCtSQDAGby0ZAeJyA4jfHmVfywTjs-1718291297463-0.0.1.1-604800000");
+
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(url, content);
+
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    var rootObject = JsonConvert.DeserializeObject<RootObject>(result);
+                    var redirectUrl = rootObject.configuration.available_products.installments[0].web_url;
+
+                    // Redirect to the Tabby payment page
+
+                    var httpContext = EngineContext.Current.Resolve<IHttpContextAccessor>().HttpContext;
+                    httpContext.Response.Redirect(redirectUrl);
+                }
+                else
+                {
+                    throw new Exception("Failed to create Tabby payment");
+                }
+
+            }
+        }
+
     }
 }
