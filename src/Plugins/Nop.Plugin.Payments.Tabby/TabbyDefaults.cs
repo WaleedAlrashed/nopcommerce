@@ -65,29 +65,5 @@ namespace Nop.Plugin.Payments.Tabby
         /// </summary>
         public static List<string> CurrenciesWithoutDecimals => new List<string> { "JPY", "KRW", "VND" };
 
-        #region Onboarding
-
-        /// <summary>
-        /// Represents onboarding constants
-        /// </summary>
-        public class Onboarding
-        {
-            /// <summary>
-            /// Gets the base URL of onboarding services
-            /// </summary>
-            public static string ServiceUrl => "https://onboarding.tabby.ai/";
-
-            /// <summary>
-            /// Gets the onboarding js script URL
-            /// </summary>
-            public static string ScriptUrl => "https://sandbox.tabby.ai/onboarding.js";
-
-            /// <summary>
-            /// Gets a period (in seconds) before the onboarding request times out
-            /// </summary>
-            public static int RequestTimeout => 20;
-        }
-
-        #endregion
     }
 }
