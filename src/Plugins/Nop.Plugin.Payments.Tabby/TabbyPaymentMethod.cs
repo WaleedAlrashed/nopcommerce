@@ -24,6 +24,7 @@ namespace Nop.Plugin.Payments.Tabby
         public TabbyPaymentMethod(IWebHelper webHelper,
             IUrlHelperFactory urlHelper,
              IActionContextAccessor actionContextAccessor
+
             )
         {
             _webHelper = webHelper;
@@ -34,6 +35,7 @@ namespace Nop.Plugin.Payments.Tabby
         protected readonly IActionContextAccessor _actionContextAccessor;
         protected readonly IWebHelper _webHelper;
         protected readonly IUrlHelperFactory _urlHelperFactory;
+
 
         public bool SupportCapture => false;
 
@@ -124,9 +126,7 @@ namespace Nop.Plugin.Payments.Tabby
         {
             var order = postProcessPaymentRequest.Order;
 
-
-            var url = "https://api.tabby.ai/api/v2/checkout";
-
+            var url = TabbyDefaults.CheckoutUrl;
 
             var jsonContent = $@"{{
         ""payment"": {{
@@ -152,26 +152,7 @@ namespace Nop.Plugin.Payments.Tabby
                 ""shipping_amount"": ""{order.OrderShippingInclTax}"",
                 ""discount_amount"": ""{order.OrderDiscount}"",
                 ""updated_at"": ""{order.CreatedOnUtc:yyyy-MM-ddTHH:mm:ssZ}"",
-                ""reference_id"": ""{order.Id}"", 
-                ""items"": [
-                    {{
-                        ""title"": ""Product Title"", 
-                        ""description"": ""Product Description"", 
-                        ""quantity"": 1, 
-                        ""unit_price"": ""100"", 
-                        ""discount_amount"": ""0.00"",
-                        ""reference_id"": ""Product Ref ID"",
-                        ""image_url"": ""http://example.com"",
-                        ""product_url"": ""http://example.com"",
-                        ""gender"": ""Male"",
-                        ""category"": ""Category"",  
-                        ""color"": ""Color"",
-                        ""product_material"": ""Material"",
-                        ""size_type"": ""Size Type"",
-                        ""size"": ""Size"",
-                        ""brand"": ""Brand""
-                    }}
-                ]
+                ""reference_id"": ""{order.Id}""     
             }},
             ""meta"": {{
                 ""order_id"": ""{order.CustomOrderNumber}"", 
@@ -181,16 +162,15 @@ namespace Nop.Plugin.Payments.Tabby
         ""lang"": ""en"", 
         ""merchant_code"": ""KSECRETUAE"", 
         ""merchant_urls"": {{
-            ""success"": ""https://localhost:44369/"",
-            ""cancel"": ""https://localhost:44369/"",
-            ""failure"": ""https://localhost:44369/""
+            ""success"": ""{_webHelper.GetStoreHost(false)}"",
+            ""cancel"": ""{_webHelper.GetStoreHost(false)}"",
+            ""failure"": ""{_webHelper.GetStoreHost(false)}""
         }}
     }}";
 
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Authorization", "Bearer pk_test_80d3109b-b620-4121-bb99-02cb63faef76");
-                client.DefaultRequestHeaders.Add("Cookie", "_cfuvid=ontr9nE4bG5oNeoCtSQDAGby0ZAeJyA4jfHmVfywTjs-1718291297463-0.0.1.1-604800000");
 
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
