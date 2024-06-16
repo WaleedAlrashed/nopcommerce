@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Payment methods",
+  "FriendlyName": "Tamara",
+  "SystemName": "Payments.Tamara",
+  "Version": "4.70.6",
+  "SupportedVersions": [ "4.70" ],
+  "Author": "nopCommerce team",
+  "DisplayOrder": -1,
+  "FileName": "Nop.Plugin.Payments.Tamara.dll",
+  "Description": "Tamara is a full-stack payment processing solution that helps you accept and make payments globally"
+}
