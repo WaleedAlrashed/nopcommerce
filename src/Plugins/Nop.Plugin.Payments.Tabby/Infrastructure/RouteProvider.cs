@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Nop.Web.Framework;
 using Nop.Web.Framework.Mvc.Routing;
 
 namespace Nop.Plugin.Payments.Tabby.Infrastructure;
@@ -15,9 +16,11 @@ public class RouteProvider : IRouteProvider
     /// <param name="endpointRouteBuilder">Route builder</param>
     public void RegisterRoutes(IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapControllerRoute(TabbyDefaults.ConfigurationRouteName,
-            "Admin/Tabby/Configure",
-            new { controller = "Tabby", action = "Configure" });
+        endpointRouteBuilder.MapControllerRoute(
+            name: TabbyDefaults.ConfigurationRouteName,
+            pattern: "Admin/Tabby/Configure",
+            defaults: new { controller = "Tabby", action = "Configure", area = AreaNames.ADMIN }
+            );
 
         endpointRouteBuilder.MapControllerRoute(TabbyDefaults.WebhookRouteName,
             "Plugins/Tabby/Webhook",
