@@ -209,7 +209,8 @@ namespace Nop.Plugin.Payments.Tabby
         /// <returns>The configuration page URL.</returns>
         public override string GetConfigurationPageUrl()
         {
-            return _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext).RouteUrl(TabbyDefaults.ConfigurationRouteName);
+            //return _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext).RouteUrl(TabbyDefaults.ConfigurationRouteName);
+            return $"{_webHelper.GetStoreLocation()}Admin/Tabby/Configure";
         }
 
         /// <summary>
