@@ -14,20 +14,15 @@ public class ConfigurationValidator : BaseNopValidator<ConfigurationModel>
 
     public ConfigurationValidator(ILocalizationService localizationService)
     {
-        RuleFor(model => model.ClientId)
+        RuleFor(model => model.PublicKey)
             .NotEmpty()
-            .WithMessageAwait(localizationService.GetResourceAsync("Plugins.Payments.Tamara.Fields.ClientId.Required"))
+            .WithMessageAwait(localizationService.GetResourceAsync("Plugins.Payments.Tamara.Fields.PublicKey.Required"))
             .When(model => !model.UseSandbox && model.SetCredentialsManually);
 
         RuleFor(model => model.SecretKey)
             .NotEmpty()
             .WithMessageAwait(localizationService.GetResourceAsync("Plugins.Payments.Tamara.Fields.SecretKey.Required"))
             .When(model => !model.UseSandbox && model.SetCredentialsManually);
-
-        RuleFor(model => model.Email)
-            .NotEmpty()
-            .IsEmailAddress()
-            .WithMessageAwait(localizationService.GetResourceAsync("Admin.Common.WrongEmail"));
     }
 
     #endregion

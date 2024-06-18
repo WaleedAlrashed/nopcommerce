@@ -12,7 +12,7 @@ internal class PayLaterMessageMigration : MigrationBase
 {
     #region Fields
 
-    protected readonly TamaraSettings _TamaraSettings;
+    protected readonly TamaraSettings _tamaraSettings;
     protected readonly ILanguageService _languageService;
     protected readonly ILocalizationService _localizationService;
     protected readonly ISettingService _settingService;
@@ -21,12 +21,12 @@ internal class PayLaterMessageMigration : MigrationBase
 
     #region Ctor
 
-    public PayLaterMessageMigration(TamaraSettings TamaraSettings,
+    public PayLaterMessageMigration(TamaraSettings tamaraSettings,
         ILanguageService languageService,
         ILocalizationService localizationService,
         ISettingService settingService)
     {
-        _TamaraSettings = TamaraSettings;
+        _tamaraSettings = tamaraSettings;
         _languageService = languageService;
         _localizationService = localizationService;
         _settingService = settingService;
@@ -50,15 +50,11 @@ internal class PayLaterMessageMigration : MigrationBase
         _localizationService.AddOrUpdateLocaleResource(new Dictionary<string, string>
         {
             ["Plugins.Payments.Tamara.Fields.DisplayPayLaterMessages"] = "Display Pay Later messages",
-            ["Plugins.Payments.Tamara.Fields.DisplayPayLaterMessages.Hint"] = "Determine whether to display Pay Later messages. This message displays how much the customer pays in four payments. The message will be shown next to the PayPal buttons.",
+            ["Plugins.Payments.Tamara.Fields.DisplayPayLaterMessages.Hint"] = "Determine whether to display Pay Later messages. This message displays how much the customer pays in four payments. The message will be shown next to the Tabby buttons.",
         }, languageId);
 
 
-        //settings
-        if (!_settingService.SettingExists(_TamaraSettings, settings => settings.DisplayPayLaterMessages))
-            _TamaraSettings.DisplayPayLaterMessages = false;
-
-        _settingService.SaveSetting(_TamaraSettings);
+        _settingService.SaveSetting(_tamaraSettings);
     }
 
     /// <summary>

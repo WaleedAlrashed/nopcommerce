@@ -62,49 +62,6 @@ public class TamaraDefaults
     /// </summary>
     public static int RequestTimeout => 10;
 
-    /// <summary>
-    /// Gets webhook event names to subscribe
-    /// </summary>
-    public static List<string> WebhookEventNames =>
-    [
-    "CHECKOUT.ORDER.APPROVED",
-    "CHECKOUT.ORDER.COMPLETED",
-    "PAYMENT.AUTHORIZATION.CREATED",
-    "PAYMENT.AUTHORIZATION.VOIDED",
-    "PAYMENT.CAPTURE.COMPLETED",
-    "PAYMENT.CAPTURE.DENIED",
-    "PAYMENT.CAPTURE.PENDING",
-    "PAYMENT.CAPTURE.REFUNDED"
-    ];
 
-    /// <summary>
-    /// Gets a list of currencies that do not support decimals. 
-    /// Refer to https://developer.paypal.com/docs/integration/direct/rest/currency-codes/ for more information 
-    /// </summary>
-    public static List<string> CurrenciesWithoutDecimals => ["HUF", "JPY", "TWD"];
 
-    #region Onboarding
-
-    /// <summary>
-    /// Represents onboarding constants
-    /// </summary>
-    public class Onboarding
-    {
-        /// <summary>
-        /// Gets the base URL of onboarding services
-        /// </summary>
-        public static string ServiceUrl => "https://www.nopcommerce.com/";
-
-        /// <summary>
-        /// Gets the onboarding js script URL
-        /// </summary>
-        public static string ScriptUrl => "https://www.sandbox.paypal.com/webapps/merchantboarding/js/lib/lightbox/partner.js";
-
-        /// <summary>
-        /// Gets a period (in seconds) before the onboarding request times out
-        /// </summary>
-        public static int RequestTimeout => 20;
-    }
-
-    #endregion
 }

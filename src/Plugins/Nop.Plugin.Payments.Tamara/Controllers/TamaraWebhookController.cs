@@ -25,12 +25,6 @@ public class TamaraWebhookController : Controller
 
     #region Methods
 
-    [HttpPost]
-    public async Task<IActionResult> WebhookHandler()
-    {
-        await _serviceManager.HandleWebhookAsync(_settings, Request);
-        return Ok();
-    }
 
     #endregion
 }

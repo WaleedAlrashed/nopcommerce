@@ -65,24 +65,6 @@ public class PaymentInfoViewComponent : NopViewComponent
         await _paymentService.GenerateOrderGuidAsync(paymentRequest);
 
         //try to create an order
-        var (order, error) = await _serviceManager.CreateOrderAsync(_settings, paymentRequest.OrderGuid);
-        if (order != null)
-        {
-            model.OrderId = order.Id;
-            model.OrderTotal = order.PurchaseUnits.FirstOrDefault().AmountWithBreakdown.Value;
-
-            //save order details for future using
-            var key = await _localizationService.GetResourceAsync("Plugins.Payments.Tamara.OrderId");
-            paymentRequest.CustomValues.Add(key, order.Id);
-        }
-        else if (!string.IsNullOrEmpty(error))
-        {
-            model.Errors = error;
-            if (_orderSettings.OnePageCheckoutEnabled)
-                ModelState.AddModelError(string.Empty, error);
-            else
-                _notificationService.ErrorNotification(error);
-        }
 
         await HttpContext.Session.SetAsync(TamaraDefaults.PaymentRequestSessionKey, paymentRequest);
 
