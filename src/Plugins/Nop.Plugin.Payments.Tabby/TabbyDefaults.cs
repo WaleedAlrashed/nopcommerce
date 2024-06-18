@@ -44,6 +44,11 @@ namespace Nop.Plugin.Payments.Tabby
         public static string CheckoutUrl => "https://api.tabby.ai/api/v2/checkout";
 
         /// <summary>
+        /// Gets the merchant code
+        /// </summary>
+        public static string MerchantCode => "KSECRETUAE";
+
+        /// <summary>
         /// Gets a default period (in seconds) before the request times out
         /// </summary>
         public static int RequestTimeout => 10;

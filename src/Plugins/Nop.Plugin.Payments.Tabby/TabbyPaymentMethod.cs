@@ -10,6 +10,8 @@ using Nop.Core.Domain.Orders;
 using Nop.Core.Infrastructure;
 using Nop.Plugin.Payments.Tabby.Components;
 using Nop.Plugin.Payments.Tabby.Models;
+using Nop.Services.Configuration;
+using Nop.Services.Localization;
 using Nop.Services.Payments;
 using Nop.Services.Plugins;
 using Nop.Web.Framework.Mvc.Routing;
@@ -26,18 +28,26 @@ namespace Nop.Plugin.Payments.Tabby
     {
         public TabbyPaymentMethod(IWebHelper webHelper,
              IUrlHelperFactory urlHelper,
-             IActionContextAccessor actionContextAccessor
-
+             IActionContextAccessor actionContextAccessor,
+             ILocalizationService localizationService,
+             ISettingService settingService,
+             IStoreContext storeContext
             )
         {
             _webHelper = webHelper;
             _urlHelperFactory = urlHelper;
             _actionContextAccessor = actionContextAccessor;
+            _localizationService = localizationService;
+            _settingService = settingService;
+            _storeContext = storeContext;
         }
 
         protected readonly IActionContextAccessor _actionContextAccessor;
         protected readonly IWebHelper _webHelper;
         protected readonly IUrlHelperFactory _urlHelperFactory;
+        protected readonly ILocalizationService _localizationService;
+        protected readonly ISettingService _settingService;
+        protected readonly IStoreContext _storeContext;
 
 
         /// <summary>
@@ -255,13 +265,21 @@ namespace Nop.Plugin.Payments.Tabby
             }}
         }},
         ""lang"": ""en"", 
-        ""merchant_code"": ""KSECRETUAE"", 
+        ""merchant_code"": ""{TabbyDefaults.MerchantCode}"", 
         ""merchant_urls"": {{
             ""success"": ""{_webHelper.GetStoreHost(false)}"",
             ""cancel"": ""{_webHelper.GetStoreHost(false)}"",
             ""failure"": ""{_webHelper.GetStoreHost(false)}""
         }}
     }}";
+
+            //var store = await _storeContext.GetCurrentStoreAsync();
+            //var storeId = store.Id;
+
+            //var settings = await _settingService.LoadSettingAsync<TabbyPaymentSettings>(storeId);
+            //var publicKey = settings.PublicKey ?? "pk_test_80d3109b-b620-4121-bb99-02cb63faef76";
+
+
 
             using (var client = new HttpClient())
             {
@@ -292,5 +310,51 @@ namespace Nop.Plugin.Payments.Tabby
             }
         }
 
+
+
+        /// <summary>
+        /// Install the plugin
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        public override async Task InstallAsync()
+        {
+            //settings
+            var settings = new TabbyPaymentSettings
+            {
+                PublicKey = "pk_test_80d3109b-b620-4121-bb99-02cb63faef76",
+                SecretKey = "sk_test_7451b468-c47a-4598-8623-7479e4230cd6"
+            };
+
+            await _settingService.SaveSettingAsync(settings);
+
+
+            //locales
+            await _localizationService.AddOrUpdateLocaleResourceAsync(new Dictionary<string, string>
+            {
+                ["Plugins.Payments.Tabby.Instructions"] = "This Plugin will help you to accept payments via Tabby",
+                ["Plugins.Payments.Tabby.Fields.Configuration"] = "You will be redirected to Tabby to complete your payment.",
+                ["Plugins.Payments.Tabby.Configuration"] = "Configuration",
+                ["Plugins.Payments.Tabby.Fields.PublicKey"] = "Public Key",
+                ["Plugins.Payments.Tabby.Fields.SecretKey"] = "Secret Key",
+            });
+
+            await base.InstallAsync();
+        }
+
+        /// <summary>
+        /// Uninstall the plugin
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        public override async Task UninstallAsync()
+        {
+            //settings
+            await _settingService.DeleteSettingAsync<TabbyPaymentSettings>();
+
+            //locales
+            await _localizationService.DeleteLocaleResourcesAsync("Plugins.Payments.Tabby");
+
+            await base.UninstallAsync();
+        }
     }
+
 }
