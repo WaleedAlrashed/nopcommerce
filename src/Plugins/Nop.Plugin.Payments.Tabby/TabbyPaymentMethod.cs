@@ -319,7 +319,7 @@ namespace Nop.Plugin.Payments.Tabby
         public override async Task InstallAsync()
         {
             //settings
-            var settings = new TabbyPaymentSettings
+            var settings = new TabbySettings
             {
                 PublicKey = "pk_test_80d3109b-b620-4121-bb99-02cb63faef76",
                 SecretKey = "sk_test_7451b468-c47a-4598-8623-7479e4230cd6"
@@ -348,7 +348,7 @@ namespace Nop.Plugin.Payments.Tabby
         public override async Task UninstallAsync()
         {
             //settings
-            await _settingService.DeleteSettingAsync<TabbyPaymentSettings>();
+            await _settingService.DeleteSettingAsync<TabbySettings>();
 
             //locales
             await _localizationService.DeleteLocaleResourcesAsync("Plugins.Payments.Tabby");

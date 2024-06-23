@@ -25,6 +25,10 @@
 
 
   <ItemGroup>
+    <None Remove="Services\" />
+    <None Remove="Domain\" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="plugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
     </None>
@@ -42,6 +46,11 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Domain\" />
+    <Folder Include="Domain\" />
+  </ItemGroup>
   <Target Name="NopTarget" AfterTargets="Build">
     <!-- Delete unnecessary libraries from plugins path -->
     <MSBuild Projects="@(ClearPluginAssemblies)" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear" />

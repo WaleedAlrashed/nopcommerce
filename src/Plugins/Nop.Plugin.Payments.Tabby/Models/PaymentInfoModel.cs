@@ -9,9 +9,11 @@ public record PaymentInfoModel : BaseNopModel
 {
     #region Properties
 
-    public string OrderId { get; set; }
+    public string OrderGuid { get; set; }
 
     public string OrderTotal { get; set; }
+
+    public string CheckoutUrl { get; set; }
 
     public string Errors { get; set; }
 

@@ -5,7 +5,7 @@ namespace Nop.Plugin.Payments.Tabby
     /// <summary>
     /// Represents plugin settings
     /// </summary>
-    public class TabbyPaymentSettings : ISettings
+    public class TabbySettings : ISettings
     {
         /// <summary>
         /// Gets or sets public key
@@ -16,5 +16,10 @@ namespace Nop.Plugin.Payments.Tabby
         /// Gets or sets secret key
         /// </summary>
         public string SecretKey { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets a webhook ID
+        /// </summary>
+        public string WebhookId { get; set; }
     }
 }

@@ -66,9 +66,15 @@ namespace Nop.Plugin.Payments.Tabby
         };
 
         /// <summary>
-        /// Gets a list of currencies that do not support decimals.
+        /// Gets webhook url
         /// </summary>
-        public static List<string> CurrenciesWithoutDecimals => new List<string> { "JPY", "KRW", "VND" };
+        public static Dictionary<string, string> MerchantUrls => new()
+        {
+            { "Success","TabbyWebHook/Success"},
+            { "Failure","TabbyWebHook/Failure"},
+            { "Cancel","TabbyWebHook/Cancel"},
+            { "Notification","TabbyWebHook/Notification"},
+        };
 
     }
 }

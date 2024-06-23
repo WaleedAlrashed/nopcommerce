@@ -55,7 +55,7 @@ namespace Nop.Plugin.Payments.Tabby.Controllers
                 return AccessDeniedView();
 
             var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
-            var settings = await _settingService.LoadSettingAsync<TabbyPaymentSettings>(storeScope);
+            var settings = await _settingService.LoadSettingAsync<TabbySettings>(storeScope);
 
             var model = new ConfigurationModel
             {
@@ -73,7 +73,7 @@ namespace Nop.Plugin.Payments.Tabby.Controllers
                 return AccessDeniedView();
 
             var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
-            var settings = await _settingService.LoadSettingAsync<TabbyPaymentSettings>(storeScope);
+            var settings = await _settingService.LoadSettingAsync<TabbySettings>(storeScope);
 
             settings.PublicKey = model.PublicKey;
             settings.SecretKey = model.SecretKey;
