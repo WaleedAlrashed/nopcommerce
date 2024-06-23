@@ -1,0 +1,29 @@
+﻿@model PaymentInfoModel
+
+<div class="payment-info-loading" style="display: none;">
+    <div id="ajaxBusy"><p><img src="../Themes/DefaultClean/Content/images/loading.gif"></p></div>
+</div>
+
+
+<script asp-location="Footer">
+    $(document).ready(function () {
+        $('.payment-info-next-step-button').hide();
+        $('.payment-info-loading').show();
+
+        var url = "@(Model.CheckoutUrl)";
+        if (url) {
+            window.open(url, '_self');
+        }
+
+        $(document).on('accordion_section_opened', function (data) {
+            console.log(data.currentSectionId);
+            if (data.currentSectionId != 'opc-payment_info') {
+                $('.payment-info-next-step-button').show();
+            }
+        });
+    });
+</script>
+@if (orderSettings.OnePageCheckoutEnabled)
+{
+    @NopHtml.GenerateInlineScripts(ResourceLocation.Footer)
+}
