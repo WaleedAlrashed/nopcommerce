@@ -66,7 +66,8 @@ namespace Nop.Plugin.Payments.Tabby.Controllers
             return View("~/Plugins/Payments.Tabby/Views/Configure.cshtml", model);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Configure")]
+        [FormValueRequired("save")]
         public async Task<IActionResult> Configure(ConfigurationModel model)
         {
             if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManagePaymentMethods))
