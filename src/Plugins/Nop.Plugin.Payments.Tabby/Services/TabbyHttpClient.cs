@@ -67,9 +67,8 @@ namespace Nop.Plugin.Payments.Tabby.Services
                 if (httpResponse.IsSuccessStatusCode)
                 {
 
-                    var result = JsonConvert.DeserializeObject<TResponse>(responseString);
-                    if (result == null)
-                        throw new NopException($"Error - the result is empty");
+                    var result = JsonConvert.DeserializeObject<TResponse>(responseString)
+                        ?? throw new NopException($"Error - the result is empty");
 
                     return result;
                 }
