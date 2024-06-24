@@ -1,25 +1,52 @@
 @model Nop.Plugin.Payments.Tabby.Models.ConfigurationModel
 @{
-    Layout = "_AdminLayout";
+    Layout = "_ConfigurePlugin";
+    var learnMore = "<p>Learn more about the Tabby Commerce plugin configuration <a href='https://api-docs.tabby.ai/' target='_blank'>here</a>.</p>";
+
 }
 
-<h2>@T("Plugins.Payments.Tabby.Fields.Configuration")</h2>
+@await Component.InvokeAsync(typeof(StoreScopeConfigurationViewComponent))
 
-@using (Html.BeginForm("Configure", "Tabby", FormMethod.Post))
+<script>$(document).ready(function () {
+
+    });</script>
+
+@*<h2>@T("Plugins.Payments.Tabby.Fields.Configuration")</h2>*@
+<h2>Tabby Configuration</h2>
+
+@using (Html.BeginForm("Configure", "TabbyPayment", FormMethod.Post))
 {
-    <div class="form-group">
-        @Html.LabelFor(model => model.PublicKey, T("Plugins.Payments.Tabby.Fields.PublicKey"))
-        @Html.EditorFor(model => model.PublicKey, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.PublicKey, "", new { @class = "text-danger" })
-    </div>
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <p id="pnlDescription" class="d-none">
+                    You must set up your development environment to get the Public and private keys.<br />
+                    <br />
+                </p>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.PublicKey, "Public Key")
+                    @Html.EditorFor(model => model.PublicKey, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PublicKey, "", new { @class = "text-danger" })
+                </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.SecretKey, T("Plugins.Payments.Tabby.Fields.SecretKey"))
-        @Html.EditorFor(model => model.SecretKey, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.SecretKey, "", new { @class = "text-danger" })
-    </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.SecretKey, "Secret Key")
+                    @Html.EditorFor(model => model.SecretKey, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SecretKey, "", new { @class = "text-danger" })
+                </div>
 
-    <div class="form-group">
-        <input type="submit" name="save" value="@T("Admin.Common.Save")" class="btn btn-primary" />
+                <div class="form-group row" id="pnlSave">
+                    <div class="col-md-9 offset-md-3">
+                        <button type="submit" name="save" class="btn btn-primary">@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+
+                <div class="form-group row" id="pnlLearnMore">
+                    <div class="col-12">
+                        @Html.Raw(learnMore)
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 }
