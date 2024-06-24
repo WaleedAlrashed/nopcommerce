@@ -10,7 +10,7 @@ using Nop.Web.Framework.Controllers;
 
 namespace Nop.Plugin.Payments.Tamara.Controllers
 {
-    public class TamaraCheckoutController : BasePluginController
+    public class TabbyCheckoutController : BasePluginController
     {
         #region Fields
 
@@ -21,7 +21,7 @@ namespace Nop.Plugin.Payments.Tamara.Controllers
 
         #region Ctor
 
-        public TamaraCheckoutController(TabbySettings settings,
+        public TabbyCheckoutController(TabbySettings settings,
             ServiceManager serviceManager)
         {
             _settings = settings;
