@@ -19,7 +19,7 @@ public class RouteProvider : IRouteProvider
         endpointRouteBuilder.MapControllerRoute(
             name: TabbyDefaults.ConfigurationRouteName,
             pattern: "Admin/Tabby/Configure",
-            defaults: new { controller = "Tabby", action = "Configure", area = AreaNames.ADMIN }
+            defaults: new { controller = "TabbyPayment", action = "Configure", area = AreaNames.ADMIN }
             );
 
         endpointRouteBuilder.MapControllerRoute(TabbyDefaults.WebhookRouteName,
