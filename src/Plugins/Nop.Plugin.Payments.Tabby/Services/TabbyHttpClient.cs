@@ -13,6 +13,10 @@ using Nop.Plugin.Payments.Tabby.Domain.Requests;
 using System.Net;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using MaxMind.GeoIP2.Exceptions;
+using ExCSS;
+using Nop.Core.Infrastructure;
+using Nop.Plugin.Payments.Tabby.Models;
+using System.Net.Http.Json;
 
 namespace Nop.Plugin.Payments.Tabby.Services
 {
@@ -59,10 +63,10 @@ namespace Nop.Plugin.Payments.Tabby.Services
                 var requestContent = new StringContent(requestString, Encoding.Default, MimeTypes.ApplicationJson);
 
                 //execute request and get response
-                var requestMessage = new HttpRequestMessage(new HttpMethod(request.Method), request.Path) { Content = requestContent };
+                var requestMessage = new HttpRequestMessage(new HttpMethod("post"), TabbyDefaults.CheckoutUrl) { Content = requestContent };
                 requestMessage.Headers.Remove("Authorization");
                 requestMessage.Headers.Add("Authorization", $"Bearer {settings.PublicKey}");
-                var httpResponse = await _httpClient.SendAsync(requestMessage);
+                var httpResponse = await _httpClient.PostAsync(request.Path, requestContent);
                 var responseString = await httpResponse.Content.ReadAsStringAsync();
                 if (httpResponse.IsSuccessStatusCode)
                 {
@@ -74,6 +78,8 @@ namespace Nop.Plugin.Payments.Tabby.Services
                 }
 
                 throw new HttpException(responseString, httpResponse.StatusCode, _httpClient.BaseAddress);
+
+
             }
             catch (AggregateException exception)
             {
