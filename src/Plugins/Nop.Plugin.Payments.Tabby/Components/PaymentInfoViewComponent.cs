@@ -1,6 +1,14 @@
+using System.Text;
 using System.Text.Json;
+using System.Web;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Nop.Core;
 using Nop.Core.Domain.Orders;
+using Nop.Core.Infrastructure;
+using Nop.Plugin.Payments.Tabby.Domain.Requests;
 using Nop.Plugin.Payments.Tabby.Models;
 using Nop.Plugin.Payments.Tabby.Services;
 using Nop.Services.Localization;
@@ -26,6 +34,8 @@ namespace Nop.Plugin.Payments.Tabby.Components
         private readonly TabbySettings _settings;
         private readonly ServiceManager _serviceManager;
         private readonly IOrderProcessingService _orderProcessingService;
+        private readonly IWebHelper _webHelper;
+        private readonly IStoreContext _storeContext;
 
         #endregion
 
@@ -37,7 +47,9 @@ namespace Nop.Plugin.Payments.Tabby.Components
             IOrderProcessingService orderProcessingService,
             OrderSettings orderSettings,
             TabbySettings settings,
-            ServiceManager serviceManager
+            ServiceManager serviceManager,
+            IWebHelper webHelper,
+            IStoreContext storeContext
             )
         {
             _localizationService = localizationService;
@@ -47,6 +59,8 @@ namespace Nop.Plugin.Payments.Tabby.Components
             _settings = settings;
             _serviceManager = serviceManager;
             _orderProcessingService = orderProcessingService;
+            _webHelper = webHelper;
+            _storeContext = storeContext;
         }
 
         #endregion
@@ -68,44 +82,86 @@ namespace Nop.Plugin.Payments.Tabby.Components
             var paymentRequest = new ProcessPaymentRequest();
             await _paymentService.GenerateOrderGuidAsync(paymentRequest);
 
-            //try to create an order
-            var (order, error) = await _serviceManager.CreateOrderAsync(_settings, paymentRequest.OrderGuid.ToString());
+
+            var store = await _storeContext.GetCurrentStoreAsync();
+            var storeId = store.Id;
 
 
 
-            if (order != null)
+
+            ////try to create an order
+            var (checkoutRequest, error) = await _serviceManager.CreateTabbyCheckoutRequestAsync(_settings, paymentRequest.OrderGuid.ToString());
+
+            var jsonContent = JsonConvert.SerializeObject(checkoutRequest);
+
+            var redirectUrl = "";
+            using (var client = new HttpClient())
             {
-                //prepare payment request GUID
-                paymentRequest.CustomerId = order.CustomerId;
-                paymentRequest.OrderTotal = order.OrderTotal;
-                paymentRequest.StoreId = order.StoreId;
-                paymentRequest.OrderGuidGeneratedOnUtc = DateTime.Now.ToUniversalTime();
-                paymentRequest.PaymentMethodSystemName = TabbyDefaults.SystemName;
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_settings.PublicKey}");
 
-                model.OrderGuid = paymentRequest.OrderGuid.ToString();
-                model.CheckoutUrl = order.CheckoutUrl ?? TabbyDefaults.CheckoutUrl;
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                //save order details for future using
-                var orderGuidKey = await _localizationService.GetResourceAsync("Plugins.Payments.Tabby.TabbyOrderId");
-                paymentRequest.CustomValues.Add(orderGuidKey, order.OrderId);
-            }
-            else if (!string.IsNullOrEmpty(error))
-            {
-                model.Errors = await _localizationService.GetResourceAsync(error);
-                ;
-                if (_orderSettings.OnePageCheckoutEnabled)
-                    ModelState.AddModelError(string.Empty, model.Errors);
+                var response = await client.PostAsync(TabbyDefaults.CheckoutUrl, content);
+
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    var rootObject = JsonConvert.DeserializeObject<RootObject>(result);
+                    redirectUrl = rootObject.configuration.available_products.installments[0].web_url;
+
+                    // Redirect to the Tabby payment page
+
+                    //var httpContext = EngineContext.Current.Resolve<IHttpContextAccessor>().HttpContext;
+                    //httpContext.Response.Redirect(redirectUrl);
+                }
                 else
-                    _notificationService.ErrorNotification(model.Errors);
+                {
+                    _notificationService.ErrorNotification("Failed To create tabby payment");
+                    //throw new Exception("Failed to create Tabby payment");
+                }
+
+
+                if (redirectUrl != null && checkoutRequest != null)
+                {
+                    //var checkoutRequestParsed = JObject.Parse(checkoutRequest);
+                    //prepare payment request GUID
+                    //paymentRequest.CustomerId = int.Parse((string)checkoutRequestParsed["payment"]["meta"]["customer_id"]);
+                    //paymentRequest.OrderTotal = (decimal)checkoutRequestParsed["payment"]["amount"];
+                    paymentRequest.StoreId = storeId;
+                    paymentRequest.OrderGuidGeneratedOnUtc = DateTime.Now.ToUniversalTime();
+                    paymentRequest.PaymentMethodSystemName = TabbyDefaults.SystemName;
+
+                    model.OrderGuid = paymentRequest.OrderGuid.ToString();
+                    model.CheckoutUrl = redirectUrl;
+
+                    //save order details for future using
+                    var orderGuidKey = await _localizationService.GetResourceAsync("Plugins.Payments.Tabby.TabbyOrderId") ?? "order_guid";
+                    paymentRequest.CustomValues.Add(orderGuidKey, paymentRequest.OrderGuid.ToString());
+                }
+                else if (!string.IsNullOrEmpty(error))
+                {
+                    model.Errors = await _localizationService.GetResourceAsync(error);
+
+                    if (_orderSettings.OnePageCheckoutEnabled)
+                    {
+                        ModelState.AddModelError(string.Empty, model.Errors);
+                    }
+                    else
+                    {
+                        _notificationService.ErrorNotification(model.Errors);
+                    }
+                }
+
+                var serializedPaymentRequest = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(paymentRequest);
+
+                HttpContext.Session.Set(TabbyDefaults.PaymentRequestSessionKey, serializedPaymentRequest);
+
+
+                return View("~/Plugins/Payments.Tabby/Views/PaymentInfo.cshtml", model);
             }
-
-            var serializedPaymentRequest = JsonSerializer.SerializeToUtf8Bytes(paymentRequest);
-
-            HttpContext.Session.Set(TabbyDefaults.PaymentRequestSessionKey, serializedPaymentRequest);
-
-
-            return View("~/Plugins/Payments.Tabby/Views/PaymentInfo.cshtml", model);
+            #endregion
         }
-        #endregion
     }
 }
