@@ -229,6 +229,231 @@ namespace Nop.Plugin.Payments.Tabby.Services
                 return result;
             });
         }
+
+
+        /// <summary>
+        /// Create an order
+        /// </summary>
+        /// <param name="settings">Plugin settings</param>
+        /// <param name="orderGuid">Order GUID</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the created order; error message if exists
+        /// </returns>
+        public async Task<(object Result, string Error)> CreateTabbyCheckoutRequestAsync(TabbySettings settings, string orderGuid)
+        {
+            return await HandleFunctionAsync(async () =>
+            {
+                var customer = await _workContext.GetCurrentCustomerAsync();
+                var store = await _storeContext.GetCurrentStoreAsync();
+                Currency currency = new Currency();
+                if (customer.CurrencyId.HasValue)
+                {
+                    currency = (await _currencyService.GetCurrencyByIdAsync(customer.CurrencyId.Value));
+                }
+                else
+                {
+                    currency = await _workContext.GetWorkingCurrencyAsync();
+                }
+                if (currency == null)
+                    throw new NopException("Primary store currency not set");
+
+                var shoppingCart = (await _shoppingCartService
+                    .GetShoppingCartAsync(customer, Core.Domain.Orders.ShoppingCartType.ShoppingCart, store.Id))
+                    .ToList();
+
+                var shippingAddress = await _addresService.GetAddressByIdAsync(customer.ShippingAddressId ?? 0);
+
+                var country = (await _countryService.GetCountryByIdAsync(shippingAddress.CountryId ?? 0))?.TwoLetterIsoCode;
+
+                //prepare purchase unit details
+                var taxTotal = Math.Round((await _orderTotalCalculationService.GetTaxTotalAsync(shoppingCart, false)).taxTotal, 2);
+                var (cartShippingTotal, _, _) = await _orderTotalCalculationService.GetShoppingCartShippingTotalAsync(shoppingCart, false);
+                var shippingTotal = Math.Round(cartShippingTotal ?? decimal.Zero, 2);
+                var (shoppingCartTotal, _, _, _, _, _) = await _orderTotalCalculationService
+                    .GetShoppingCartTotalAsync(shoppingCart, usePaymentMethodAdditionalFee: false);
+                var orderTotal = Math.Round((shoppingCartTotal * currency.Rate) ?? decimal.Zero, 2);
+                var currentLanguage = await _workContext.GetWorkingLanguageAsync();
+                var lang = "en";
+                if (currentLanguage.UniqueSeoCode.Contains("ar"))
+                {
+                    lang = "ar";
+                }
+                else
+                {
+                    lang = "en";
+
+                }
+
+
+                var itemsJson = string.Join(", ", shoppingCart.Select(item =>
+                           {
+                               var product = _productService.GetProductByIdAsync(item.ProductId).Result;
+                               return $@"
+        {{
+            ""title"": ""{product.Name}"",
+            ""description"": ""string"",
+            ""quantity"": {item.Quantity},
+            ""unit_price"": ""{(item.Quantity * product.Price).ToString("F2")}"",
+            ""discount_amount"": ""0.00"",
+            ""reference_id"": ""{item.Id}""
+        }}";
+                           }));
+
+                var successUrl = $"{_webHelper.GetStoreHost(false)}/checkout/completed";
+                var cartUrl = $"{_webHelper.GetStoreHost(false)}/cart";
+
+                //            var jsonContent = $@"
+                //{{
+                //    ""payment"": {{
+                //        ""amount"": ""{orderTotal}"", 
+                //        ""currency"": ""{currency.CurrencyCode}"", 
+                //        ""description"": ""Order #{orderGuid}"",
+                //        ""buyer"": {{
+                //            ""phone"": ""500000001"", 
+                //            ""email"": ""card.success@tabby.ai"", 
+                //            ""name"": ""string"",
+                //            ""dob"": ""2019-08-24""
+                //        }},
+                //        ""buyer_history"": {{
+                //            ""registered_since"": ""{customer.CreatedOnUtc:yyyy-MM-ddTHH:mm:ssZ}"", 
+                //            ""loyalty_level"": 0,
+                //            ""wishlist_count"": 0, 
+                //            ""is_social_networks_connected"": true,
+                //            ""is_phone_number_verified"": true, 
+                //            ""is_email_verified"": true 
+                //        }},
+                //        ""order"": {{
+                //            ""tax_amount"": ""{taxTotal}"",
+                //            ""shipping_amount"": ""{shippingTotal}"",
+                //            ""discount_amount"": ""0.00"",
+                //            ""updated_at"": ""{shippingAddress.CreatedOnUtc:yyyy-MM-ddTHH:mm:ssZ}"",
+                //            ""reference_id"": ""{orderGuid}"",
+                //            ""items"": [{itemsJson}]
+                //        }},
+                //        ""meta"": {{
+                //            ""order_id"": ""{orderGuid}"", 
+                //            ""customer"": ""{customer.Id}""
+                //        }}
+                //    }},
+                //    ""lang"": ""{lang}"", 
+                //    ""merchant_code"": ""{TabbyDefaults.MerchantCode}"", 
+                //    ""merchant_urls"": {{
+                //        ""success"": ""{successUrl}"",
+                //        ""cancel"": ""{cartUrl}"",
+                //        ""failure"": ""{cartUrl}""
+                //    }}
+                //}}";
+
+                var tabbyCheckoutRequest = new TabbyCheckoutRequest
+                {
+                    Lang = lang,
+                    MerchantCode = TabbyDefaults.MerchantCode,
+                    MerchantUrls = new TabbyMerchantUrlParams
+                    {
+                        Success = successUrl,
+                        Cancel = cartUrl,
+                        Failure = cartUrl
+                    },
+                    Payment = new PaymentParams
+                    {
+                        Amount = orderTotal,
+                        Currency = "AED",
+                        Description = $"Order #{orderGuid}",
+                        Buyer = new BuyerParams
+                        {
+                            Phone = "500000001",
+                            Email = "card.success@tabby.ai",
+                            Name = "string",
+                            Dob = "2019-08-24"
+                        },
+                        BuyerHistory = new BuyerHistoryParams
+                        {
+                            RegisteredSince = customer.CreatedOnUtc.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                            LoyaltyLevel = 0,
+                            WishlistCount = 0,
+                            IsSocialNetworksConnected = true,
+                            IsPhoneNumberVerified = true,
+                            IsEmailVerified = true
+                        },
+                        Order = new OrderParams
+                        {
+                            TaxAmount = taxTotal,
+                            ShippingAmount = shippingTotal,
+                            DiscountAmount = 0,
+                            UpdatedAt = customer.CreatedOnUtc.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                            ReferenceId = orderGuid
+                        },
+                        Meta = new MetaParams
+                        {
+                            OrderId = orderGuid,
+                            CustomerId = customer.Id.ToString()
+                        }
+                    },
+                };
+                // var tabbyCheckoutRequest = new TabbyCheckoutRequest
+                // {
+                //     Lang = lang ?? "en",
+                //     MerchantCode = TabbyDefaults.MerchantCode,
+                //     MerchantUrls = new TabbyMerchantUrlParams
+                //     {
+                //         Success = _webHelper.GetStoreHost(false),
+                //         Cancel = _webHelper.GetStoreHost(false),
+                //         Failure = _webHelper.GetStoreHost(false)
+                //     },
+                //     Payment = new PaymentParams
+                //     {
+                //         Amount = orderTotal,
+                //         Currency = currency.CurrencyCode ?? "AED",
+                //         Description = $"Order # {orderGuid}",
+                //         Buyer = new BuyerParams
+                //         {
+                //             Phone = "500000001",
+                //             Email = "card.success@tabby.ai",
+                //             Name = "string",
+                //             Dob = "2019-08-24"
+                //         },
+                //         BuyerHistory = new BuyerHistoryParams
+                //         {
+                //             RegisteredSince = customer.CreatedOnUtc.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                //             LoyaltyLevel = 0,
+                //             WishlistCount = 0,
+                //             IsSocialNetworksConnected = true,
+                //             IsPhoneNumberVerified = true,
+                //             IsEmailVerified = true
+                //         },
+                //         Order = new OrderParams
+                //         {
+                //             TaxAmount = taxTotal,
+                //             ShippingAmount = shippingTotal,
+                //             DiscountAmount = 0,
+                //             UpdatedAt = shippingAddress.CreatedOnUtc.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                //             ReferenceId = orderGuid
+                //         },
+                //         Meta = new MetaParams
+                //         {
+                //             OrderId = orderGuid,
+                //             CustomerId = customer.Id.ToString(),
+                //         }
+                //     }
+                // };
+
+
+
+
+
+                //Merchant Urls
+                //var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
+                //var baseUri = $"{store.Url.TrimEnd('/')}{urlHelper.RouteUrl(TabbyDefaults.CheckoutUrl)}".ToLowerInvariant();
+                //var result = await _tabbyHttpClient.RequestAsync<TabbyCheckoutRequest, OrderResponse>(tabbyCheckoutRequest, settings)
+                //?? throw new NopException($"Empty result");
+
+                //result.StoreId = store.Id;
+                //result.CustomerId = customer.Id;
+                //result.OrderTotal = orderTotal;
+                return tabbyCheckoutRequest;
+            });
+        }
         public async Task<OrderResponse> TestCreateOrderAsync(TabbySettings settings, string orderGuid)
         {
             try
@@ -395,7 +620,7 @@ namespace Nop.Plugin.Payments.Tabby.Services
             return !string.IsNullOrEmpty(settings?.PublicKey) && !string.IsNullOrEmpty(settings?.SecretKey);
         }
 
-        public async Task<OrderResponse> HandleCheckoutRequestAsync(TabbySettings settings, string orderReferenceId)
+        public async Task<TabbyCheckoutResponse> HandleCheckoutRequestAsync(TabbySettings settings, string orderReferenceId)
         {
 
             var customer = await _workContext.GetCurrentCustomerAsync();
@@ -414,63 +639,114 @@ namespace Nop.Plugin.Payments.Tabby.Services
             var country = (await _countryService.GetCountryByIdAsync(shippingAddress.CountryId ?? 0))?.TwoLetterIsoCode;
 
 
-            var request = new CheckoutRequest();
-            request.PaymentType = "PAY_BY_INSTALMENTS";
-            request.CountryCode = country;
-            request.OrderReferenceId = orderReferenceId;
-            request.Description = "Nopcommerce ..";
-            //Shipping address
-            request.ShippingAddress = new ShippingAddressParams(
-                shippingAddress.FirstName,
-                shippingAddress.LastName,
-                shippingAddress.Address1,
-                shippingAddress.City,
-                country);
-            //Consumer
-            request.Consumer = new ConsumerParams(
-                shippingAddress.FirstName,
-                shippingAddress.LastName,
-                shippingAddress.PhoneNumber,
-                shippingAddress.Email);
-            //Items
-            foreach (var item in shoppingCart)
-            {
-                var product = await _productService.GetProductByIdAsync(item.ProductId);
-                if (product != null)
-                {
-                    request.Items.Add(
-                        new ProductParams(
-                            item.Id,
-                            "type",
-                            product.Name,
-                            product.Sku,
-                            item.Quantity,
-                            new AmountParams((item.Quantity * product.Price), currency.CurrencyCode)
-                            )
-                        );
-                }
-            }
+            //request start
+            //var request = new CheckoutRequest();
+            //request.PaymentType = "PAY_BY_INSTALMENTS";
+            //request.CountryCode = country;
+            //request.OrderReferenceId = orderReferenceId;
+            //request.Description = "Nopcommerce ..";
+            ////Shipping address
+            //request.ShippingAddress = new ShippingAddressParams(
+            //    shippingAddress.FirstName,
+            //    shippingAddress.LastName,
+            //    shippingAddress.Address1,
+            //    shippingAddress.City,
+            //    country);
+            ////Consumer
+            //request.Consumer = new ConsumerParams(
+            //    shippingAddress.FirstName,
+            //    shippingAddress.LastName,
+            //    shippingAddress.PhoneNumber,
+            //    shippingAddress.Email);
+            ////Items
+            //foreach (var item in shoppingCart)
+            //{
+            //    var product = await _productService.GetProductByIdAsync(item.ProductId);
+            //    if (product != null)
+            //    {
+            //        request.Items.Add(
+            //            new ProductParams(
+            //                item.Id,
+            //                "type",
+            //                product.Name,
+            //                product.Sku,
+            //                item.Quantity,
+            //                new AmountParams((item.Quantity * product.Price), currency.CurrencyCode)
+            //                )
+            //            );
+            //    }
+            //}
 
-            //prepare purchase unit details
+            ////prepare purchase unit details
             var taxTotal = Math.Round((await _orderTotalCalculationService.GetTaxTotalAsync(shoppingCart, false)).taxTotal, 2);
             var (cartShippingTotal, _, _) = await _orderTotalCalculationService.GetShoppingCartShippingTotalAsync(shoppingCart, false);
             var shippingTotal = Math.Round(cartShippingTotal ?? decimal.Zero, 2);
             var (shoppingCartTotal, _, _, _, _, _) = await _orderTotalCalculationService
                 .GetShoppingCartTotalAsync(shoppingCart, usePaymentMethodAdditionalFee: false);
             var orderTotal = Math.Round((shoppingCartTotal * currency.Rate) ?? decimal.Zero, 2);
-            //Tax
-            request.TaxAmount = new AmountParams(taxTotal, currency.CurrencyCode);
-            //Total amount
-            request.TotalAmount = new AmountParams(orderTotal, currency.CurrencyCode);
-            //Shipping amount
-            request.ShippingAmount = new AmountParams(shippingTotal, currency.CurrencyCode);
-            //Merchant Urls
-            var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
-            var baseUri = $"{store.Url.TrimEnd('/')}{urlHelper.RouteUrl(TabbyDefaults.WebhookRouteName)}".ToLowerInvariant();
-            request.MerchantUrl = new MerchantUrlParams(baseUri);
+            ////Tax
+            //request.TaxAmount = new AmountParams(taxTotal, currency.CurrencyCode);
+            ////Total amount
+            //request.TotalAmount = new AmountParams(orderTotal, currency.CurrencyCode);
+            ////Shipping amount
+            //request.ShippingAmount = new AmountParams(shippingTotal, currency.CurrencyCode);
+            ////Merchant Urls
+            //var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
+            //var baseUri = $"{store.Url.TrimEnd('/')}{urlHelper.RouteUrl(TabbyDefaults.WebhookRouteName)}".ToLowerInvariant();
+            //request.MerchantUrl = new MerchantUrlParams(baseUri);
+            ////Request End here
 
-            var result = await _tabbyHttpClient.RequestAsync<CheckoutRequest, OrderResponse>(request, settings)
-                    ?? throw new NopException($"Empty result");
+            var tabbyCheckoutRequest = new TabbyCheckoutRequest
+            {
+                Lang = "en",
+                MerchantCode = TabbyDefaults.MerchantCode,
+                MerchantUrls = new TabbyMerchantUrlParams
+                {
+                    Success = _webHelper.GetStoreHost(false),
+                    Cancel = _webHelper.GetStoreHost(false),
+                    Failure = _webHelper.GetStoreHost(false)
+                },
+                Payment = new PaymentParams
+                {
+                    Amount = orderTotal,
+                    Currency = currency.CurrencyCode ?? "AED",
+                    Description = $"Order # {orderReferenceId}",
+                    Buyer = new BuyerParams
+                    {
+                        Phone = "500000001",
+                        Email = "card.success@tabby.ai",
+                        Name = "string",
+                        Dob = "2019-08-24"
+                    },
+                    BuyerHistory = new BuyerHistoryParams
+                    {
+                        RegisteredSince = customer.CreatedOnUtc.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                        LoyaltyLevel = 0,
+                        WishlistCount = 0,
+                        IsSocialNetworksConnected = true,
+                        IsPhoneNumberVerified = true,
+                        IsEmailVerified = true
+                    },
+                    Order = new OrderParams
+                    {
+                        TaxAmount = taxTotal,
+                        ShippingAmount = shippingTotal,
+                        DiscountAmount = 0,
+                        UpdatedAt = shippingAddress.CreatedOnUtc.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                        ReferenceId = orderReferenceId
+                    },
+                    Meta = new MetaParams
+                    {
+                        OrderId = orderReferenceId,
+                        CustomerId = customer.Id.ToString(),
+                    }
+                }
+            };
+
+
+
+            var result = await _tabbyHttpClient.RequestAsync<TabbyCheckoutRequest, TabbyCheckoutResponse>(tabbyCheckoutRequest, settings)
+                                ?? throw new NopException($"Empty result");
             return result;
         }
 
