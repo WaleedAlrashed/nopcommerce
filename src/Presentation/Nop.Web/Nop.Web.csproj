@@ -53,16 +53,18 @@
     <None Update="Areas\Admin\sitemap.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Remove="Plugins\Payments.Tabby\Nop.Web.deps.json" />
     <None Remove="Plugins\Payments.Tabby\Nop.Web.runtimeconfig.json" />
-    <None Remove="Plugins\Payments.Tabby\plugin.json" />
-    <None Remove="Plugins\Payments.Tabby\logo.jpg" />
     <None Remove="Plugins\Payments.Tabby\Nop.Web.runtimeconfig.dev.json" />
     <None Remove="Plugins\Payments.Tabby\Nop.Web.staticwebassets.runtime.json" />
-    <None Remove="Plugins\Payments.Tabby\Nop.Web" />
-    <None Remove="Plugins\Payments.Tabby\Nop.Web.deps.json" />
+    <None Remove="Plugins\Payments.Tabby\logo.jpg" />
+    <None Remove="Plugins\Payments.Tabby\Views\Configure.cshtml" />
     <None Remove="Plugins\Payments.Tabby\Views\PaymentInfo.cshtml" />
     <None Remove="Plugins\Payments.Tabby\Views\_ViewImports.cshtml" />
-    <None Remove="Plugins\Payments.Tabby\Views\Configure.cshtml" />
+    <None Remove="Plugins\Payments.Tabby\Nop.Web" />
+    <None Remove="Plugins\Payments.Tabby\plugin.json" />
+    <None Remove="Plugins\Payments.Tabby\Nop.Plugin.Payments.Tabby.deps.json" />
+    <None Remove="Plugins\Payments.Tabby\Nop.Plugin.Payments.Tabby.dll" />
   </ItemGroup>
 
   <ItemGroup>
