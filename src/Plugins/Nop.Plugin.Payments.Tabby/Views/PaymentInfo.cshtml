@@ -10,8 +10,10 @@
         $('.payment-info-loading').show();
 
         var url = "@(Model.CheckoutUrl)";
+        var cleanedUrl = url.replace(/&amp;/g, "&");
+
         if (url) {
-            window.open(url, '_self');
+            window.open(cleanedUrl, '_self');
         }
 
         $(document).on('accordion_section_opened', function (data) {
