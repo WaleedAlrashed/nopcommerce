@@ -8,7 +8,7 @@ using Nop.Plugin.Payments.Tabby;
 using Nop.Plugin.Payments.Tabby.Services;
 using Nop.Web.Framework.Controllers;
 
-namespace Nop.Plugin.Payments.Tamara.Controllers
+namespace Nop.Plugin.Payments.Tabby.Controllers
 {
     public class TabbyCheckoutController : BasePluginController
     {
