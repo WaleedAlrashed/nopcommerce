@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Payment methods",
+  "FriendlyName": "Tamara Commerce",
+  "SystemName": "Payments.Tamara",
+  "Version": "1.10",
+  "SupportedVersions": [ "4.70" ],
+  "Author": "Tamara team",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Payments.Tamara.dll",
+  "Description": "This plugin allows paying with Tamara"
+}

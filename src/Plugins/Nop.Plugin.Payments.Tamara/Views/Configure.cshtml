@@ -1,0 +1,144 @@
+﻿@model ConfigurationModel
+
+@{
+    Layout = "_ConfigurePlugin";
+    var learnMore = "<p>Learn more about the Tamara Commerce plugin configuration <a href='https://support.tamara.co/hc/en-us/articles/360019792400-How-do-I-make-a-payment-' target='_blank'>here</a>.</p>";
+}
+
+@await Component.InvokeAsync(typeof(StoreScopeConfigurationViewComponent))
+
+@* @if (Model.IsConfigured)
+{
+    @await Component.InvokeAsync(typeof(SettingModeViewComponent))
+} *@
+
+<script>
+    $(document).ready(function () {
+        
+    });
+
+
+</script>
+
+<form asp-controller="Tamara" asp-action="Configure" method="post">
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <p id="pnlDescription" class="d-none">
+                    You must set up your development environment to get API Token for the sandbox and live environments.<br />
+                    <br />
+                </p>
+                <nop-nested-setting asp-for="ApiToken" id="pnlCredentials" disable-auto-generation="true">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="ApiToken_OverrideForStore" asp-input="ApiToken" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="ApiToken" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="ApiToken" asp-required="true" html-attributes="@(new { value = Model.ApiToken })" />
+                            <span asp-validation-for="ApiToken"></span>
+                        </div>
+                    </div>
+                    @* <div class="card card-default advanced-setting">
+                        <div class="card-header">
+                            @T("Plugins.Payments.Tamara.Prominently")
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                Build customer trust with Tamara branding on your website.<br />
+                                Feature the Tamara button on all pages that initiate checkout. Including Tamara branding early in the checkout experience helps increase site conversion. You can also attract new customers to your site by announcing Tamara acceptance.<br />
+                                <em>TIP: You can find more Tamara logos and banners on <a href="https://docs.tamara.co/docs/testing-scenarios" target="_blank">Tamara Logo Center</a></em>
+                                <br />
+                            </p>
+                            <div class="form-group row advanced-setting">
+                                <div class="col-md-3">
+                                    <nop-override-store-checkbox asp-for="DisplayButtonsOnShoppingCart_OverrideForStore" asp-input="DisplayButtonsOnShoppingCart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                    <nop-label asp-for="DisplayButtonsOnShoppingCart" />
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-editor asp-for="DisplayButtonsOnShoppingCart" />
+                                    <span asp-validation-for="DisplayButtonsOnShoppingCart"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row advanced-setting">
+                                <div class="col-md-3">
+                                    <nop-override-store-checkbox asp-for="DisplayButtonsOnProductDetails_OverrideForStore" asp-input="DisplayButtonsOnProductDetails" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                    <nop-label asp-for="DisplayButtonsOnProductDetails" />
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-editor asp-for="DisplayButtonsOnProductDetails" />
+                                    <span asp-validation-for="DisplayButtonsOnProductDetails"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row advanced-setting">
+                                <div class="col-md-3">
+                                    <nop-override-store-checkbox asp-for="DisplayPayLaterMessages_OverrideForStore" asp-input="DisplayPayLaterMessages" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                    <nop-label asp-for="DisplayPayLaterMessages" />
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-editor asp-for="DisplayPayLaterMessages" />
+                                    <span asp-validation-for="DisplayPayLaterMessages"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row advanced-setting">
+                                <div class="col-md-3">
+                                    <nop-override-store-checkbox asp-for="DisplayLogoInHeaderLinks_OverrideForStore" asp-input="DisplayLogoInHeaderLinks" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                    <nop-label asp-for="DisplayLogoInHeaderLinks" />
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-editor asp-for="DisplayLogoInHeaderLinks" />
+                                    <span asp-validation-for="DisplayLogoInHeaderLinks"></span>
+                                </div>
+                            </div>
+                            <nop-nested-setting asp-for="DisplayLogoInHeaderLinks">
+                                <div class="form-group row advanced-setting">
+                                    <div class="col-md-3">
+                                        <nop-override-store-checkbox asp-for="LogoInHeaderLinks_OverrideForStore" asp-input="LogoInHeaderLinks" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                        <nop-label asp-for="LogoInHeaderLinks" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-textarea asp-for="LogoInHeaderLinks" />
+                                        <span asp-validation-for="LogoInHeaderLinks"></span>
+                                    </div>
+                                </div>
+                            </nop-nested-setting>
+                            <div class="form-group row advanced-setting">
+                                <div class="col-md-3">
+                                    <nop-override-store-checkbox asp-for="DisplayLogoInFooter_OverrideForStore" asp-input="DisplayLogoInFooter" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                    <nop-label asp-for="DisplayLogoInFooter" />
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-editor asp-for="DisplayLogoInFooter" />
+                                    <span asp-validation-for="DisplayLogoInFooter"></span>
+                                </div>
+                            </div>
+                            <nop-nested-setting asp-for="DisplayLogoInFooter">
+                                <div class="form-group row advanced-setting">
+                                    <div class="col-md-3">
+                                        <nop-override-store-checkbox asp-for="LogoInFooter_OverrideForStore" asp-input="LogoInFooter" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                        <nop-label asp-for="LogoInFooter" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-textarea asp-for="LogoInFooter" />
+                                        <span asp-validation-for="LogoInFooter"></span>
+                                    </div>
+                                </div>
+                            </nop-nested-setting>
+                        </div>
+                    </div> *@
+                </nop-nested-setting>
+                
+                <div class="form-group row" id="pnlSave">
+                    <div class="col-md-9 offset-md-3">
+                        <button type="submit" name="save" class="btn btn-primary">@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+                <div class="form-group row" id="pnlLearnMore">
+                    <div class="col-12">
+                        @Html.Raw(learnMore)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
