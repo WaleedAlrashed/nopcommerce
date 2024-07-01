@@ -1,23 +1,25 @@
-﻿using Nop.Core;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Nop.Core;
 using Nop.Core.Infrastructure;
 
-namespace Nop.Web.Areas.Admin.Helpers;
-
-/// <summary>
-/// TinyMCE helper
-/// </summary>
-public partial class TinyMceHelper : ITinyMceHelper
+namespace Nop.Web.Areas.Admin.Helpers
 {
-    protected readonly INopFileProvider _nopFileProvider;
-    protected readonly IWebHostEnvironment _webHostEnvironment;
-    protected readonly IWorkContext _workContext;
-
-    public TinyMceHelper(INopFileProvider nopFileProvider, IWebHostEnvironment webHostEnvironment, IWorkContext workContext)
+    /// <summary>
+    /// TinyMCE helper
+    /// </summary>
+    public partial class TinyMceHelper : ITinyMceHelper
     {
-        _nopFileProvider = nopFileProvider;
-        _webHostEnvironment = webHostEnvironment;
-        _workContext = workContext;
-    }
+        private readonly INopFileProvider _nopFileProvider;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IWorkContext _workContext;
+
+        public TinyMceHelper(INopFileProvider nopFileProvider, IWebHostEnvironment webHostEnvironment, IWorkContext workContext)
+        {
+            _nopFileProvider = nopFileProvider;
+            _webHostEnvironment = webHostEnvironment;
+            _workContext = workContext;
+        }
 
     /// <summary>
     /// Get tinyMCE language name for current language 
@@ -31,7 +33,7 @@ public partial class TinyMceHelper : ITinyMceHelper
         //nopCommerce supports TinyMCE's localization for 10 languages:
         //Chinese, Spanish, Arabic, Portuguese, Russian, German, French, Italian, Dutch and English out-of-the-box.
         //Additional languages can be downloaded from the website TinyMCE(https://www.tinymce.com/download/language-packages/)
-
+        
         var languageCulture = (await _workContext.GetWorkingLanguageAsync()).LanguageCulture;
 
         var langFile = $"{languageCulture}.js";
@@ -53,5 +55,6 @@ public partial class TinyMceHelper : ITinyMceHelper
         }
 
         return fileExists ? languageCulture : string.Empty;
+    }
     }
 }

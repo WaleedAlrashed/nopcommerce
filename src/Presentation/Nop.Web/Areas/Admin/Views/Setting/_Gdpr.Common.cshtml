@@ -55,7 +55,7 @@
     </nop-nested-setting>
 </div>
 <script>
-    $(function() {
+    $(document).ready(function () {
         $("#@Html.IdFor(model => model.GdprEnabled)").click(toggleGdprEnabled);
 
         toggleGdprEnabled();

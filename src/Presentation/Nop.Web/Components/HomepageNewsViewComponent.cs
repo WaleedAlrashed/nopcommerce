@@ -1,27 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.News;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class HomepageNewsViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly INewsModelFactory _newsModelFactory;
-    protected readonly NewsSettings _newsSettings;
-
-    public HomepageNewsViewComponent(INewsModelFactory newsModelFactory, NewsSettings newsSettings)
+    public partial class HomepageNewsViewComponent : NopViewComponent
     {
-        _newsModelFactory = newsModelFactory;
-        _newsSettings = newsSettings;
-    }
+        private readonly INewsModelFactory _newsModelFactory;
+        private readonly NewsSettings _newsSettings;
 
-    public async Task<IViewComponentResult> InvokeAsync()
-    {
-        if (!_newsSettings.Enabled || !_newsSettings.ShowNewsOnMainPage)
-            return Content("");
+        public HomepageNewsViewComponent(INewsModelFactory newsModelFactory, NewsSettings newsSettings)
+        {
+            _newsModelFactory = newsModelFactory;
+            _newsSettings = newsSettings;
+        }
 
-        var model = await _newsModelFactory.PrepareHomepageNewsItemsModelAsync();
-        return View(model);
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            if (!_newsSettings.Enabled || !_newsSettings.ShowNewsOnMainPage)
+                return Content("");
+
+            var model = await _newsModelFactory.PrepareHomepageNewsItemsModelAsync();
+            return View(model);
+        }
     }
 }

@@ -1,31 +1,33 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.ModelBinding;
 
-namespace Nop.Web.Areas.Admin.Models.Catalog;
-
-/// <summary>
-/// Represents a specification attribute group model
-/// </summary>
-public partial record SpecificationAttributeGroupModel : BaseNopEntityModel, ILocalizedModel<SpecificationAttributeGroupLocalizedModel>
+namespace Nop.Web.Areas.Admin.Models.Catalog
 {
-    #region Ctor
-
-    public SpecificationAttributeGroupModel()
+    /// <summary>
+    /// Represents a specification attribute group model
+    /// </summary>
+    public partial record SpecificationAttributeGroupModel : BaseNopEntityModel, ILocalizedModel<SpecificationAttributeGroupLocalizedModel>
     {
-        Locales = new List<SpecificationAttributeGroupLocalizedModel>();
+        #region Ctor
+
+        public SpecificationAttributeGroupModel()
+        {
+            Locales = new List<SpecificationAttributeGroupLocalizedModel>();
+        }
+
+        #endregion
+
+        #region Properties
+
+        [NopResourceDisplayName("Admin.Catalog.Attributes.SpecificationAttributes.SpecificationAttributeGroup.Fields.Name")]
+        public string Name { get; set; }
+
+        [NopResourceDisplayName("Admin.Catalog.Attributes.SpecificationAttributes.SpecificationAttributeGroup.Fields.DisplayOrder")]
+        public int DisplayOrder { get; set; }
+
+        public IList<SpecificationAttributeGroupLocalizedModel> Locales { get; set; }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    [NopResourceDisplayName("Admin.Catalog.Attributes.SpecificationAttributes.SpecificationAttributeGroup.Fields.Name")]
-    public string Name { get; set; }
-
-    [NopResourceDisplayName("Admin.Catalog.Attributes.SpecificationAttributes.SpecificationAttributeGroup.Fields.DisplayOrder")]
-    public int DisplayOrder { get; set; }
-
-    public IList<SpecificationAttributeGroupLocalizedModel> Locales { get; set; }
-
-    #endregion
 }

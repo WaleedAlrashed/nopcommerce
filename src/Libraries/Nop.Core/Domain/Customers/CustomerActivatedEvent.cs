@@ -1,24 +1,25 @@
-﻿namespace Nop.Core.Domain.Customers;
-
-/// <summary>
-/// Customer activated event
-/// </summary>
-public partial class CustomerActivatedEvent
+﻿namespace Nop.Core.Domain.Customers
 {
     /// <summary>
-    /// Ctor
+    /// Customer activated event
     /// </summary>
-    /// <param name="customer">customer</param>
-    public CustomerActivatedEvent(Customer customer)
+    public partial class CustomerActivatedEvent
     {
-        Customer = customer;
-    }
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="customer">customer</param>
+        public CustomerActivatedEvent(Customer customer)
+        {
+            Customer = customer;
+        }
 
-    /// <summary>
-    /// Customer
-    /// </summary>
-    public Customer Customer
-    {
-        get;
+        /// <summary>
+        /// Customer
+        /// </summary>
+        public Customer Customer
+        {
+            get;
+        }
     }
 }

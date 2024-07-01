@@ -1,10 +1,11 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Customer;
-
-public partial record EmailRevalidationModel : BaseNopModel
+namespace Nop.Web.Models.Customer
 {
-    public string Result { get; set; }
+    public partial record EmailRevalidationModel : BaseNopModel
+    {
+        public string Result { get; set; }
 
-    public string ReturnUrl { get; set; }
+        public string ReturnUrl { get; set; }
+    }
 }

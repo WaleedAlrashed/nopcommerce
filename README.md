@@ -5,60 +5,12 @@
 
 ![nopCommerce demo](https://www.nopcommerce.com/images/github/responsive_devices_codeplex.png#v1)
 
-
-## Technologies Used
-
-![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-512BD4?style=for-the-badge&logo=.net&logoColor=white)
-![MS SQL](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-
-## IDEs Used
-
-![Visual Studio](https://img.shields.io/badge/Visual%20Studio-5C2D91?style=for-the-badge&logo=visual-studio&logoColor=white)
-![Rider](https://img.shields.io/badge/Rider-000000?style=for-the-badge&logo=rider&logoColor=white)
-![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7?style=for-the-badge&logo=visual-studio-code&logoColor=white)
-
-## Installation
-
-### Prerequisites
-
-- .NET 8 SDK
-- MS SQL Server 2012 or higher
-- [Docker](https://www.docker.com) (optional, for containerized deployment)
-
-
-### Steps
-
-1. Clone the repository:
-   git clone https://github.com/nopSolutions/nopCommerce.git
-   cd nopCommerce
-
-2. Set up the database:
-   - Create a new database in MS SQL Server.
-   - Update the connection string in `appsettings.json`.
-
-3. Build the solution:
-   dotnet build
-
-4. Run the application:
-   dotnet run
-
-### Docker
-
-To run nopCommerce using Docker, follow these steps:
-
-1. Build the Docker image:
-   docker build -t nopcommerce .
-
-2. Run the Docker container:
-   docker run -d -p 8080:80 nopcommerce
-
-### Nopcommerce Key features ###
+### Key features ###
 
 * The product is being developed and supported by the professional team since 2008.
 * nopCommerce has been downloaded more than 3,000,000 times.
 * The active developer community has more than 250,000 members.
-* nopCommerce runs on .NET 8 with an MS SQL 2012 (or higher) backend database.
+* nopCommerce runs on .NET 7 with an MS SQL 2012 (or higher) backend database.
 * nopCommerce is cross-platform, and you can run it on Windows, Linux, or Mac.
 * nopCommerce supports Docker out of the box, so you can easily run nopCommerce on a Linux machine.
 * nopCommerce supports PostgreSQL and MySQL databases.
@@ -93,7 +45,7 @@ Evaluate the functionality and convenience of nopCommerce as a customer and stor
 
 Front End | Admin area
 ----|------
-[![ScreenShot](https://www.nopcommerce.com/images/github/public-demo.png#v1)](https://demo.nopcommerce.com?utm_source=github&utm_medium=referral&utm_campaign=demo_store&utm_content=button) | [![ScreenShot](https://www.nopcommerce.com/images/github/admin-demo.png#v1)](https://admin-demo.nopcommerce.com/admin?utm_source=github&utm_medium=referral&utm_campaign=demo_store&utm_content=button)
+[![ScreenShot](https://www.nopcommerce.com/images/github/public-demo.png#v1)](https://frontend.nopcommerce.com?utm_source=github&utm_medium=referral&utm_campaign=demo_store&utm_content=button) | [![ScreenShot](https://www.nopcommerce.com/images/github/admin-demo.png#v1)](https://admin-demo.nopcommerce.com/admin?utm_source=github&utm_medium=referral&utm_campaign=demo_store&utm_content=button)
 
 
 ### nopCommerce resources ###

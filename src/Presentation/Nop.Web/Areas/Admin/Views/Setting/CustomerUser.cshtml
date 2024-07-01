@@ -61,7 +61,7 @@
         </div>
     </section>
     <script>
-        $(function() {
+        $(document).ready(function () {
             $("#@Html.IdFor(model => model.MultiFactorAuthenticationSettings.ForceMultifactorAuthentication)").click(toggleForceMultifactorAuthentication);
             toggleForceMultifactorAuthentication();
         });

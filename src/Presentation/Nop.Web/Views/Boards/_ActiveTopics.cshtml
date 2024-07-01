@@ -1,5 +1,4 @@
 ﻿@using Nop.Services.Localization
-@using Nop.Web.Factories
 @model ActiveDiscussionsModel
 @inject ILocalizationService localizationService
 <div class="forums-table-section topic-group active-discussions">
@@ -19,7 +18,7 @@
             ShowTotalSummary = false,
             RouteActionName = "ActiveDiscussionsPaged",
             UseRouteLinks = true,
-            RouteValues = new ForumModelFactory.ForumActiveDiscussionsRouteValues()
+            RouteValues = new ForumActiveDiscussionsRouteValues()
         });
     }
     @if (!string.IsNullOrEmpty(await pager.RenderHtmlContentAsync()))

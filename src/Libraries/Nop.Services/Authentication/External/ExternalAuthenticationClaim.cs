@@ -1,29 +1,32 @@
-namespace Nop.Services.Authentication.External;
+using System;
 
-/// <summary>
-/// External authentication claim
-/// </summary>
-[Serializable]
-public partial class ExternalAuthenticationClaim
+namespace Nop.Services.Authentication.External
 {
     /// <summary>
-    /// Ctor
+    /// External authentication claim
     /// </summary>
-    /// <param name="type">Type</param>
-    /// <param name="value">Value</param>
-    public ExternalAuthenticationClaim(string type, string value)
+    [Serializable]
+    public partial class ExternalAuthenticationClaim
     {
-        Type = type;
-        Value = value;
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="type">Type</param>
+        /// <param name="value">Value</param>
+        public ExternalAuthenticationClaim(string type, string value)
+        {
+            Type = type;
+            Value = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the claim type of the claim
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value of the claim
+        /// </summary>
+        public string Value { get; set; }
     }
-
-    /// <summary>
-    /// Gets or sets the claim type of the claim
-    /// </summary>
-    public string Type { get; set; }
-
-    /// <summary>
-    /// Gets or sets the value of the claim
-    /// </summary>
-    public string Value { get; set; }
 }

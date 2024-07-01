@@ -1,8 +1,9 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Customer;
-
-public partial record GdprToolsModel : BaseNopModel
+namespace Nop.Web.Models.Customer
 {
-    public string Result { get; set; }
+    public partial record GdprToolsModel : BaseNopModel
+    {
+        public string Result { get; set; }
+    }
 }

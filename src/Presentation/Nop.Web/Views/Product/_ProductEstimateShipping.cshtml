@@ -15,7 +15,7 @@
 
     <script asp-location="Footer">
 
-        $(function() {
+        $(document).ready(function () {
             var popUp = {};
             var reloadPopUp = false;
             var initialized = false;
@@ -44,7 +44,7 @@
                         City: address.city
                     });
 
-                    return '@Html.Raw(Url.RouteUrl("ProductEstimateShipping", new { ProductId = Model.ProductId }))&' + params;
+                    return '@Html.Raw(Url.Action("estimateshipping", "product", new { ProductId = Model.ProductId }))&' + params;
                 },
                 handlers: {
                     openPopUp: function () {

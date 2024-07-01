@@ -2,23 +2,24 @@
 using Nop.Core.Domain.Customers;
 using Nop.Data.Extensions;
 
-namespace Nop.Data.Mapping.Builders.Customers;
-
-/// <summary>
-/// Represents a customer password entity builder
-/// </summary>
-public partial class CustomerPasswordBuilder : NopEntityBuilder<CustomerPassword>
+namespace Nop.Data.Mapping.Builders.Customers
 {
-    #region Methods
-
     /// <summary>
-    /// Apply entity configuration
+    /// Represents a customer password entity builder
     /// </summary>
-    /// <param name="table">Create table expression builder</param>
-    public override void MapEntity(CreateTableExpressionBuilder table)
+    public partial class CustomerPasswordBuilder : NopEntityBuilder<CustomerPassword>
     {
-        table.WithColumn(nameof(CustomerPassword.CustomerId)).AsInt32().ForeignKey<Customer>();
-    }
+        #region Methods
 
-    #endregion
+        /// <summary>
+        /// Apply entity configuration
+        /// </summary>
+        /// <param name="table">Create table expression builder</param>
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+            table.WithColumn(nameof(CustomerPassword.CustomerId)).AsInt32().ForeignKey<Customer>();
+        }
+
+        #endregion
+    }
 }

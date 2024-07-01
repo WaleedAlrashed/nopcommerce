@@ -1,12 +1,13 @@
-﻿namespace Nop.Core.Infrastructure.Mapper;
-
-/// <summary>
-/// Mapper profile registrar interface
-/// </summary>
-public partial interface IOrderedMapperProfile
+﻿namespace Nop.Core.Infrastructure.Mapper
 {
     /// <summary>
-    /// Gets order of this configuration implementation
+    /// Mapper profile registrar interface
     /// </summary>
-    int Order { get; }
+    public interface IOrderedMapperProfile
+    {
+        /// <summary>
+        /// Gets order of this configuration implementation
+        /// </summary>
+        int Order { get; }
+    }
 }

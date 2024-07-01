@@ -1,28 +1,29 @@
 ﻿using Nop.Web.Areas.Admin.Models.Plugins.Marketplace;
 using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Plugins;
-
-/// <summary>
-/// Represents a plugins configuration model
-/// </summary>
-public partial record PluginsConfigurationModel : BaseNopModel
+namespace Nop.Web.Areas.Admin.Models.Plugins
 {
-    #region Ctor
-
-    public PluginsConfigurationModel()
+    /// <summary>
+    /// Represents a plugins configuration model
+    /// </summary>
+    public partial record PluginsConfigurationModel : BaseNopModel
     {
-        PluginsLocal = new PluginSearchModel();
-        AllPluginsAndThemes = new OfficialFeedPluginSearchModel();
+        #region Ctor
+
+        public PluginsConfigurationModel()
+        {
+            PluginsLocal = new PluginSearchModel();
+            AllPluginsAndThemes = new OfficialFeedPluginSearchModel();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public PluginSearchModel PluginsLocal { get; set; }
+
+        public OfficialFeedPluginSearchModel AllPluginsAndThemes { get; set; }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    public PluginSearchModel PluginsLocal { get; set; }
-
-    public OfficialFeedPluginSearchModel AllPluginsAndThemes { get; set; }
-
-    #endregion
 }

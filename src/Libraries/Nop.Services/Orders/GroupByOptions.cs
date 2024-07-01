@@ -1,8 +1,9 @@
-﻿namespace Nop.Services.Orders;
-
-public enum GroupByOptions
+﻿namespace Nop.Services.Orders
 {
-    Day = 0,
-    Week = 1,
-    Month = 2
+    public enum GroupByOptions
+    {
+        Day = 0,
+        Week = 1,
+        Month = 2
+    }
 }

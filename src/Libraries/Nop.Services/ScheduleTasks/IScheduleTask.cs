@@ -1,13 +1,16 @@
-﻿namespace Nop.Services.ScheduleTasks;
+﻿using System.Threading.Tasks;
 
-/// <summary>
-/// Interface that should be implemented by each task
-/// </summary>
-public partial interface IScheduleTask
+namespace Nop.Services.ScheduleTasks
 {
     /// <summary>
-    /// Executes a task
+    /// Interface that should be implemented by each task
     /// </summary>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    Task ExecuteAsync();
+    public partial interface IScheduleTask
+    {
+        /// <summary>
+        /// Executes a task
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        Task ExecuteAsync();
+    }
 }

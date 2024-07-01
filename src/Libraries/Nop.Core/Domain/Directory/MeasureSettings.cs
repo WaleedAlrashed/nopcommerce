@@ -1,19 +1,20 @@
 ﻿using Nop.Core.Configuration;
 
-namespace Nop.Core.Domain.Directory;
-
-/// <summary>
-/// Measure settings
-/// </summary>
-public partial class MeasureSettings : ISettings
+namespace Nop.Core.Domain.Directory
 {
     /// <summary>
-    /// Base dimension identifier
+    /// Measure settings
     /// </summary>
-    public int BaseDimensionId { get; set; }
+    public partial class MeasureSettings : ISettings
+    {
+        /// <summary>
+        /// Base dimension identifier
+        /// </summary>
+        public int BaseDimensionId { get; set; }
 
-    /// <summary>
-    /// Base weight identifier
-    /// </summary>
-    public int BaseWeightId { get; set; }
+        /// <summary>
+        /// Base weight identifier
+        /// </summary>
+        public int BaseWeightId { get; set; }
+    }
 }

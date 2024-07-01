@@ -1,21 +1,23 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Checkout;
-
-public partial record CheckoutPickupPointsModel : BaseNopModel
+namespace Nop.Web.Models.Checkout
 {
-    public CheckoutPickupPointsModel()
+    public partial record CheckoutPickupPointsModel : BaseNopModel
     {
-        Warnings = new List<string>();
-        PickupPoints = new List<CheckoutPickupPointModel>();
+        public CheckoutPickupPointsModel()
+        {
+            Warnings = new List<string>();
+            PickupPoints = new List<CheckoutPickupPointModel>();
+        }
+
+        public IList<string> Warnings { get; set; }
+
+        public IList<CheckoutPickupPointModel> PickupPoints { get; set; }
+        public bool AllowPickupInStore { get; set; }
+        public bool PickupInStore { get; set; }
+        public bool PickupInStoreOnly { get; set; }
+        public bool DisplayPickupPointsOnMap { get; set; }
+        public string GoogleMapsApiKey { get; set; }
     }
-
-    public IList<string> Warnings { get; set; }
-
-    public IList<CheckoutPickupPointModel> PickupPoints { get; set; }
-    public bool AllowPickupInStore { get; set; }
-    public bool PickupInStore { get; set; }
-    public bool PickupInStoreOnly { get; set; }
-    public bool DisplayPickupPointsOnMap { get; set; }
-    public string GoogleMapsApiKey { get; set; }
 }

@@ -3,7 +3,9 @@
 @inject AdminAreaSettings adminAreaSettings
 @inject ITinyMceHelper tinyMceHelper
 @using Nop.Web.Areas.Admin.Helpers
+@using Nop.Core
 @using Nop.Services.Security
+@using Nop.Web.Framework.UI
 @{
     // tinyMCE language
     var language = await tinyMceHelper.GetTinyMceLanguageAsync();
@@ -44,7 +46,7 @@
 <script src="~/lib_npm/tinymce/tinymce.min.js" asp-location="Head"></script>
 
 <script>
-    $(function() {
+    $(document).ready(function() {
         @* wooncherk contribution *@
         function RoxyFileBrowser@(random)(callback, value, type) {
             //we manually generate the configuration file to ensure that it works fine in virtual directory
@@ -74,7 +76,7 @@
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     $('#createConfigurationFailed-info').text(errorThrown);
-                    $("#createConfigurationFailed").trigger("click");
+                    $("#createConfigurationFailed").click();
                 }
             });
         }

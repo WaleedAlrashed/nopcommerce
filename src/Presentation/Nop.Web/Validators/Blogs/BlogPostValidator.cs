@@ -3,12 +3,13 @@ using Nop.Services.Localization;
 using Nop.Web.Framework.Validators;
 using Nop.Web.Models.Blogs;
 
-namespace Nop.Web.Validators.Blogs;
-
-public partial class BlogPostValidator : BaseNopValidator<BlogPostModel>
+namespace Nop.Web.Validators.Blogs
 {
-    public BlogPostValidator(ILocalizationService localizationService)
+    public partial class BlogPostValidator : BaseNopValidator<BlogPostModel>
     {
-        RuleFor(x => x.AddNewComment.CommentText).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Blog.Comments.CommentText.Required")).When(x => x.AddNewComment != null);
+        public BlogPostValidator(ILocalizationService localizationService)
+        {
+            RuleFor(x => x.AddNewComment.CommentText).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Blog.Comments.CommentText.Required")).When(x => x.AddNewComment != null);
+        }
     }
 }

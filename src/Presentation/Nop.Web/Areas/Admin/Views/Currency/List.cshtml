@@ -144,7 +144,7 @@
                                 <script>
                         var selectedId;
 
-                        $(function() {
+                        $(document).ready(function () {
 
                             $("#btnMarkPSC-action-confirmation-submit-button").bind("click", function () {
                                 var postData = {
@@ -160,7 +160,7 @@
                                         updateTable('#currencies-grid');
                                     },
                                     error: function (jqXHR, textStatus, errorThrown) {
-                                        $("#currencyAlert").trigger("click");
+                                        $("#currencyAlert").click();
                                     }
                                 });
                                 $('#btnMarkPSC-action-confirmation').modal('toggle');
@@ -180,7 +180,7 @@
                                         updateTable('#currencies-grid');
                                     },
                                     error: function (jqXHR, textStatus, errorThrown) {
-                                        $("#currencyAlert").trigger("click");
+                                        $("#currencyAlert").click();
                                     }
                                 });
                                 $('#btnMarkPERC-action-confirmation').modal('toggle');
@@ -190,12 +190,12 @@
 
                         function markAsPrimaryExchangeRateCurrency(id) {
                             selectedId = id;
-                            $("#btnMarkPERC").trigger("click");
+                            $("#btnMarkPERC").click();
                         };
 
                         function markAsPrimaryStoreCurrency(id) {
                             selectedId = id;
-                            $("#btnMarkPSC").trigger("click");
+                            $("#btnMarkPSC").click();
                         };
                                 </script>
                             </div>
@@ -261,7 +261,7 @@
                                             updateTable('#currencies-grid');
                                         },
                                         error: function (jqXHR, textStatus, errorThrown) {
-                                            $("#currencyAlert").trigger("click");
+                                            $("#currencyAlert").click();
                                         }
                                     });
                                 }

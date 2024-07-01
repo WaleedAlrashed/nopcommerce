@@ -1,21 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class TopMenuViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly ICatalogModelFactory _catalogModelFactory;
-
-    public TopMenuViewComponent(ICatalogModelFactory catalogModelFactory)
+    public partial class TopMenuViewComponent : NopViewComponent
     {
-        _catalogModelFactory = catalogModelFactory;
-    }
+        private readonly ICatalogModelFactory _catalogModelFactory;
 
-    public async Task<IViewComponentResult> InvokeAsync(int? productThumbPictureSize)
-    {
-        var model = await _catalogModelFactory.PrepareTopMenuModelAsync();
-        return View(model);
+        public TopMenuViewComponent(ICatalogModelFactory catalogModelFactory)
+        {
+            _catalogModelFactory = catalogModelFactory;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync(int? productThumbPictureSize)
+        {
+            var model = await _catalogModelFactory.PrepareTopMenuModelAsync();
+            return View(model);
+        }
     }
 }

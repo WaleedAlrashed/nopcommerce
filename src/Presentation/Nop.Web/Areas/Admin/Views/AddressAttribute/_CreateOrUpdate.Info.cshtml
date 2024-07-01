@@ -67,7 +67,7 @@
 
 
 <script>
-    $(function() {
+    $(document).ready(function() {
         $("#@Html.IdFor(model => model.AttributeControlTypeId)").change(toggleAttributeControlType);
         toggleAttributeControlType();
     });

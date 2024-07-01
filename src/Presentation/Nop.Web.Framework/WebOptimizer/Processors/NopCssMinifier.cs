@@ -1,54 +1,58 @@
-﻿using Nop.Core.Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Nop.Core.Infrastructure;
 using Nop.Services.Logging;
 using NUglify;
 using NUglify.Css;
 using WebOptimizer;
 
-namespace Nop.Web.Framework.WebOptimizer.Processors;
-
-/// <summary>
-/// Represents a class of processor that handle style assets
-/// </summary>
-/// <remarks>Implementation has taken from WebOptimizer to add logging</remarks>
-public partial class NopCssMinifier : Processor
+namespace Nop.Web.Framework.WebOptimizer.Processors
 {
-    #region Methods
-
     /// <summary>
-    /// Executes the processor on the specified configuration.
+    /// Represents a class of processor that handle style assets
     /// </summary>
-    /// <param name="context">The context used to perform processing to WebOptimizer.IAsset instances</param>
-    public override async Task ExecuteAsync(IAssetContext context)
+    /// <remarks>Implementation has taken from WebOptimizer to add logging</remarks>
+    public partial class NopCssMinifier : Processor
     {
-        var content = new Dictionary<string, byte[]>();
+        #region Methods
 
-        foreach (var key in context.Content.Keys)
+        /// <summary>
+        /// Executes the processor on the specified configuration.
+        /// </summary>
+        /// <param name="context">The context used to perform processing to WebOptimizer.IAsset instances</param>
+        public override async Task ExecuteAsync(IAssetContext context)
         {
-            if (key.EndsWith(".min.css", StringComparison.InvariantCultureIgnoreCase))
+            var content = new Dictionary<string, byte[]>();
+
+            foreach (var key in context.Content.Keys)
             {
-                content[key] = context.Content[key];
-                continue;
+                if (key.EndsWith(".min.js", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    content[key] = context.Content[key];
+                    continue;
+                }
+
+                var input = context.Content[key].AsString();
+                var result = Uglify.Css(input, new CssSettings());
+
+                var minified = result.Code;
+
+                if (result.HasErrors)
+                {
+                    await EngineContext.Current.Resolve<ILogger>()
+                        .WarningAsync($"Stylesheet minification: {key}", new(string.Join(Environment.NewLine, result.Errors)));
+                }
+
+                content[key] = minified.AsByteArray();
             }
 
-            var input = context.Content[key].AsString();
-            var result = Uglify.Css(input, new CssSettings());
+            context.Content = content;
 
-            var minified = result.Code;
-
-            if (result.HasErrors)
-            {
-                await EngineContext.Current.Resolve<ILogger>()
-                    .WarningAsync($"Stylesheet minification: {key}", new(string.Join(Environment.NewLine, result.Errors)));
-            }
-
-            content[key] = minified.AsByteArray();
+            return;
         }
 
-        context.Content = content;
+        #endregion
 
-        return;
     }
-
-    #endregion
-
 }

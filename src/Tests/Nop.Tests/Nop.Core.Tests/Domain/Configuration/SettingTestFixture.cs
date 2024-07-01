@@ -2,16 +2,17 @@
 using Nop.Core.Domain.Configuration;
 using NUnit.Framework;
 
-namespace Nop.Tests.Nop.Core.Tests.Domain.Configuration;
-
-[TestFixture]
-public class SettingTestFixture
+namespace Nop.Tests.Nop.Core.Tests.Domain.Configuration
 {
-    [Test]
-    public void CanCreateSetting()
+    [TestFixture]
+    public class SettingTestFixture
     {
-        var setting = new Setting("Setting1", "Value1");
-        setting.Name.Should().Be("Setting1");
-        setting.Value.Should().Be("Value1");
+        [Test]
+        public void CanCreateSetting()
+        {
+            var setting = new Setting("Setting1", "Value1");
+            setting.Name.Should().Be("Setting1");
+            setting.Value.Should().Be("Value1");
+        }
     }
 }

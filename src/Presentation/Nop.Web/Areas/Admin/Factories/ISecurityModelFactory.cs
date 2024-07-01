@@ -1,19 +1,21 @@
-﻿using Nop.Web.Areas.Admin.Models.Security;
+﻿using System.Threading.Tasks;
+using Nop.Web.Areas.Admin.Models.Security;
 
-namespace Nop.Web.Areas.Admin.Factories;
-
-/// <summary>
-/// Represents the security model factory
-/// </summary>
-public partial interface ISecurityModelFactory
+namespace Nop.Web.Areas.Admin.Factories
 {
     /// <summary>
-    /// Prepare permission mapping model
+    /// Represents the security model factory
     /// </summary>
-    /// <param name="model">Permission mapping model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the permission mapping model
-    /// </returns>
-    Task<PermissionMappingModel> PreparePermissionMappingModelAsync(PermissionMappingModel model);
+    public partial interface ISecurityModelFactory
+    {
+        /// <summary>
+        /// Prepare permission mapping model
+        /// </summary>
+        /// <param name="model">Permission mapping model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the permission mapping model
+        /// </returns>
+        Task<PermissionMappingModel> PreparePermissionMappingModelAsync(PermissionMappingModel model);
+    }
 }

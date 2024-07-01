@@ -1,27 +1,28 @@
 ﻿using FluentMigrator.Builders.Create.Table;
 using Nop.Core.Domain.Catalog;
 
-namespace Nop.Data.Mapping.Builders.Catalog;
-
-/// <summary>
-/// Represents a category entity builder
-/// </summary>
-public partial class CategoryBuilder : NopEntityBuilder<Category>
+namespace Nop.Data.Mapping.Builders.Catalog
 {
-    #region Methods
-
     /// <summary>
-    /// Apply entity configuration
+    /// Represents a category entity builder
     /// </summary>
-    /// <param name="table">Create table expression builder</param>
-    public override void MapEntity(CreateTableExpressionBuilder table)
+    public partial class CategoryBuilder : NopEntityBuilder<Category>
     {
-        table
-            .WithColumn(nameof(Category.Name)).AsString(400).NotNullable()
-            .WithColumn(nameof(Category.MetaKeywords)).AsString(400).Nullable()
-            .WithColumn(nameof(Category.MetaTitle)).AsString(400).Nullable()
-            .WithColumn(nameof(Category.PageSizeOptions)).AsString(200).Nullable();
-    }
+        #region Methods
 
-    #endregion
+        /// <summary>
+        /// Apply entity configuration
+        /// </summary>
+        /// <param name="table">Create table expression builder</param>
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+            table
+                .WithColumn(nameof(Category.Name)).AsString(400).NotNullable()
+                .WithColumn(nameof(Category.MetaKeywords)).AsString(400).Nullable()
+                .WithColumn(nameof(Category.MetaTitle)).AsString(400).Nullable()
+                .WithColumn(nameof(Category.PageSizeOptions)).AsString(200).Nullable();
+        }
+
+        #endregion
+    }
 }

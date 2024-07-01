@@ -1,25 +1,27 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Discounts;
-
-/// <summary>
-/// Represents a manufacturer model to add to the discount
-/// </summary>
-public partial record AddManufacturerToDiscountModel : BaseNopModel
+namespace Nop.Web.Areas.Admin.Models.Discounts
 {
-    #region Ctor
-
-    public AddManufacturerToDiscountModel()
+    /// <summary>
+    /// Represents a manufacturer model to add to the discount
+    /// </summary>
+    public partial record AddManufacturerToDiscountModel : BaseNopModel
     {
-        SelectedManufacturerIds = new List<int>();
+        #region Ctor
+
+        public AddManufacturerToDiscountModel()
+        {
+            SelectedManufacturerIds = new List<int>();
+        }
+        #endregion
+
+        #region Properties
+
+        public int DiscountId { get; set; }
+
+        public IList<int> SelectedManufacturerIds { get; set; }
+
+        #endregion
     }
-    #endregion
-
-    #region Properties
-
-    public int DiscountId { get; set; }
-
-    public IList<int> SelectedManufacturerIds { get; set; }
-
-    #endregion
 }

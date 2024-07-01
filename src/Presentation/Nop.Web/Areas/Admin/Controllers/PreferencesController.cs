@@ -1,44 +1,48 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Services.Common;
 
-namespace Nop.Web.Areas.Admin.Controllers;
-
-public partial class PreferencesController : BaseAdminController
+namespace Nop.Web.Areas.Admin.Controllers
 {
-    #region Fields
-
-    protected readonly IGenericAttributeService _genericAttributeService;
-    protected readonly IWorkContext _workContext;
-
-    #endregion
-
-    #region Ctor
-
-    public PreferencesController(IGenericAttributeService genericAttributeService,
-        IWorkContext workContext)
+    public partial class PreferencesController : BaseAdminController
     {
-        _genericAttributeService = genericAttributeService;
-        _workContext = workContext;
-    }
+        #region Fields
 
-    #endregion
+        private readonly IGenericAttributeService _genericAttributeService;
+        private readonly IWorkContext _workContext;
 
-    #region Methods
+        #endregion
 
-    [HttpPost]
-    public virtual async Task<IActionResult> SavePreference(string name, bool value)
-    {
-        //permission validation is not required here
-        ArgumentException.ThrowIfNullOrEmpty(name);
+        #region Ctor
 
-        await _genericAttributeService.SaveAttributeAsync(await _workContext.GetCurrentCustomerAsync(), name, value);
-
-        return Json(new
+        public PreferencesController(IGenericAttributeService genericAttributeService,
+            IWorkContext workContext)
         {
-            Result = true
-        });
-    }
+            _genericAttributeService = genericAttributeService;
+            _workContext = workContext;
+        }
 
-    #endregion
+        #endregion
+
+        #region Methods
+
+        [HttpPost]
+        public virtual async Task<IActionResult> SavePreference(string name, bool value)
+        {
+            //permission validation is not required here
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException(nameof(name));
+
+            await _genericAttributeService.SaveAttributeAsync(await _workContext.GetCurrentCustomerAsync(), name, value);
+
+            return Json(new
+            {
+                Result = true
+            });
+        }
+
+        #endregion
+    }
 }

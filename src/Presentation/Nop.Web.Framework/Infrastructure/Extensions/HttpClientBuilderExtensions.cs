@@ -1,52 +1,54 @@
 ﻿using System.Net;
+using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Domain.Security;
 
-namespace Nop.Web.Framework.Infrastructure.Extensions;
-
-/// <summary>
-/// Represents extensions of IHttpClientBuilder
-/// </summary>
-public static class HttpClientBuilderExtensions
+namespace Nop.Web.Framework.Infrastructure.Extensions
 {
     /// <summary>
-    /// Configure proxy connection for HTTP client (if enabled)
+    /// Represents extensions of IHttpClientBuilder
     /// </summary>
-    /// <param name="httpClientBuilder">A builder for configuring HttpClient</param>
-    public static void WithProxy(this IHttpClientBuilder httpClientBuilder)
+    public static class HttpClientBuilderExtensions
     {
-        httpClientBuilder.ConfigurePrimaryHttpMessageHandler(provider =>
+        /// <summary>
+        /// Configure proxy connection for HTTP client (if enabled)
+        /// </summary>
+        /// <param name="httpClientBuilder">A builder for configuring HttpClient</param>
+        public static void WithProxy(this IHttpClientBuilder httpClientBuilder)
         {
-            var handler = new HttpClientHandler();
-
-            //whether proxy is enabled
-            var proxySettings = provider.GetService<ProxySettings>();
-            if (!proxySettings?.Enabled ?? true)
-                return handler;
-
-            //configure proxy connection
-            var webProxy = new WebProxy($"{proxySettings.Address}:{proxySettings.Port}", proxySettings.BypassOnLocal);
-            if (!string.IsNullOrEmpty(proxySettings.Username) && !string.IsNullOrEmpty(proxySettings.Password))
+            httpClientBuilder.ConfigurePrimaryHttpMessageHandler(provider =>
             {
-                webProxy.UseDefaultCredentials = false;
-                webProxy.Credentials = new NetworkCredential
+                var handler = new HttpClientHandler();
+
+                //whether proxy is enabled
+                var proxySettings = provider.GetService<ProxySettings>();
+                if (!proxySettings?.Enabled ?? true)
+                    return handler;
+
+                //configure proxy connection
+                var webProxy = new WebProxy($"{proxySettings.Address}:{proxySettings.Port}", proxySettings.BypassOnLocal);
+                if (!string.IsNullOrEmpty(proxySettings.Username) && !string.IsNullOrEmpty(proxySettings.Password))
                 {
-                    UserName = proxySettings.Username,
-                    Password = proxySettings.Password
-                };
-            }
-            else
-            {
-                webProxy.UseDefaultCredentials = true;
-                webProxy.Credentials = CredentialCache.DefaultCredentials;
-            }
+                    webProxy.UseDefaultCredentials = false;
+                    webProxy.Credentials = new NetworkCredential
+                    {
+                        UserName = proxySettings.Username,
+                        Password = proxySettings.Password
+                    };
+                }
+                else
+                {
+                    webProxy.UseDefaultCredentials = true;
+                    webProxy.Credentials = CredentialCache.DefaultCredentials;
+                }
 
-            //configure HTTP client handler
-            handler.UseDefaultCredentials = webProxy.UseDefaultCredentials;
-            handler.Proxy = webProxy;
-            handler.PreAuthenticate = proxySettings.PreAuthenticate;
+                //configure HTTP client handler
+                handler.UseDefaultCredentials = webProxy.UseDefaultCredentials;
+                handler.Proxy = webProxy;
+                handler.PreAuthenticate = proxySettings.PreAuthenticate;
 
-            return handler;
-        });
+                return handler;
+            });
+        }
     }
 }

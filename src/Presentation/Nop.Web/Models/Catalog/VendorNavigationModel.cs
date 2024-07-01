@@ -1,22 +1,24 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Catalog;
-
-public partial record VendorNavigationModel : BaseNopModel
+namespace Nop.Web.Models.Catalog
 {
-    public VendorNavigationModel()
+    public partial record VendorNavigationModel : BaseNopModel
     {
-        Vendors = new List<VendorBriefInfoModel>();
+        public VendorNavigationModel()
+        {
+            Vendors = new List<VendorBriefInfoModel>();
+        }
+
+        public IList<VendorBriefInfoModel> Vendors { get; set; }
+
+        public int TotalVendors { get; set; }
     }
 
-    public IList<VendorBriefInfoModel> Vendors { get; set; }
+    public partial record VendorBriefInfoModel : BaseNopEntityModel
+    {
+        public string Name { get; set; }
 
-    public int TotalVendors { get; set; }
-}
-
-public partial record VendorBriefInfoModel : BaseNopEntityModel
-{
-    public string Name { get; set; }
-
-    public string SeName { get; set; }
+        public string SeName { get; set; }
+    }
 }

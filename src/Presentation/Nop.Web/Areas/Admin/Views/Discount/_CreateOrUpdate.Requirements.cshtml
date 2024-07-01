@@ -10,7 +10,7 @@
             </p>
 
             <script>
-            $(function() {
+            $(document).ready(function() {
                 $("#@Html.IdFor(model => model.AddDiscountRequirement)").change(loadNewRequirementBox);
 
                 //load add requirement box
@@ -118,7 +118,7 @@
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        $("#getDiscountRequirementsAlert").trigger("click");
+                        $("#getDiscountRequirementsAlert").click();
                     }
                 });
             };
@@ -163,7 +163,7 @@
                         $("#discountRequirementContainer").trigger('nopnewdiscountruleadded', [data.NewRequirementId]);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        $("#failedToSave").trigger("click");
+                        $("#failedToSave").click();
                     }
                 });
             };

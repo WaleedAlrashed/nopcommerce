@@ -1,24 +1,20 @@
-﻿$(function() {
+﻿$(document).ready(function () {
   $('#paymentmethods-grid').on('draw.dt', function () {
     const tour = new Shepherd.Tour(AdminTourCommonTourOptions);
 
+    AdminTourNextPageButton.action = function () { window.location = '/Admin/Tax/Providers?showtour=True' };
+
     var checkMoneyMethodRowId = 'row_paymentscheckmoneyorder';
     var manualMethodRowId = 'row_paymentsmanual';
-    var paypalCommerceMethodRowId = 'row_paymentspaypalcommerce';
+    var paypalButtonsMethodRowId = 'row_paymentspaypalsmartpaymentbuttons';
 
     var checkMoneyMethodExists = $('#' + checkMoneyMethodRowId).length;
     var manualMethodExists = $('#' + manualMethodRowId).length;
-    var paypalCommerceMethodExists = $('#' + paypalCommerceMethodRowId).length;
-
-    if (paypalCommerceMethodExists) {
-      AdminTourNextPageButton.action = function () { window.location = '/Admin/PayPalCommerce/Configure?showtour=true' };
-    } else {
-      AdminTourNextPageButton.action = function () { window.location = '/Admin/Tax/Providers?showtour=True' }
-    }
+    var paypalButtonsMethodExists = $('#' + paypalButtonsMethodRowId).length;
 
     //'Payment methods' step
     var paymentMethodsStepButtons = [];
-    if (!checkMoneyMethodExists && !manualMethodExists && paypalCommerceMethodExists) {
+    if (!checkMoneyMethodExists && !manualMethodExists && paypalButtonsMethodExists) {
       paymentMethodsStepButtons = [AdminTourNextPageButton]
     } else {
       paymentMethodsStepButtons = [AdminTourNextButton]
@@ -46,7 +42,7 @@
         buttons: [AdminTourBackButton, AdminTourNextButton]
       });
 
-      if (!manualMethodExists && !paypalCommerceMethodExists) {
+      if (!manualMethodExists && !paypalButtonsMethodExists) {
         //'Activate a payment method' step
         tour.addStep({
           title: AdminTourDataProvider.localized_data.PaymentMethodsActivateTitle,
@@ -83,7 +79,7 @@
         buttons: [AdminTourBackButton, AdminTourNextButton]
       });
 
-      if (!paypalCommerceMethodExists) {
+      if (!paypalButtonsMethodExists) {
         //'Activate a payment method' step
         tour.addStep({
           title: AdminTourDataProvider.localized_data.PaymentMethodsActivateTitle,
@@ -108,13 +104,13 @@
       }
     }
 
-    //'PayPal Commerce' step
-    if (paypalCommerceMethodExists) {
+    //'PayPal Smart Payment Buttons' step
+    if (paypalButtonsMethodExists) {
       tour.addStep({
         title: AdminTourDataProvider.localized_data.PaymentMethodsPayPalTitle,
         text: AdminTourDataProvider.localized_data.PaymentMethodsPayPalText,
         attachTo: {
-          element: '#' + paypalCommerceMethodRowId,
+          element: '#' + paypalButtonsMethodRowId,
           on: 'bottom'
         },
         buttons: [AdminTourBackButton, AdminTourNextButton]
@@ -125,7 +121,7 @@
         title: AdminTourDataProvider.localized_data.PaymentMethodsActivateTitle,
         text: AdminTourDataProvider.localized_data.PaymentMethodsActivateText,
         attachTo: {
-          element: '#' + paypalCommerceMethodRowId + ' .column-edit .btn-default',
+          element: '#' + paypalButtonsMethodRowId + ' .column-edit .btn-default',
           on: 'bottom'
         },
         buttons: [AdminTourBackButton, AdminTourNextButton]
@@ -136,7 +132,7 @@
         title: AdminTourDataProvider.localized_data.PaymentMethodsConfigureTitle,
         text: AdminTourDataProvider.localized_data.PaymentMethodsConfigureText,
         attachTo: {
-          element: '#' + paypalCommerceMethodRowId + ' .column-configure .btn-default',
+          element: '#' + paypalButtonsMethodRowId + ' .column-configure .btn-default',
           on: 'bottom'
         },
         buttons: [AdminTourBackButton, AdminTourNextPageButton]

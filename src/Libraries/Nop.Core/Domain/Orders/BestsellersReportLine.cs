@@ -1,28 +1,31 @@
-﻿namespace Nop.Core.Domain.Orders;
+﻿using System;
 
-/// <summary>
-/// Represents a best sellers report line
-/// </summary>
-[Serializable]
-public partial class BestsellersReportLine
+namespace Nop.Core.Domain.Orders
 {
     /// <summary>
-    /// Gets or sets the product identifier
+    /// Represents a best sellers report line
     /// </summary>
-    public int ProductId { get; set; }
+    [Serializable]
+    public partial class BestsellersReportLine
+    {
+        /// <summary>
+        /// Gets or sets the product identifier
+        /// </summary>
+        public int ProductId { get; set; }
 
-    /// <summary>
-    /// Gets or sets the product name
-    /// </summary>
-    public string ProductName { get; set; }
+        /// <summary>
+        /// Gets or sets the product name
+        /// </summary>
+        public string ProductName { get; set; }
 
-    /// <summary>
-    /// Gets or sets the total amount
-    /// </summary>
-    public decimal TotalAmount { get; set; }
+        /// <summary>
+        /// Gets or sets the total amount
+        /// </summary>
+        public decimal TotalAmount { get; set; }
 
-    /// <summary>
-    /// Gets or sets the total quantity
-    /// </summary>
-    public int TotalQuantity { get; set; }
+        /// <summary>
+        /// Gets or sets the total quantity
+        /// </summary>
+        public int TotalQuantity { get; set; }
+    }
 }

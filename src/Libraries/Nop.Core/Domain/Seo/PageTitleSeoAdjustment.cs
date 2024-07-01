@@ -1,17 +1,18 @@
-﻿namespace Nop.Core.Domain.Seo;
-
-/// <summary>
-/// Represents a page title SEO adjustment
-/// </summary>
-public enum PageTitleSeoAdjustment
+﻿namespace Nop.Core.Domain.Seo
 {
     /// <summary>
-    /// Pagename comes after storename
+    /// Represents a page title SEO adjustment
     /// </summary>
-    PagenameAfterStorename = 0,
+    public enum PageTitleSeoAdjustment
+    {
+        /// <summary>
+        /// Pagename comes after storename
+        /// </summary>
+        PagenameAfterStorename = 0,
 
-    /// <summary>
-    /// Storename comes after pagename
-    /// </summary>
-    StorenameAfterPagename = 10
+        /// <summary>
+        /// Storename comes after pagename
+        /// </summary>
+        StorenameAfterPagename = 10
+    }
 }

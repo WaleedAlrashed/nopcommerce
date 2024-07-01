@@ -3,25 +3,26 @@ using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Polls;
 using Nop.Data.Extensions;
 
-namespace Nop.Data.Mapping.Builders.Polls;
-
-/// <summary>
-/// Represents a poll voting record entity builder
-/// </summary>
-public partial class PollVotingRecordBuilder : NopEntityBuilder<PollVotingRecord>
+namespace Nop.Data.Mapping.Builders.Polls
 {
-    #region Methods
-
     /// <summary>
-    /// Apply entity configuration
+    /// Represents a poll voting record entity builder
     /// </summary>
-    /// <param name="table">Create table expression builder</param>
-    public override void MapEntity(CreateTableExpressionBuilder table)
+    public partial class PollVotingRecordBuilder : NopEntityBuilder<PollVotingRecord>
     {
-        table
-            .WithColumn(nameof(PollVotingRecord.PollAnswerId)).AsInt32().ForeignKey<PollAnswer>()
-            .WithColumn(nameof(PollVotingRecord.CustomerId)).AsInt32().ForeignKey<Customer>();
-    }
+        #region Methods
 
-    #endregion
+        /// <summary>
+        /// Apply entity configuration
+        /// </summary>
+        /// <param name="table">Create table expression builder</param>
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+            table
+                .WithColumn(nameof(PollVotingRecord.PollAnswerId)).AsInt32().ForeignKey<PollAnswer>()
+                .WithColumn(nameof(PollVotingRecord.CustomerId)).AsInt32().ForeignKey<Customer>();
+        }
+
+        #endregion
+    }
 }

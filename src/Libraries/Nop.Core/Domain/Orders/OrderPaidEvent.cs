@@ -1,21 +1,22 @@
-namespace Nop.Core.Domain.Orders;
-
-/// <summary>
-/// Order paid event
-/// </summary>
-public partial class OrderPaidEvent
+namespace Nop.Core.Domain.Orders
 {
     /// <summary>
-    /// Ctor
+    /// Order paid event
     /// </summary>
-    /// <param name="order">Order</param>
-    public OrderPaidEvent(Order order)
+    public partial class OrderPaidEvent
     {
-        Order = order;
-    }
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="order">Order</param>
+        public OrderPaidEvent(Order order)
+        {
+            Order = order;
+        }
 
-    /// <summary>
-    /// Order
-    /// </summary>
-    public Order Order { get; }
+        /// <summary>
+        /// Order
+        /// </summary>
+        public Order Order { get; }
+    }
 }

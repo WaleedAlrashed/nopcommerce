@@ -1,6 +1,9 @@
 ﻿@model int
 @inject IDownloadService downloadService
+
+@using Nop.Core;
 @using Nop.Services.Media
+@using Nop.Web.Framework.UI;
 
 @{
     //other variables
@@ -16,10 +19,10 @@
 <script asp-exclude-from-bundle="true" src="~/lib_npm/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.min.js" asp-location="Footer"></script>
 
 <script>
-    $(function() {
-        $('#cbUseDownloadURL@(randomNumber)').on('click', toggleDownloadRecordType@(randomNumber));
+    $(document).ready(function () {
+        $('#cbUseDownloadURL@(randomNumber)').click(toggleDownloadRecordType@(randomNumber));
 
-        $('#saveDownloadUrl@(randomNumber)').on('click', function () {
+        $('#saveDownloadUrl@(randomNumber)').click(function () {
             var downloadUrl = $("#downloadurl@(randomNumber)").val();
             $('#saveDownloadUrl@(randomNumber)').attr('disabled', true);
 
@@ -31,7 +34,7 @@
             $.ajax({
                 cache: false,
                 type: "POST",
-                url: "@(Url.Action("SaveDownloadUrl", "Download", new { area = AreaNames.ADMIN }))",
+                url: "@(Url.Action("SaveDownloadUrl", "Download", new { area = AreaNames.Admin }))",
                 data: postData,
                 success: function (data, textStatus, jqXHR) {
                     if (data.success) {
@@ -40,11 +43,11 @@
                     }
                     else {
                         $('#saveDownloadUrlFailed-info').text(data.message);
-                        $("#saveDownloadUrlFailed").trigger("click");
+                        $("#saveDownloadUrlFailed").click();
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    $("#saveDownloadUrlAlert").trigger("click");
+                    $("#saveDownloadUrlAlert").click();
                 },
                 complete: function (jqXHR, textStatus) {
                     $('#saveDownloadUrl@(randomNumber)').attr('disabled', false);
@@ -162,10 +165,10 @@
 
                 <script>
 
-                    $(function() {
+                    $(document).ready(function () {
                         $("#@clientId").fineUploader({
                             request: {
-                                endpoint: '@(Url.Action("AsyncUpload", "Download", new { area = AreaNames.ADMIN }))'
+                                endpoint: '@(Url.Action("AsyncUpload", "Download", new { area = AreaNames.Admin }))'
                             },
                             template: "@(clientId)-qq-template",
                             multiple: false
@@ -189,7 +192,7 @@
                     <div id="@(clientId + "downloadurl")" class="float-left my-1">
                         @if (download != null)
                         {
-                            <a class='btn btn-default' href="@(Url.Action("DownloadFile", "Download", new { downloadGuid = download.DownloadGuid, area = AreaNames.ADMIN }))"><i class='fas fa-download'></i>@T("Admin.Download.DownloadUploadedFile")</a>
+                            <a class='btn btn-default' href="@(Url.Action("DownloadFile", "Download", new { downloadGuid = download.DownloadGuid, area = AreaNames.Admin }))"><i class='fas fa-download'></i>@T("Admin.Download.DownloadUploadedFile")</a>
                         }
                     </div>
                     <div class="float-left my-1">

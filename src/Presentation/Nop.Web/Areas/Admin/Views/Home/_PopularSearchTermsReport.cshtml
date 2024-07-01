@@ -1,4 +1,7 @@
-﻿@inject Nop.Services.Common.IGenericAttributeService genericAttributeService
+﻿@model PopularSearchTermSearchModel
+
+@using Nop.Core
+@inject Nop.Services.Common.IGenericAttributeService genericAttributeService
 @inject IWorkContext workContext
 @{
     const string cardId = "popular-search-terms-card";
@@ -26,22 +29,36 @@
         </div>
     </div>
     <script>
-        $(function() {
-            var collapsed = !$('#@cardId').hasClass('collapsed-card');
-            if (collapsed) {
-                $('#popularSearchTermsReport').load('@Url.Action("GetPopularSearchTerm", "Home")');
-            }
-
+        $(document).ready(function () {
             $('#@cardId').on('click', 'button[data-card-widget="collapse"]', function () {
-                collapsed = !$('#@cardId').hasClass('collapsed-card');
+                var collapsed = !$('#@cardId').hasClass('collapsed-card');
                 saveUserPreferences('@(Url.Action("SavePreference", "Preferences"))', '@hideCardAttributeName', collapsed);
-                if (!collapsed){
-                    $('#popularSearchTermsReport').load('@Url.Action("GetPopularSearchTerm", "Home")');
-                }
             });
         });
     </script>
     <div class="card-body">
-        <div id="popularSearchTermsReport"></div>
+        @await Html.PartialAsync("Table", new DataTablesModel
+        {
+            Name = "search-term-report-grid",
+            UrlRead = new DataUrl("PopularSearchTermsReport", "Common", null),
+            Length = Model.PageSize,
+            LengthMenu = Model.AvailablePageSizes,
+            Dom = "<'row'<'col-md-12't>>" +
+                  "<'row margin-t-5'" +
+                    "<'col-lg-10 col-xs-12'<'float-lg-left'p>>" +
+                    "<'col-lg-2 col-xs-12'<'float-lg-right text-center'i>>" +
+                  ">",
+            ColumnCollection = new List<ColumnProperty>
+            {
+                new ColumnProperty(nameof(PopularSearchTermModel.Keyword))
+                {
+                    Title = T("Admin.SearchTermReport.Keyword").Text
+                },
+                new ColumnProperty(nameof(PopularSearchTermModel.Count))
+                {
+                    Title = T("Admin.SearchTermReport.Count").Text
+                }
+            }
+        })
     </div>
 </div>

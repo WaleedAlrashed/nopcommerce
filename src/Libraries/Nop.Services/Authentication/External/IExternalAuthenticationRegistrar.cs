@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Authentication;
 
-namespace Nop.Services.Authentication.External;
-
-/// <summary>
-/// Interface to register (configure) an external authentication service (plugin)
-/// </summary>
-public partial interface IExternalAuthenticationRegistrar
+namespace Nop.Services.Authentication.External
 {
     /// <summary>
-    /// Configure
+    /// Interface to register (configure) an external authentication service (plugin)
     /// </summary>
-    /// <param name="builder">Authentication builder</param>
-    void Configure(AuthenticationBuilder builder);
+    public interface IExternalAuthenticationRegistrar
+    {
+        /// <summary>
+        /// Configure
+        /// </summary>
+        /// <param name="builder">Authentication builder</param>
+        void Configure(AuthenticationBuilder builder);
+    }
 }

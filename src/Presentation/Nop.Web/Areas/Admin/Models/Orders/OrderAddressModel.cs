@@ -1,24 +1,25 @@
 ﻿using Nop.Web.Areas.Admin.Models.Common;
 using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Orders;
-
-public partial record OrderAddressModel : BaseNopModel
+namespace Nop.Web.Areas.Admin.Models.Orders
 {
-    #region Ctor
-
-    public OrderAddressModel()
+    public partial record OrderAddressModel : BaseNopModel
     {
-        Address = new AddressModel();
+        #region Ctor
+
+        public OrderAddressModel()
+        {
+            Address = new AddressModel();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public int OrderId { get; set; }
+
+        public AddressModel Address { get; set; }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    public int OrderId { get; set; }
-
-    public AddressModel Address { get; set; }
-
-    #endregion
 }

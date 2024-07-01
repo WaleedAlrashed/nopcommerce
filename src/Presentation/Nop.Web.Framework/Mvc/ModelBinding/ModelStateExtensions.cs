@@ -1,40 +1,43 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Nop.Web.Framework.Mvc.ModelBinding;
-
-/// <summary>
-/// ModelState extensions
-/// </summary>
-public static class ModelStateExtensions
+namespace Nop.Web.Framework.Mvc.ModelBinding
 {
-    private static Dictionary<string, object> SerializeModelState(ModelStateEntry modelState)
+    /// <summary>
+    /// ModelState extensions
+    /// </summary>
+    public static class ModelStateExtensions
     {
-        var errors = new List<string>();
-        for (var i = 0; i < modelState.Errors.Count; i++)
+        private static Dictionary<string, object> SerializeModelState(ModelStateEntry modelState)
         {
-            var modelError = modelState.Errors[i];
-
-            if (!string.IsNullOrEmpty(modelError.ErrorMessage))
+            var errors = new List<string>();
+            for (var i = 0; i < modelState.Errors.Count; i++)
             {
-                errors.Add(modelError.ErrorMessage);
+                var modelError = modelState.Errors[i];
+
+                if (!string.IsNullOrEmpty(modelError.ErrorMessage))
+                {
+                    errors.Add(modelError.ErrorMessage);
+                }
             }
+
+            var dictionary = new Dictionary<string, object>
+            {
+                ["errors"] = errors.ToArray()
+            };
+            return dictionary;
         }
 
-        var dictionary = new Dictionary<string, object>
+        /// <summary>
+        /// Serialize errors
+        /// </summary>
+        /// <param name="modelStateDictionary">ModelStateDictionary</param>
+        /// <returns>Result</returns>
+        public static object SerializeErrors(this ModelStateDictionary modelStateDictionary)
         {
-            ["errors"] = errors.ToArray()
-        };
-        return dictionary;
-    }
-
-    /// <summary>
-    /// Serialize errors
-    /// </summary>
-    /// <param name="modelStateDictionary">ModelStateDictionary</param>
-    /// <returns>Result</returns>
-    public static object SerializeErrors(this ModelStateDictionary modelStateDictionary)
-    {
-        return modelStateDictionary.Where(entry => entry.Value.Errors.Any())
-            .ToDictionary(entry => entry.Key, entry => SerializeModelState(entry.Value));
+            return modelStateDictionary.Where(entry => entry.Value.Errors.Any())
+                .ToDictionary(entry => entry.Key, entry => SerializeModelState(entry.Value));
+        }
     }
 }

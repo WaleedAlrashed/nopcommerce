@@ -70,7 +70,7 @@
         </div>
     </div>
     <script>
-        $(function() {
+        $(document).ready(function () {
             checkEnvironmentVariables();
         });
 
@@ -80,7 +80,17 @@
             @foreach (var controlId in Model.EnvironmentVariables)
             {
                 <text>
-                $("#@controlId").after(warningElem);
+                var control = $("#@controlId");
+                var widget = kendo.widgetInstance(control);
+                if (widget)
+                {
+                    //because kendo fields have a original structure of elements, we are forced to add a warning for them in a special way
+                    control.parent().parent().after(warningElem);
+                }
+                else
+                {
+                    control.after(warningElem);
+                }
                 </text>
             }
         }

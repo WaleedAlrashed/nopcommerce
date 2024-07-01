@@ -1,22 +1,23 @@
-﻿namespace Nop.Core.Domain.Catalog;
-
-/// <summary>
-/// Represents the product URL structure type enum
-/// </summary>
-public enum ProductUrlStructureType
+﻿namespace Nop.Core.Domain.Catalog
 {
     /// <summary>
-    /// Product only (e.g. '/product-seo-name')
+    /// Represents the product URL structure type enum
     /// </summary>
-    Product = 0,
+    public enum ProductUrlStructureType
+    {
+        /// <summary>
+        /// Product only (e.g. '/product-seo-name')
+        /// </summary>
+        Product = 0,
 
-    /// <summary>
-    /// Category (the most nested), then product (e.g. '/category-seo-name/product-seo-name')
-    /// </summary>
-    CategoryProduct = 10,
+        /// <summary>
+        /// Category (the most nested), then product (e.g. '/category-seo-name/product-seo-name')
+        /// </summary>
+        CategoryProduct = 10,
 
-    /// <summary>
-    /// Manufacturer, then product (e.g. '/manufacturer-seo-name/product-seo-name')
-    /// </summary>
-    ManufacturerProduct = 20
+        /// <summary>
+        /// Manufacturer, then product (e.g. '/manufacturer-seo-name/product-seo-name')
+        /// </summary>
+        ManufacturerProduct = 20
+    }
 }

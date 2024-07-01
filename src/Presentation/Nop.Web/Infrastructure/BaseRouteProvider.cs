@@ -3,31 +3,32 @@ using Nop.Core.Infrastructure;
 using Nop.Data;
 using Nop.Web.Framework.Mvc.Routing;
 
-namespace Nop.Web.Infrastructure;
-
-/// <summary>
-/// Represents base provider
-/// </summary>
-public partial class BaseRouteProvider
+namespace Nop.Web.Infrastructure
 {
     /// <summary>
-    /// Get pattern used to detect routes with language code
+    /// Represents base provider
     /// </summary>
-    /// <returns></returns>
-    protected string GetLanguageRoutePattern()
+    public partial class BaseRouteProvider
     {
-        if (DataSettingsManager.IsDatabaseInstalled())
+        /// <summary>
+        /// Get pattern used to detect routes with language code
+        /// </summary>
+        /// <returns></returns>
+        protected string GetLanguageRoutePattern()
         {
-            var localizationSettings = EngineContext.Current.Resolve<LocalizationSettings>();
-            if (localizationSettings.SeoFriendlyUrlsForLanguagesEnabled)
+            if (DataSettingsManager.IsDatabaseInstalled())
             {
-                //this pattern is set once at the application start, when we don't have the selected language yet
-                //so we use 'en' by default for the language value, later it'll be replaced with the working language code
-                var code = "en";
-                return $"{{{NopRoutingDefaults.RouteValue.Language}:maxlength(2):{NopRoutingDefaults.LanguageParameterTransformer}={code}}}";
+                var localizationSettings = EngineContext.Current.Resolve<LocalizationSettings>();
+                if (localizationSettings.SeoFriendlyUrlsForLanguagesEnabled)
+                {
+                    //this pattern is set once at the application start, when we don't have the selected language yet
+                    //so we use 'en' by default for the language value, later it'll be replaced with the working language code
+                    var code = "en";
+                    return $"{{{NopRoutingDefaults.RouteValue.Language}:maxlength(2):{NopRoutingDefaults.LanguageParameterTransformer}={code}}}";
+                }
             }
-        }
 
-        return string.Empty;
+            return string.Empty;
+        }
     }
 }

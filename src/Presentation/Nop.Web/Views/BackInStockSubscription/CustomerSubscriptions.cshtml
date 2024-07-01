@@ -20,14 +20,13 @@
         <h1>@T("Account.MyAccount") - @T("Account.BackInStockSubscriptions")</h1>
     </div>
     <div class="page-body">
-        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.CustomerBackInStockSubscriptionsTop, additionalData = Model })
         @if (Model.Subscriptions.Count > 0)
         {
             <div class="description">
                 @T("Account.BackInStockSubscriptions.Description")
             </div>
             <script asp-location="Footer">
-                $(function() {
+                $(document).ready(function () {
                     $('#selectall').on('click', function () {
                         $('.subscription-list .rowcheckbox').prop('checked', $(this).is(':checked')).trigger('change');
                     });
@@ -94,6 +93,5 @@
                 @T("Account.BackInStockSubscriptions.NoSubscriptions")
             </div>
         }
-        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.CustomerBackInStockSubscriptionsBottom, additionalData = Model })
     </div>
 </div>

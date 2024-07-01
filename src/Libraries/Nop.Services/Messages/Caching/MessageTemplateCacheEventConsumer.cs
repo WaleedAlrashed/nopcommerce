@@ -1,20 +1,22 @@
 ﻿using Nop.Core.Domain.Messages;
 using Nop.Services.Caching;
+using System.Threading.Tasks;
 
-namespace Nop.Services.Messages.Caching;
-
-/// <summary>
-/// Represents a message template cache event consumer
-/// </summary>
-public partial class MessageTemplateCacheEventConsumer : CacheEventConsumer<MessageTemplate>
+namespace Nop.Services.Messages.Caching
 {
     /// <summary>
-    /// Clear cache data
+    /// Represents a message template cache event consumer
     /// </summary>
-    /// <param name="entity">Entity</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected override async Task ClearCacheAsync(MessageTemplate entity)
+    public partial class MessageTemplateCacheEventConsumer : CacheEventConsumer<MessageTemplate>
     {
-        await RemoveByPrefixAsync(NopMessageDefaults.MessageTemplatesByNamePrefix, entity.Name);
+        /// <summary>
+        /// Clear cache data
+        /// </summary>
+        /// <param name="entity">Entity</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        protected override async Task ClearCacheAsync(MessageTemplate entity)
+        {
+            await RemoveByPrefixAsync(NopMessageDefaults.MessageTemplatesByNamePrefix, entity.Name);
+        }
     }
 }

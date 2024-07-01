@@ -1,28 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class PollBlockViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly IPollModelFactory _pollModelFactory;
-
-    public PollBlockViewComponent(IPollModelFactory pollModelFactory)
+    public partial class PollBlockViewComponent : NopViewComponent
     {
-        _pollModelFactory = pollModelFactory;
-    }
+        private readonly IPollModelFactory _pollModelFactory;
 
-    public async Task<IViewComponentResult> InvokeAsync(string systemKeyword)
-    {
+        public PollBlockViewComponent(IPollModelFactory pollModelFactory)
+        {
+            _pollModelFactory = pollModelFactory;
+        }
 
-        if (string.IsNullOrWhiteSpace(systemKeyword))
-            return Content("");
+        public async Task<IViewComponentResult> InvokeAsync(string systemKeyword)
+        {
 
-        var model = await _pollModelFactory.PreparePollModelBySystemNameAsync(systemKeyword);
-        if (model == null)
-            return Content("");
+            if (string.IsNullOrWhiteSpace(systemKeyword))
+                return Content("");
 
-        return View(model);
+            var model = await _pollModelFactory.PreparePollModelBySystemNameAsync(systemKeyword);
+            if (model == null)
+                return Content("");
+
+            return View(model);
+        }
     }
 }

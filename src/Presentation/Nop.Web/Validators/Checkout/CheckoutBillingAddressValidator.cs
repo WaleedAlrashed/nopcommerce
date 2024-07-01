@@ -6,15 +6,16 @@ using Nop.Services.Localization;
 using Nop.Web.Models.Checkout;
 using Nop.Web.Validators.Common;
 
-namespace Nop.Web.Validators.Checkout;
-
-public partial class CheckoutBillingAddressValidator : AbstractValidator<CheckoutBillingAddressModel>
+namespace Nop.Web.Validators.Checkout
 {
-    public CheckoutBillingAddressValidator(ILocalizationService localizationService,
-        IStateProvinceService stateProvinceService,
-        AddressSettings addressSettings,
-        CustomerSettings customerSettings)
+    public partial class CheckoutBillingAddressValidator : AbstractValidator<CheckoutBillingAddressModel>
     {
-        RuleFor(billingAddress => billingAddress.BillingNewAddress).SetValidator(new AddressValidator(localizationService, stateProvinceService, addressSettings, customerSettings));
+        public CheckoutBillingAddressValidator(ILocalizationService localizationService,
+            IStateProvinceService stateProvinceService,
+            AddressSettings addressSettings,
+            CustomerSettings customerSettings)
+        {
+            RuleFor(billingAddress => billingAddress.BillingNewAddress).SetValidator(new AddressValidator(localizationService, stateProvinceService, addressSettings, customerSettings));
+        }
     }
 }

@@ -53,7 +53,7 @@
 
     <div class="card card-default">
         <script>
-            $(function() {
+            $(document).ready(function () {
                 $("#@Html.IdFor(model => model.AddOrderNoteHasDownload)").change(toggleAddOrderNoteHasDownload);
                 toggleAddOrderNoteHasDownload();
             });
@@ -118,7 +118,7 @@
 </div>
 
 <script>
-    $(function() {
+    $(document).ready(function () {
         $('#addOrderNote').click(function() {
             var orderNoteMessage = $("#@Html.IdFor(model => model.AddOrderNoteMessage)").val();
             var orderNoteDownloadId = 0;

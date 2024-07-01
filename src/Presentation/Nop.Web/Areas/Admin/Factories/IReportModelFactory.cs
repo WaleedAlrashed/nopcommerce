@@ -1,173 +1,175 @@
-﻿using Nop.Web.Areas.Admin.Models.Reports;
+﻿using System.Threading.Tasks;
+using Nop.Web.Areas.Admin.Models.Reports;
 
-namespace Nop.Web.Areas.Admin.Factories;
-
-/// <summary>
-/// Represents the report model factory
-/// </summary>
-public partial interface IReportModelFactory
+namespace Nop.Web.Areas.Admin.Factories
 {
-    #region Sales summary
-
     /// <summary>
-    /// Prepare sales summary search model
+    /// Represents the report model factory
     /// </summary>
-    /// <param name="searchModel">Sales summary search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the sales summary search model
-    /// </returns>
-    Task<SalesSummarySearchModel> PrepareSalesSummarySearchModelAsync(SalesSummarySearchModel searchModel);
+    public partial interface IReportModelFactory
+    {
+        #region Sales summary
 
-    /// <summary>
-    /// Prepare sales summary list model
-    /// </summary>
-    /// <param name="searchModel">Sales summary search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the sales summary list model
-    /// </returns>
-    Task<SalesSummaryListModel> PrepareSalesSummaryListModelAsync(SalesSummarySearchModel searchModel);
+        /// <summary>
+        /// Prepare sales summary search model
+        /// </summary>
+        /// <param name="searchModel">Sales summary search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the sales summary search model
+        /// </returns>
+        Task<SalesSummarySearchModel> PrepareSalesSummarySearchModelAsync(SalesSummarySearchModel searchModel);
 
-    #endregion
+        /// <summary>
+        /// Prepare sales summary list model
+        /// </summary>
+        /// <param name="searchModel">Sales summary search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the sales summary list model
+        /// </returns>
+        Task<SalesSummaryListModel> PrepareSalesSummaryListModelAsync(SalesSummarySearchModel searchModel);
 
-    #region LowStockProduct
+        #endregion
 
-    /// <summary>
-    /// Prepare low stock product search model
-    /// </summary>
-    /// <param name="searchModel">Low stock product search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the low stock product search model
-    /// </returns>
-    Task<LowStockProductSearchModel> PrepareLowStockProductSearchModelAsync(LowStockProductSearchModel searchModel);
+        #region LowStockProduct
 
-    /// <summary>
-    /// Prepare paged low stock product list model
-    /// </summary>
-    /// <param name="searchModel">Low stock product search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the low stock product list model
-    /// </returns>
-    Task<LowStockProductListModel> PrepareLowStockProductListModelAsync(LowStockProductSearchModel searchModel);
+        /// <summary>
+        /// Prepare low stock product search model
+        /// </summary>
+        /// <param name="searchModel">Low stock product search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the low stock product search model
+        /// </returns>
+        Task<LowStockProductSearchModel> PrepareLowStockProductSearchModelAsync(LowStockProductSearchModel searchModel);
 
-    #endregion
+        /// <summary>
+        /// Prepare paged low stock product list model
+        /// </summary>
+        /// <param name="searchModel">Low stock product search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the low stock product list model
+        /// </returns>
+        Task<LowStockProductListModel> PrepareLowStockProductListModelAsync(LowStockProductSearchModel searchModel);
 
-    #region Bestseller
+        #endregion
 
-    /// <summary>
-    /// Prepare bestseller search model
-    /// </summary>
-    /// <param name="searchModel">Bestseller search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the bestseller search model
-    /// </returns>
-    Task<BestsellerSearchModel> PrepareBestsellerSearchModelAsync(BestsellerSearchModel searchModel);
+        #region Bestseller
 
-    /// <summary>
-    /// Prepare paged bestseller list model
-    /// </summary>
-    /// <param name="searchModel">Bestseller search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the bestseller list model
-    /// </returns>
-    Task<BestsellerListModel> PrepareBestsellerListModelAsync(BestsellerSearchModel searchModel);
+        /// <summary>
+        /// Prepare bestseller search model
+        /// </summary>
+        /// <param name="searchModel">Bestseller search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the bestseller search model
+        /// </returns>
+        Task<BestsellerSearchModel> PrepareBestsellerSearchModelAsync(BestsellerSearchModel searchModel);
 
-    /// <summary>
-    /// Get bestsellers total amount
-    /// </summary>
-    /// <param name="searchModel">Bestseller search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the bestseller total amount
-    /// </returns>
-    Task<string> GetBestsellerTotalAmountAsync(BestsellerSearchModel searchModel);
+        /// <summary>
+        /// Prepare paged bestseller list model
+        /// </summary>
+        /// <param name="searchModel">Bestseller search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the bestseller list model
+        /// </returns>
+        Task<BestsellerListModel> PrepareBestsellerListModelAsync(BestsellerSearchModel searchModel);
 
-    #endregion
+        /// <summary>
+        /// Get bestsellers total amount
+        /// </summary>
+        /// <param name="searchModel">Bestseller search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the bestseller total amount
+        /// </returns>
+        Task<string> GetBestsellerTotalAmountAsync(BestsellerSearchModel searchModel);
 
-    #region NeverSold
+        #endregion
 
-    /// <summary>
-    /// Prepare never sold report search model
-    /// </summary>
-    /// <param name="searchModel">Never sold report search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the never sold report search model
-    /// </returns>
-    Task<NeverSoldReportSearchModel> PrepareNeverSoldSearchModelAsync(NeverSoldReportSearchModel searchModel);
+        #region NeverSold
 
-    /// <summary>
-    /// Prepare paged never sold report list model
-    /// </summary>
-    /// <param name="searchModel">Never sold report search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the never sold report list model
-    /// </returns>
-    Task<NeverSoldReportListModel> PrepareNeverSoldListModelAsync(NeverSoldReportSearchModel searchModel);
+        /// <summary>
+        /// Prepare never sold report search model
+        /// </summary>
+        /// <param name="searchModel">Never sold report search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the never sold report search model
+        /// </returns>
+        Task<NeverSoldReportSearchModel> PrepareNeverSoldSearchModelAsync(NeverSoldReportSearchModel searchModel);
 
-    #endregion
+        /// <summary>
+        /// Prepare paged never sold report list model
+        /// </summary>
+        /// <param name="searchModel">Never sold report search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the never sold report list model
+        /// </returns>
+        Task<NeverSoldReportListModel> PrepareNeverSoldListModelAsync(NeverSoldReportSearchModel searchModel);
 
-    #region Country sales
+        #endregion
 
-    /// <summary>
-    /// Prepare country report search model
-    /// </summary>
-    /// <param name="searchModel">Country report search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the country report search model
-    /// </returns>
-    Task<CountryReportSearchModel> PrepareCountrySalesSearchModelAsync(CountryReportSearchModel searchModel);
+        #region Country sales
 
-    /// <summary>
-    /// Prepare paged country report list model
-    /// </summary>
-    /// <param name="searchModel">Country report search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the country report list model
-    /// </returns>
-    Task<CountryReportListModel> PrepareCountrySalesListModelAsync(CountryReportSearchModel searchModel);
+        /// <summary>
+        /// Prepare country report search model
+        /// </summary>
+        /// <param name="searchModel">Country report search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the country report search model
+        /// </returns>
+        Task<CountryReportSearchModel> PrepareCountrySalesSearchModelAsync(CountryReportSearchModel searchModel);
 
-    #endregion
+        /// <summary>
+        /// Prepare paged country report list model
+        /// </summary>
+        /// <param name="searchModel">Country report search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the country report list model
+        /// </returns>
+        Task<CountryReportListModel> PrepareCountrySalesListModelAsync(CountryReportSearchModel searchModel);
 
-    #region Customer reports
+        #endregion
 
-    /// <summary>
-    /// Prepare customer reports search model
-    /// </summary>
-    /// <param name="searchModel">Customer reports search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the customer reports search model
-    /// </returns>
-    Task<CustomerReportsSearchModel> PrepareCustomerReportsSearchModelAsync(CustomerReportsSearchModel searchModel);
+        #region Customer reports
 
-    /// <summary>
-    /// Prepare paged best customers report list modelSearchModel searchModel
-    /// </summary>
-    /// <param name="searchModel">Best customers report search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the best customers report list model
-    /// </returns>
-    Task<BestCustomersReportListModel> PrepareBestCustomersReportListModelAsync(BestCustomersReportSearchModel searchModel);
+        /// <summary>
+        /// Prepare customer reports search model
+        /// </summary>
+        /// <param name="searchModel">Customer reports search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the customer reports search model
+        /// </returns>
+        Task<CustomerReportsSearchModel> PrepareCustomerReportsSearchModelAsync(CustomerReportsSearchModel searchModel);
 
-    /// <summary>
-    /// Prepare paged registered customers report list model
-    /// </summary>
-    /// <param name="searchModel">Registered customers report search model</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the registered customers report list model
-    /// </returns>
-    Task<RegisteredCustomersReportListModel> PrepareRegisteredCustomersReportListModelAsync(RegisteredCustomersReportSearchModel searchModel);
+        /// <summary>
+        /// Prepare paged best customers report list modelSearchModel searchModel
+        /// </summary>
+        /// <param name="searchModel">Best customers report search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the best customers report list model
+        /// </returns>
+        Task<BestCustomersReportListModel> PrepareBestCustomersReportListModelAsync(BestCustomersReportSearchModel searchModel);
 
-    #endregion
+        /// <summary>
+        /// Prepare paged registered customers report list model
+        /// </summary>
+        /// <param name="searchModel">Registered customers report search model</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the registered customers report list model
+        /// </returns>
+        Task<RegisteredCustomersReportListModel> PrepareRegisteredCustomersReportListModelAsync(RegisteredCustomersReportSearchModel searchModel);
+
+        #endregion
+    }
 }

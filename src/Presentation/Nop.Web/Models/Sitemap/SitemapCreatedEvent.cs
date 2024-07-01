@@ -1,25 +1,28 @@
-﻿namespace Nop.Web.Models.Sitemap;
+﻿using System.Collections.Generic;
 
-/// <summary>
-/// Represents an event that occurs when the sitemap is created
-/// </summary>
-public partial class SitemapCreatedEvent
+namespace Nop.Web.Models.Sitemap
 {
-    #region Ctor
-
-    public SitemapCreatedEvent(IList<SitemapUrlModel> sitemapUrls)
-    {
-        SitemapUrls = sitemapUrls ?? new List<SitemapUrlModel>();
-    }
-
-    #endregion
-
-    #region Properties
-
     /// <summary>
-    /// Gets a list of sitemap URLs
+    /// Represents an event that occurs when the sitemap is created
     /// </summary>
-    public IList<SitemapUrlModel> SitemapUrls { get; }
+    public partial class SitemapCreatedEvent
+    {
+        #region Ctor
 
-    #endregion
+        public SitemapCreatedEvent(IList<SitemapUrlModel> sitemapUrls)
+        {
+            SitemapUrls = sitemapUrls ?? new List<SitemapUrlModel>();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets a list of sitemap URLs
+        /// </summary>
+        public IList<SitemapUrlModel> SitemapUrls { get; }
+
+        #endregion
+    }
 }

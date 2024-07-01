@@ -1,19 +1,22 @@
-﻿namespace Nop.Web.Framework.Menu;
+﻿using System.Threading.Tasks;
 
-/// <summary>
-/// XML sitemap interface
-/// </summary>
-public partial interface IXmlSiteMap
+namespace Nop.Web.Framework.Menu
 {
     /// <summary>
-    /// Root node
+    /// XML sitemap interface
     /// </summary>
-    SiteMapNode RootNode { get; set; }
+    public partial interface IXmlSiteMap
+    {
+        /// <summary>
+        /// Root node
+        /// </summary>
+        SiteMapNode RootNode { get; set; }
 
-    /// <summary>
-    /// Load sitemap
-    /// </summary>
-    /// <param name="physicalPath">Filepath to load a sitemap</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    Task LoadFromAsync(string physicalPath);
+        /// <summary>
+        /// Load sitemap
+        /// </summary>
+        /// <param name="physicalPath">Filepath to load a sitemap</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        Task LoadFromAsync(string physicalPath);
+    }
 }

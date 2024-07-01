@@ -1,18 +1,20 @@
-﻿using Nop.Core.Domain.Catalog;
+﻿using System.Threading.Tasks;
+using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Discounts;
 using Nop.Services.Caching;
 
-namespace Nop.Services.Discounts.Caching;
-
-/// <summary>
-/// Represents a discount-product mapping cache event consumer
-/// </summary>
-public partial class DiscountProductMappingCacheEventConsumer : CacheEventConsumer<DiscountProductMapping>
+namespace Nop.Services.Discounts.Caching
 {
-    protected override async Task ClearCacheAsync(DiscountProductMapping entity)
+    /// <summary>
+    /// Represents a discount-product mapping cache event consumer
+    /// </summary>
+    public partial class DiscountProductMappingCacheEventConsumer : CacheEventConsumer<DiscountProductMapping>
     {
-        await RemoveAsync(NopDiscountDefaults.AppliedDiscountsCacheKey, nameof(Product), entity.EntityId);
+        protected override async Task ClearCacheAsync(DiscountProductMapping entity)
+        {
+            await RemoveAsync(NopDiscountDefaults.AppliedDiscountsCacheKey, nameof(Product), entity.EntityId);
 
-        await base.ClearCacheAsync(entity);
+            await base.ClearCacheAsync(entity);
+        }
     }
 }

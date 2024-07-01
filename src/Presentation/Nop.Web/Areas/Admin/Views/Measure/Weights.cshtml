@@ -76,10 +76,10 @@
 
             function markAsPrimaryWeight(id) {
                 selectedId = id;
-                $("#btnMarkAsPrimaryWeight").trigger("click");
+                $("#btnMarkAsPrimaryWeight").click();
             };
 
-            $(function() {
+            $(document).ready(function () {
                 $("#btnMarkAsPrimaryWeight-action-confirmation-submit-button").bind("click", function () {
                     var postData = {
                         id: selectedId
@@ -94,7 +94,7 @@
                             updateTable('#measureweight-grid');
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            $("#markAsPrimaryWeightAlert").trigger("click");
+                            $("#markAsPrimaryWeightAlert").click();
                         }
                     });
                     $('#btnMarkAsPrimaryWeight-action-confirmation').modal('toggle');
@@ -150,16 +150,13 @@
                 </div>
             </div>
             <script>
-                $(function() {
+                $(document).ready(function () {
                     $('#addMeasureWeight').click(function () {
                         $('#addMeasureWeight').attr('disabled', true);
-
-                        var ratio = $("#@Html.IdFor(model => model.AddMeasureWeight.Ratio)").val();
-
                         var postData = {
                             Name: $("#@Html.IdFor(model => model.AddMeasureWeight.Name)").val(),
                             SystemKeyword: $("#@Html.IdFor(model => model.AddMeasureWeight.SystemKeyword)").val(),
-                            Ratio: new Intl.NumberFormat("@CultureInfo.CurrentUICulture.Name", { minimumFractionDigits: 10 }).format(ratio),
+                            Ratio: $("#@Html.IdFor(model => model.AddMeasureWeight.Ratio)").val(),
                             DisplayOrder: $("#@Html.IdFor(model => model.AddMeasureWeight.DisplayOrder)").val()
                         };
                         addAntiForgeryToken(postData);
@@ -177,8 +174,8 @@
                                     //clear input value
                                     $("#@Html.IdFor(model => model.AddMeasureWeight.Name)").val('');
                                     $("#@Html.IdFor(model => model.AddMeasureWeight.SystemKeyword)").val('');
-                                    $("#@Html.IdFor(model => model.AddMeasureWeight.Ratio)").val(0);
-                                    $("#@Html.IdFor(model => model.AddMeasureWeight.DisplayOrder)").val(0);
+                                    $("#@Html.IdFor(model => model.AddMeasureWeight.Ratio)").data("kendoNumericTextBox").value(0);
+                                    $("#@Html.IdFor(model => model.AddMeasureWeight.DisplayOrder)").data("kendoNumericTextBox").value(0);
 
                                 } else {
                                     //display errors if returned

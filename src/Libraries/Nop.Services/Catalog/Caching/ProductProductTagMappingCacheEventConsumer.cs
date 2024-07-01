@@ -1,20 +1,22 @@
-﻿using Nop.Core.Domain.Catalog;
+﻿using System.Threading.Tasks;
+using Nop.Core.Domain.Catalog;
 using Nop.Services.Caching;
 
-namespace Nop.Services.Catalog.Caching;
-
-/// <summary>
-/// Represents a product-product tag mapping  cache event consumer
-/// </summary>
-public partial class ProductProductTagMappingCacheEventConsumer : CacheEventConsumer<ProductProductTagMapping>
+namespace Nop.Services.Catalog.Caching
 {
     /// <summary>
-    /// Clear cache data
+    /// Represents a product-product tag mapping  cache event consumer
     /// </summary>
-    /// <param name="entity">Entity</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected override async Task ClearCacheAsync(ProductProductTagMapping entity)
+    public partial class ProductProductTagMappingCacheEventConsumer : CacheEventConsumer<ProductProductTagMapping>
     {
-        await RemoveAsync(NopCatalogDefaults.ProductTagsByProductCacheKey, entity.ProductId);
+        /// <summary>
+        /// Clear cache data
+        /// </summary>
+        /// <param name="entity">Entity</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        protected override async Task ClearCacheAsync(ProductProductTagMapping entity)
+        {
+            await RemoveAsync(NopCatalogDefaults.ProductTagsByProductCacheKey, entity.ProductId);
+        }
     }
 }

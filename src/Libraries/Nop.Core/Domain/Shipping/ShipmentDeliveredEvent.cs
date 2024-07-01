@@ -1,21 +1,22 @@
-namespace Nop.Core.Domain.Shipping;
-
-/// <summary>
-/// Shipment delivered event
-/// </summary>
-public partial class ShipmentDeliveredEvent
+namespace Nop.Core.Domain.Shipping
 {
     /// <summary>
-    /// Ctor
+    /// Shipment delivered event
     /// </summary>
-    /// <param name="shipment">Shipment</param>
-    public ShipmentDeliveredEvent(Shipment shipment)
+    public partial class ShipmentDeliveredEvent
     {
-        Shipment = shipment;
-    }
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="shipment">Shipment</param>
+        public ShipmentDeliveredEvent(Shipment shipment)
+        {
+            Shipment = shipment;
+        }
 
-    /// <summary>
-    /// Shipment
-    /// </summary>
-    public Shipment Shipment { get; }
+        /// <summary>
+        /// Shipment
+        /// </summary>
+        public Shipment Shipment { get; }
+    }
 }

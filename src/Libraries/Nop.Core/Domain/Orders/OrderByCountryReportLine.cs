@@ -1,22 +1,23 @@
-namespace Nop.Core.Domain.Orders;
-
-/// <summary>
-/// Represents an "order by country" report line
-/// </summary>
-public partial class OrderByCountryReportLine
+namespace Nop.Core.Domain.Orders
 {
     /// <summary>
-    /// Country identifier; null for unknown country
+    /// Represents an "order by country" report line
     /// </summary>
-    public int? CountryId { get; set; }
+    public partial class OrderByCountryReportLine
+    {
+        /// <summary>
+        /// Country identifier; null for unknown country
+        /// </summary>
+        public int? CountryId { get; set; }
 
-    /// <summary>
-    /// Gets or sets the number of orders
-    /// </summary>
-    public int TotalOrders { get; set; }
+        /// <summary>
+        /// Gets or sets the number of orders
+        /// </summary>
+        public int TotalOrders { get; set; }
 
-    /// <summary>
-    /// Gets or sets the order total summary
-    /// </summary>
-    public decimal SumOrders { get; set; }
+        /// <summary>
+        /// Gets or sets the order total summary
+        /// </summary>
+        public decimal SumOrders { get; set; }
+    }
 }

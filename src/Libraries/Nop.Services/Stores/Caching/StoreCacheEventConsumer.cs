@@ -3,22 +3,24 @@ using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Stores;
 using Nop.Services.Caching;
 using Nop.Services.Localization;
+using System.Threading.Tasks;
 
-namespace Nop.Services.Stores.Caching;
-
-/// <summary>
-/// Represents a store cache event consumer
-/// </summary>
-public partial class StoreCacheEventConsumer : CacheEventConsumer<Store>
+namespace Nop.Services.Stores.Caching
 {
     /// <summary>
-    /// Clear cache data
+    /// Represents a store cache event consumer
     /// </summary>
-    /// <param name="entity">Entity</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected override async Task ClearCacheAsync(Store entity)
+    public partial class StoreCacheEventConsumer : CacheEventConsumer<Store>
     {
-        await RemoveByPrefixAsync(NopEntityCacheDefaults<ShoppingCartItem>.AllPrefix);
-        await RemoveByPrefixAsync(NopLocalizationDefaults.LanguagesByStorePrefix, entity);
+        /// <summary>
+        /// Clear cache data
+        /// </summary>
+        /// <param name="entity">Entity</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        protected override async Task ClearCacheAsync(Store entity)
+        {
+            await RemoveByPrefixAsync(NopEntityCacheDefaults<ShoppingCartItem>.AllPrefix);
+            await RemoveByPrefixAsync(NopLocalizationDefaults.LanguagesByStorePrefix, entity);
+        }
     }
 }

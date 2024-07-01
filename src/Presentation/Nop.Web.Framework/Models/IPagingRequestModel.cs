@@ -1,18 +1,19 @@
 ﻿
-namespace Nop.Web.Framework.Models;
-
-/// <summary>
-/// Represents a paging request model
-/// </summary>
-public partial interface IPagingRequestModel
+namespace Nop.Web.Framework.Models
 {
     /// <summary>
-    /// Gets a page number
+    /// Represents a paging request model
     /// </summary>
-    int Page { get; }
+    public partial interface IPagingRequestModel
+    {
+        /// <summary>
+        /// Gets a page number
+        /// </summary>
+        int Page { get; }
 
-    /// <summary>
-    /// Gets a page size
-    /// </summary>
-    int PageSize { get; }
+        /// <summary>
+        /// Gets a page size
+        /// </summary>
+        int PageSize { get; }
+    }
 }

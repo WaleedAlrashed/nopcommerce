@@ -1,17 +1,18 @@
-﻿namespace Nop.Core.Domain.Security;
-
-/// <summary>
-/// Represents a permission record-customer role mapping class
-/// </summary>
-public partial class PermissionRecordCustomerRoleMapping : BaseEntity
+﻿namespace Nop.Core.Domain.Security
 {
     /// <summary>
-    /// Gets or sets the permission record identifier
+    /// Represents a permission record-customer role mapping class
     /// </summary>
-    public int PermissionRecordId { get; set; }
+    public partial class PermissionRecordCustomerRoleMapping : BaseEntity
+    {
+        /// <summary>
+        /// Gets or sets the permission record identifier
+        /// </summary>
+        public int PermissionRecordId { get; set; }
 
-    /// <summary>
-    /// Gets or sets the customer role identifier
-    /// </summary>
-    public int CustomerRoleId { get; set; }
+        /// <summary>
+        /// Gets or sets the customer role identifier
+        /// </summary>
+        public int CustomerRoleId { get; set; }
+    }
 }

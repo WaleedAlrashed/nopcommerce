@@ -1,13 +1,14 @@
 ﻿
-namespace Nop.Web.Framework.Mvc.ModelBinding;
-
-/// <summary>
-/// Represents custom model attribute
-/// </summary>
-public partial interface IModelAttribute
+namespace Nop.Web.Framework.Mvc.ModelBinding
 {
     /// <summary>
-    /// Gets name of the attribute
+    /// Represents custom model attribute
     /// </summary>
-    string Name { get; }
+    public partial interface IModelAttribute
+    {
+        /// <summary>
+        /// Gets name of the attribute
+        /// </summary>
+        string Name { get; }
+    }
 }

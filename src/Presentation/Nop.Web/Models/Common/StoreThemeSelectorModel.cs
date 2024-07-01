@@ -1,15 +1,17 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Common;
-
-public partial record StoreThemeSelectorModel : BaseNopModel
+namespace Nop.Web.Models.Common
 {
-    public StoreThemeSelectorModel()
+    public partial record StoreThemeSelectorModel : BaseNopModel
     {
-        AvailableStoreThemes = new List<StoreThemeModel>();
+        public StoreThemeSelectorModel()
+        {
+            AvailableStoreThemes = new List<StoreThemeModel>();
+        }
+
+        public IList<StoreThemeModel> AvailableStoreThemes { get; set; }
+
+        public StoreThemeModel CurrentStoreTheme { get; set; }
     }
-
-    public IList<StoreThemeModel> AvailableStoreThemes { get; set; }
-
-    public StoreThemeModel CurrentStoreTheme { get; set; }
 }

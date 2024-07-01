@@ -1,17 +1,18 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Directory;
-
-/// <summary>
-/// Represents a currency exchange rate model
-/// </summary>
-public partial record CurrencyExchangeRateModel : BaseNopModel
+namespace Nop.Web.Areas.Admin.Models.Directory
 {
-    #region Properties
+    /// <summary>
+    /// Represents a currency exchange rate model
+    /// </summary>
+    public partial record CurrencyExchangeRateModel : BaseNopModel
+    {
+        #region Properties
 
-    public string CurrencyCode { get; set; }
+        public string CurrencyCode { get; set; }
 
-    public decimal Rate { get; set; }
+        public decimal Rate { get; set; }
 
-    #endregion
+        #endregion
+    }
 }

@@ -3,15 +3,14 @@ using Nop.Services.Localization;
 using Nop.Web.Areas.Admin.Models.Messages;
 using Nop.Web.Framework.Validators;
 
-namespace Nop.Web.Areas.Admin.Validators.Messages;
-
-public partial class TestMessageTemplateValidator : BaseNopValidator<TestMessageTemplateModel>
+namespace Nop.Web.Areas.Admin.Validators.Messages
 {
-    public TestMessageTemplateValidator(ILocalizationService localizationService)
+    public partial class TestMessageTemplateValidator : BaseNopValidator<TestMessageTemplateModel>
     {
-        RuleFor(x => x.SendTo).NotEmpty();
-        RuleFor(x => x.SendTo)
-            .IsEmailAddress()
-            .WithMessageAwait(localizationService.GetResourceAsync("Admin.Common.WrongEmail"));
+        public TestMessageTemplateValidator(ILocalizationService localizationService)
+        {
+            RuleFor(x => x.SendTo).NotEmpty();
+            RuleFor(x => x.SendTo).EmailAddress().WithMessageAwait(localizationService.GetResourceAsync("Admin.Common.WrongEmail"));
+        }
     }
 }

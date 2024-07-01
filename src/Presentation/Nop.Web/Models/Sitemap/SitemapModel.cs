@@ -1,35 +1,37 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Sitemap;
-
-public partial record SitemapModel : BaseNopModel
+namespace Nop.Web.Models.Sitemap
 {
-    #region Ctor
-
-    public SitemapModel()
+    public partial record SitemapModel : BaseNopModel
     {
-        Items = new List<SitemapItemModel>();
-        PageModel = new SitemapPageModel();
+        #region Ctor
+
+        public SitemapModel()
+        {
+            Items = new List<SitemapItemModel>();
+            PageModel = new SitemapPageModel();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public List<SitemapItemModel> Items { get; set; }
+
+        public SitemapPageModel PageModel { get; set; }
+
+        #endregion
+
+        #region Nested classes
+
+        public partial record SitemapItemModel
+        {
+            public string GroupTitle { get; set; }
+            public string Url { get; set; }
+            public string Name { get; set; }
+        }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    public List<SitemapItemModel> Items { get; set; }
-
-    public SitemapPageModel PageModel { get; set; }
-
-    #endregion
-
-    #region Nested classes
-
-    public partial record SitemapItemModel
-    {
-        public string GroupTitle { get; set; }
-        public string Url { get; set; }
-        public string Name { get; set; }
-    }
-
-    #endregion
 }

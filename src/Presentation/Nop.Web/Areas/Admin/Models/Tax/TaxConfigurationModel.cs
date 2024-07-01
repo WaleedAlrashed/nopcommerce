@@ -1,27 +1,28 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Tax;
-
-/// <summary>
-/// Represents a tax configuration model
-/// </summary>
-public partial record TaxConfigurationModel : BaseNopModel
+namespace Nop.Web.Areas.Admin.Models.Tax
 {
-    #region Ctor
-
-    public TaxConfigurationModel()
+    /// <summary>
+    /// Represents a tax configuration model
+    /// </summary>
+    public partial record TaxConfigurationModel : BaseNopModel
     {
-        TaxProviders = new TaxProviderSearchModel();
-        TaxCategories = new TaxCategorySearchModel();
+        #region Ctor
+
+        public TaxConfigurationModel()
+        {
+            TaxProviders = new TaxProviderSearchModel();
+            TaxCategories = new TaxCategorySearchModel();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public TaxProviderSearchModel TaxProviders { get; set; }
+
+        public TaxCategorySearchModel TaxCategories { get; set; }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    public TaxProviderSearchModel TaxProviders { get; set; }
-
-    public TaxCategorySearchModel TaxCategories { get; set; }
-
-    #endregion
 }

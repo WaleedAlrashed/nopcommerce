@@ -40,7 +40,7 @@
         </button>
         <button type="submit" id="btnRefreshManufacturers" style="display: none"></button>
         <script>
-            $(function() {
+            $(document).ready(function () {
                 $('#btnRefreshManufacturers').click(function () {
                     //refresh grid
                     updateTable('#manufacturers-grid');

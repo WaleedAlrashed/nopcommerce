@@ -1,70 +1,73 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Services.Catalog;
 using Nop.Services.Security;
 
-namespace Nop.Web.Areas.Admin.Controllers;
-
-public partial class SearchCompleteController : BaseAdminController
+namespace Nop.Web.Areas.Admin.Controllers
 {
-    #region Fields
-
-    protected readonly IPermissionService _permissionService;
-    protected readonly IProductService _productService;
-    protected readonly IWorkContext _workContext;
-
-    #endregion
-
-    #region Ctor
-
-    public SearchCompleteController(
-        IPermissionService permissionService,
-        IProductService productService,
-        IWorkContext workContext)
+    public partial class SearchCompleteController : BaseAdminController
     {
-        _permissionService = permissionService;
-        _productService = productService;
-        _workContext = workContext;
-    }
+        #region Fields
 
-    #endregion
+        private readonly IPermissionService _permissionService;
+        private readonly IProductService _productService;
+        private readonly IWorkContext _workContext;
 
-    #region Methods
+        #endregion
 
-    public virtual async Task<IActionResult> SearchAutoComplete(string term)
-    {
-        if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.AccessAdminPanel))
-            return Content(string.Empty);
+        #region Ctor
 
-        const int searchTermMinimumLength = 3;
-        if (string.IsNullOrWhiteSpace(term) || term.Length < searchTermMinimumLength)
-            return Content(string.Empty);
-
-        //a vendor should have access only to his products
-        var currentVendor = await _workContext.GetCurrentVendorAsync();
-        var vendorId = 0;
-        if (currentVendor != null)
+        public SearchCompleteController(
+            IPermissionService permissionService,
+            IProductService productService,
+            IWorkContext workContext)
         {
-            vendorId = currentVendor.Id;
+            _permissionService = permissionService;
+            _productService = productService;
+            _workContext = workContext;
         }
 
-        //products
-        const int productNumber = 15;
-        var products = await _productService.SearchProductsAsync(0,
-            vendorId: vendorId,
-            keywords: term,
-            pageSize: productNumber,
-            showHidden: true);
+        #endregion
 
-        var result = (from p in products
-            select new
+        #region Methods
+
+        public virtual async Task<IActionResult> SearchAutoComplete(string term)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.AccessAdminPanel))
+                return Content(string.Empty);
+
+            const int searchTermMinimumLength = 3;
+            if (string.IsNullOrWhiteSpace(term) || term.Length < searchTermMinimumLength)
+                return Content(string.Empty);
+
+            //a vendor should have access only to his products
+            var currentVendor = await _workContext.GetCurrentVendorAsync();
+            var vendorId = 0;
+            if (currentVendor != null)
             {
-                label = p.Name,
-                productid = p.Id
-            }).ToList();
+                vendorId = currentVendor.Id;
+            }
 
-        return Json(result);
+            //products
+            const int productNumber = 15;
+            var products = await _productService.SearchProductsAsync(0,
+                vendorId: vendorId,
+                keywords: term,
+                pageSize: productNumber,
+                showHidden: true);
+
+            var result = (from p in products
+                            select new
+                            {
+                                label = p.Name,
+                                productid = p.Id
+                            }).ToList();
+
+            return Json(result);
+        }
+
+        #endregion
     }
-
-    #endregion
 }

@@ -1,4 +1,4 @@
-﻿$(function() {
+﻿$(document).ready(function () {
   const tour = new Shepherd.Tour(AdminTourCommonTourOptions);
 
   //'Title and content' step

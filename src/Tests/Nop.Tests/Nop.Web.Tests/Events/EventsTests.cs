@@ -1,42 +1,45 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Nop.Core.Events;
 using Nop.Services.Events;
 using NUnit.Framework;
 
-namespace Nop.Tests.Nop.Web.Tests.Events;
-
-[TestFixture]
-public class EventsTests : BaseNopTest
+namespace Nop.Tests.Nop.Web.Tests.Events
 {
-    private IEventPublisher _eventPublisher;
-
-    [OneTimeSetUp]
-    public void SetUp()
+    [TestFixture]
+    public class EventsTests : BaseNopTest
     {
-        _eventPublisher = GetService<IEventPublisher>();
-    }
+        private IEventPublisher _eventPublisher;
 
-    [Test]
-    public async Task CanPublishEvent()
-    {
-        var oldDateTime = DateTime.Now.Subtract(TimeSpan.FromDays(7));
-        DateTimeConsumer.DateTime = oldDateTime;
-
-        var newDateTime = DateTime.Now.Subtract(TimeSpan.FromDays(5));
-        await _eventPublisher.PublishAsync(newDateTime);
-        newDateTime.Should().Be(DateTimeConsumer.DateTime);
-    }
-
-    public class DateTimeConsumer : IConsumer<DateTime>
-    {
-        public Task HandleEventAsync(DateTime eventMessage)
+        [OneTimeSetUp]
+        public void SetUp()
         {
-            DateTime = eventMessage;
-
-            return Task.CompletedTask;
+            _eventPublisher = GetService<IEventPublisher>();
         }
 
-        // For testing
-        public static DateTime DateTime { get; set; }
+        [Test]
+        public async Task CanPublishEvent()
+        {
+            var oldDateTime = DateTime.Now.Subtract(TimeSpan.FromDays(7));
+            DateTimeConsumer.DateTime = oldDateTime;
+
+            var newDateTime = DateTime.Now.Subtract(TimeSpan.FromDays(5));
+            await _eventPublisher.PublishAsync(newDateTime);
+            newDateTime.Should().Be(DateTimeConsumer.DateTime);
+        }
+
+        public class DateTimeConsumer : IConsumer<DateTime>
+        {
+            public Task HandleEventAsync(DateTime eventMessage)
+            {
+                DateTime = eventMessage;
+
+                return Task.CompletedTask;
+            }
+
+            // For testing
+            public static DateTime DateTime { get; set; }
+        }
     }
 }

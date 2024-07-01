@@ -1,17 +1,18 @@
-﻿namespace Nop.Core.Domain.Forums;
-
-/// <summary>
-/// Represents an editor type
-/// </summary>
-public enum EditorType
+﻿namespace Nop.Core.Domain.Forums
 {
     /// <summary>
-    /// Simple text box
+    /// Represents an editor type
     /// </summary>
-    SimpleTextBox = 10,
+    public enum EditorType
+    {
+        /// <summary>
+        /// Simple text box
+        /// </summary>
+        SimpleTextBox = 10,
 
-    /// <summary>
-    /// BB code editor
-    /// </summary>
-    BBCodeEditor = 20
+        /// <summary>
+        /// BB code editor
+        /// </summary>
+        BBCodeEditor = 20
+    }
 }

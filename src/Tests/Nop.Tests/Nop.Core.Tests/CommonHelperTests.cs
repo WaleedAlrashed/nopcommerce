@@ -2,15 +2,16 @@
 using Nop.Core;
 using NUnit.Framework;
 
-namespace Nop.Tests.Nop.Core.Tests;
-
-[TestFixture]
-public class CommonHelperTests
+namespace Nop.Tests.Nop.Core.Tests
 {
-    [Test]
-    public void CanGetTypedValue()
+    [TestFixture]
+    public class CommonHelperTests
     {
-        CommonHelper.To<int>("1000").Should().BeOfType(typeof(int));
-        CommonHelper.To<int>("1000").Should().Be(1000);
+        [Test]
+        public void CanGetTypedValue()
+        {
+            CommonHelper.To<int>("1000").Should().BeOfType(typeof(int));
+            CommonHelper.To<int>("1000").Should().Be(1000);
+        }
     }
 }

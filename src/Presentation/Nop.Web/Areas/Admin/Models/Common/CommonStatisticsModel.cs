@@ -1,14 +1,15 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Common;
-
-public partial record CommonStatisticsModel : BaseNopModel
+namespace Nop.Web.Areas.Admin.Models.Common
 {
-    public int NumberOfOrders { get; set; }
+    public partial record CommonStatisticsModel : BaseNopModel
+    {
+        public int NumberOfOrders { get; set; }
 
-    public int NumberOfCustomers { get; set; }
+        public int NumberOfCustomers { get; set; }
 
-    public int NumberOfPendingReturnRequests { get; set; }
+        public int NumberOfPendingReturnRequests { get; set; }
 
-    public int NumberOfLowStockProducts { get; set; }
+        public int NumberOfLowStockProducts { get; set; }
+    }
 }

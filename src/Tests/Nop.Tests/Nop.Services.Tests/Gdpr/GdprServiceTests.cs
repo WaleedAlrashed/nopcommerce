@@ -1,33 +1,35 @@
-﻿using Nop.Core.Domain.Gdpr;
+﻿using System.Threading.Tasks;
+using Nop.Core.Domain.Gdpr;
 using Nop.Services.Gdpr;
 using NUnit.Framework;
 
-namespace Nop.Tests.Nop.Services.Tests.Gdpr;
-
-[TestFixture]
-public class GdprServiceTests : BaseNopTest
+namespace Nop.Tests.Nop.Services.Tests.Gdpr
 {
-    private IGdprService _gdprService;
-
-    [OneTimeSetUp]
-    public void SetUp()
+    [TestFixture]
+    public class GdprServiceTests : BaseNopTest
     {
-        _gdprService = GetService<IGdprService>();
-    }
+        private IGdprService _gdprService;
 
-    [Test]
-    public async Task TestCrud()
-    {
-        var insertItem = new GdprConsent
+        [OneTimeSetUp]
+        public void SetUp()
         {
-            Message = "Test message"
-        };
+            _gdprService = GetService<IGdprService>();
+        }
 
-        var updateItem = new GdprConsent
+        [Test]
+        public async Task TestCrud()
         {
-            Message = "Update test message"
-        };
+            var insertItem = new GdprConsent
+            {
+                Message = "Test message"
+            };
 
-        await TestCrud(insertItem, _gdprService.InsertConsentAsync, updateItem, _gdprService.UpdateConsentAsync, _gdprService.GetConsentByIdAsync, (item, other) => item.Message.Equals(other.Message), _gdprService.DeleteConsentAsync);
+            var updateItem = new GdprConsent
+            {
+                Message = "Update test message"
+            };
+
+            await TestCrud(insertItem, _gdprService.InsertConsentAsync, updateItem, _gdprService.UpdateConsentAsync, _gdprService.GetConsentByIdAsync, (item, other) => item.Message.Equals(other.Message), _gdprService.DeleteConsentAsync);
+        }
     }
 }

@@ -1,46 +1,54 @@
-﻿using Nop.Core.Domain.Messages;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Nop.Core.Domain.Messages;
 using Nop.Services.Messages;
 using NUnit.Framework;
 
-namespace Nop.Tests.Nop.Services.Tests.Messages;
-
-[TestFixture]
-public class EmailAccountServiceTests : BaseNopTest
+namespace Nop.Tests.Nop.Services.Tests.Messages
 {
-    private IEmailAccountService _emailAccountService;
-
-    [OneTimeSetUp]
-    public void SetUp()
+    [TestFixture]
+    public class EmailAccountServiceTests : BaseNopTest
     {
-        _emailAccountService = GetService<IEmailAccountService>();
-    }
+        private IEmailAccountService _emailAccountService;
 
-    [Test]
-    public async Task TestCrud()
-    {
-        var insertItem = new EmailAccount
+        [OneTimeSetUp]
+        public void SetUp()
         {
-            Email = "test@test.com",
-            DisplayName = "Test name",
-            Host = "smtp.test.com",
-            Port = 25,
-            Username = "test_user",
-            Password = "test_password",
-            EnableSsl = false
-        };
+            _emailAccountService = GetService<IEmailAccountService>();
+        }
 
-        var updateItem = new EmailAccount
+        [Test]
+        public async Task TestCrud()
         {
-            Email = "test@test.com",
-            DisplayName = "Test name",
-            Host = "smtp.test.com",
-            Port = 430,
-            Username = "test_user",
-            Password = "test_password",
-            EnableSsl = true
-        };
+            var insertItem = new EmailAccount
+            {
+                Email = "test@test.com",
+                DisplayName = "Test name",
+                Host = "smtp.test.com",
+                Port = 25,
+                Username = "test_user",
+                Password = "test_password",
+                EnableSsl = false,
+                UseDefaultCredentials = false
+            };
 
-        await TestCrud(insertItem, _emailAccountService.InsertEmailAccountAsync, updateItem, _emailAccountService.UpdateEmailAccountAsync, _emailAccountService.GetEmailAccountByIdAsync, (item, other) => item.Port.Equals(other.Port) && item.EnableSsl.Equals(other.EnableSsl), _emailAccountService.DeleteEmailAccountAsync);
+            var updateItem = new EmailAccount
+            {
+                Email = "test@test.com",
+                DisplayName = "Test name",
+                Host = "smtp.test.com",
+                Port = 430,
+                Username = "test_user",
+                Password = "test_password",
+                EnableSsl = true,
+                UseDefaultCredentials = true
+            };
+
+            await TestCrud(insertItem, _emailAccountService.InsertEmailAccountAsync, updateItem, _emailAccountService.UpdateEmailAccountAsync, _emailAccountService.GetEmailAccountByIdAsync, (item, other) => item.UseDefaultCredentials.Equals(other.UseDefaultCredentials) && item.Port.Equals(other.Port) && item.EnableSsl.Equals(other.EnableSsl), _emailAccountService.DeleteEmailAccountAsync);
+        }
+
     }
-
 }

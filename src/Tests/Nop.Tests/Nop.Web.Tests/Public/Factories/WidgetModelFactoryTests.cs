@@ -1,53 +1,55 @@
-﻿using FluentAssertions;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.AspNetCore.Routing;
 using Nop.Core.Domain.Cms;
 using Nop.Services.Configuration;
 using Nop.Web.Factories;
-using Nop.Web.Framework.Factories;
 using NUnit.Framework;
 
-namespace Nop.Tests.Nop.Web.Tests.Public.Factories;
-
-[TestFixture]
-public class WidgetModelFactoryTests : WebTest
+namespace Nop.Tests.Nop.Web.Tests.Public.Factories
 {
-    private ISettingService _settingsService;
-
-    [OneTimeSetUp]
-    public async Task SetUp()
+    [TestFixture]
+    public class WidgetModelFactoryTests : WebTest
     {
-        _settingsService = GetService<ISettingService>();
+        private ISettingService _settingsService;
 
-        var widgetSettings = GetService<WidgetSettings>();
+        [OneTimeSetUp]
+        public async Task SetUp()
+        {
+            _settingsService = GetService<ISettingService>();
 
-        widgetSettings.ActiveWidgetSystemNames.Add("TestWidgetPlugin");
+            var widgetSettings = GetService<WidgetSettings>();
 
-        await _settingsService.SaveSettingAsync(widgetSettings);
-    }
+            widgetSettings.ActiveWidgetSystemNames.Add("TestWidgetPlugin");
 
-    [OneTimeTearDown]
-    public async Task TearDown()
-    {
-        var widgetSettings = GetService<WidgetSettings>();
+            await _settingsService.SaveSettingAsync(widgetSettings);
+        }
 
-        widgetSettings.ActiveWidgetSystemNames.Remove("TestWidgetPlugin");
+        [OneTimeTearDown]
+        public async Task TearDown()
+        {
+            var widgetSettings = GetService<WidgetSettings>();
 
-        await _settingsService.SaveSettingAsync(widgetSettings);
-    }
+            widgetSettings.ActiveWidgetSystemNames.Remove("TestWidgetPlugin");
 
-    [Test]
-    public async Task CanPrepareRenderWidgetModel()
-    {
-        var models = await GetService<IWidgetModelFactory>().PrepareRenderWidgetModelAsync("test widget zone");
+            await _settingsService.SaveSettingAsync(widgetSettings);
+        }
 
-        models.Any().Should().BeTrue();
+        [Test]
+        public async Task CanPrepareRenderWidgetModel()
+        {
+            var models = await GetService<IWidgetModelFactory>().PrepareRenderWidgetModelAsync("test widget zone");
 
-        var model = models[0];
+            models.Any().Should().BeTrue();
 
-        var args = model.WidgetViewComponentArguments as RouteValueDictionary;
-        args.Should().NotBeNull();
-        args.Count.Should().Be(2);
-        args["widgetZone"].Should().Be("test widget zone");
-        model.WidgetViewComponent.Should().Be(typeof(TestWidgetPlugin));
+            var model = models[0];
+
+            var args = model.WidgetViewComponentArguments as RouteValueDictionary;
+            args.Should().NotBeNull();
+            args.Count.Should().Be(2);
+            args["widgetZone"].Should().Be("test widget zone");
+            model.WidgetViewComponent.Should().Be(typeof(TestWidgetPlugin));
+        }
     }
 }

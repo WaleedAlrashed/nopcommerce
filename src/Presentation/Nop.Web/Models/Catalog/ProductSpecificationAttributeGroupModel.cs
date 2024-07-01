@@ -1,32 +1,34 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Catalog;
-
-/// <summary>
-/// Represents a grouped product specification attribute model
-/// </summary>
-public partial record ProductSpecificationAttributeGroupModel : BaseNopEntityModel
+namespace Nop.Web.Models.Catalog
 {
-    #region Properties
-
     /// <summary>
-    /// Gets or sets the specification attribute group name
+    /// Represents a grouped product specification attribute model
     /// </summary>
-    public string Name { get; set; }
-
-    /// <summary>
-    /// Gets or sets the specification attribute group attributes
-    /// </summary>
-    public IList<ProductSpecificationAttributeModel> Attributes { get; set; }
-
-    #endregion
-
-    #region Ctor
-
-    public ProductSpecificationAttributeGroupModel()
+    public partial record ProductSpecificationAttributeGroupModel : BaseNopEntityModel
     {
-        Attributes = new List<ProductSpecificationAttributeModel>();
-    }
+        #region Properties
 
-    #endregion
+        /// <summary>
+        /// Gets or sets the specification attribute group name
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the specification attribute group attributes
+        /// </summary>
+        public IList<ProductSpecificationAttributeModel> Attributes { get; set; }
+
+        #endregion
+
+        #region Ctor
+
+        public ProductSpecificationAttributeGroupModel()
+        {
+            Attributes = new List<ProductSpecificationAttributeModel>();
+        }
+
+        #endregion
+    }
 }

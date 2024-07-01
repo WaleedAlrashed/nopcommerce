@@ -1,31 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Vendors;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class VendorNavigationViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly ICatalogModelFactory _catalogModelFactory;
-    protected readonly VendorSettings _vendorSettings;
-
-    public VendorNavigationViewComponent(ICatalogModelFactory catalogModelFactory,
-        VendorSettings vendorSettings)
+    public partial class VendorNavigationViewComponent : NopViewComponent
     {
-        _catalogModelFactory = catalogModelFactory;
-        _vendorSettings = vendorSettings;
-    }
+        private readonly ICatalogModelFactory _catalogModelFactory;
+        private readonly VendorSettings _vendorSettings;
 
-    public async Task<IViewComponentResult> InvokeAsync()
-    {
-        if (_vendorSettings.VendorsBlockItemsToDisplay == 0)
-            return Content("");
+        public VendorNavigationViewComponent(ICatalogModelFactory catalogModelFactory,
+            VendorSettings vendorSettings)
+        {
+            _catalogModelFactory = catalogModelFactory;
+            _vendorSettings = vendorSettings;
+        }
 
-        var model = await _catalogModelFactory.PrepareVendorNavigationModelAsync();
-        if (!model.Vendors.Any())
-            return Content("");
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            if (_vendorSettings.VendorsBlockItemsToDisplay == 0)
+                return Content("");
 
-        return View(model);
+            var model = await _catalogModelFactory.PrepareVendorNavigationModelAsync();
+            if (!model.Vendors.Any())
+                return Content("");
+
+            return View(model);
+        }
     }
 }

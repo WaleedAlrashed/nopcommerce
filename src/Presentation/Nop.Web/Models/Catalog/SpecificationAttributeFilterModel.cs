@@ -1,32 +1,34 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Catalog;
-
-/// <summary>
-/// Represents a specification attribute filter model
-/// </summary>
-public partial record SpecificationAttributeFilterModel : BaseNopEntityModel
+namespace Nop.Web.Models.Catalog
 {
-    #region Properties
-
     /// <summary>
-    /// Gets or sets the specification attribute name
+    /// Represents a specification attribute filter model
     /// </summary>
-    public string Name { get; set; }
-
-    /// <summary>
-    /// Gets or sets the values
-    /// </summary>
-    public IList<SpecificationAttributeValueFilterModel> Values { get; set; }
-
-    #endregion
-
-    #region Ctor
-
-    public SpecificationAttributeFilterModel()
+    public partial record SpecificationAttributeFilterModel : BaseNopEntityModel
     {
-        Values = new List<SpecificationAttributeValueFilterModel>();
-    }
+        #region Properties
 
-    #endregion
+        /// <summary>
+        /// Gets or sets the specification attribute name
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the values
+        /// </summary>
+        public IList<SpecificationAttributeValueFilterModel> Values { get; set; }
+
+        #endregion
+
+        #region Ctor
+
+        public SpecificationAttributeFilterModel()
+        {
+            Values = new List<SpecificationAttributeValueFilterModel>();
+        }
+
+        #endregion
+    }
 }

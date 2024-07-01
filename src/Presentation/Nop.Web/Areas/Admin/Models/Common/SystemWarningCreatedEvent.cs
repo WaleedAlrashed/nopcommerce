@@ -1,25 +1,28 @@
-﻿namespace Nop.Web.Areas.Admin.Models.Common;
+﻿using System.Collections.Generic;
 
-/// <summary>
-/// Represents an event that occurs when system warnings are creating
-/// </summary>
-public partial class SystemWarningCreatedEvent
+namespace Nop.Web.Areas.Admin.Models.Common
 {
-    #region Ctor
-
-    public SystemWarningCreatedEvent()
-    {
-        SystemWarnings = new List<SystemWarningModel>();
-    }
-
-    #endregion
-
-    #region Properties
-
     /// <summary>
-    /// Gets a list of warnings
+    /// Represents an event that occurs when system warnings are creating
     /// </summary>
-    public IList<SystemWarningModel> SystemWarnings { get; }
+    public partial class SystemWarningCreatedEvent
+    {
+        #region Ctor
 
-    #endregion
+        public SystemWarningCreatedEvent()
+        {
+            SystemWarnings = new List<SystemWarningModel>();
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets a list of warnings
+        /// </summary>
+        public IList<SystemWarningModel> SystemWarnings { get; }
+
+        #endregion
+    }
 }

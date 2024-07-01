@@ -1,27 +1,29 @@
-﻿using Nop.Web.Areas.Admin.Models.Localization;
+﻿using System.Collections.Generic;
+using Nop.Web.Areas.Admin.Models.Localization;
 using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Common;
-
-/// <summary>
-/// Represents an admin language selector model
-/// </summary>
-public partial record LanguageSelectorModel : BaseNopModel
+namespace Nop.Web.Areas.Admin.Models.Common
 {
-    #region Ctor
-
-    public LanguageSelectorModel()
+    /// <summary>
+    /// Represents an admin language selector model
+    /// </summary>
+    public partial record LanguageSelectorModel : BaseNopModel
     {
-        AvailableLanguages = new List<LanguageModel>();
+        #region Ctor
+
+        public LanguageSelectorModel()
+        {
+            AvailableLanguages = new List<LanguageModel>();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public IList<LanguageModel> AvailableLanguages { get; set; }
+
+        public LanguageModel CurrentLanguage { get; set; }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    public IList<LanguageModel> AvailableLanguages { get; set; }
-
-    public LanguageModel CurrentLanguage { get; set; }
-
-    #endregion
 }

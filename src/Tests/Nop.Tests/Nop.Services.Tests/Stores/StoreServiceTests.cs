@@ -3,32 +3,33 @@ using Nop.Core.Domain.Stores;
 using Nop.Services.Stores;
 using NUnit.Framework;
 
-namespace Nop.Tests.Nop.Services.Tests.Stores;
-
-[TestFixture]
-public class StoreExtensionsTests : ServiceTest
+namespace Nop.Tests.Nop.Services.Tests.Stores
 {
-    private IStoreService _storeService;
-
-    [OneTimeSetUp]
-    public void SetUp()
+    [TestFixture]
+    public class StoreExtensionsTests : ServiceTest
     {
-        _storeService = GetService<IStoreService>();
-    }
+        private IStoreService _storeService;
 
-    [Test]
-    public void CanFindHostValue()
-    {
-        var store = new Store
+        [OneTimeSetUp]
+        public void SetUp()
         {
-            Hosts = "yourstore.com, www.yourstore.com, "
-        };
+            _storeService = GetService<IStoreService>();
+        }
 
-        _storeService.ContainsHostValue(store, null).Should().BeFalse();
-        _storeService.ContainsHostValue(store, string.Empty).Should().BeFalse();
-        _storeService.ContainsHostValue(store, "store.com").Should().BeFalse();
-        _storeService.ContainsHostValue(store, "yourstore.com").Should().BeTrue();
-        _storeService.ContainsHostValue(store, "yoursTore.com").Should().BeTrue();
-        _storeService.ContainsHostValue(store, "www.yourstore.com").Should().BeTrue();
+        [Test]
+        public void CanFindHostValue()
+        {
+            var store = new Store
+            {
+                Hosts = "yourstore.com, www.yourstore.com, "
+            };
+
+            _storeService.ContainsHostValue(store, null).Should().BeFalse();
+            _storeService.ContainsHostValue(store, string.Empty).Should().BeFalse();
+            _storeService.ContainsHostValue(store, "store.com").Should().BeFalse();
+            _storeService.ContainsHostValue(store, "yourstore.com").Should().BeTrue();
+            _storeService.ContainsHostValue(store, "yoursTore.com").Should().BeTrue();
+            _storeService.ContainsHostValue(store, "www.yourstore.com").Should().BeTrue();
+        }
     }
 }

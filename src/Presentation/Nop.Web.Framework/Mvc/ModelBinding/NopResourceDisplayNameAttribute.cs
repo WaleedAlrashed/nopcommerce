@@ -1,59 +1,63 @@
 ﻿using System.ComponentModel;
+using Nop.Core;
 using Nop.Core.Infrastructure;
 using Nop.Services.Localization;
 
-namespace Nop.Web.Framework.Mvc.ModelBinding;
-
-/// <summary>
-/// Represents model property attribute that specifies the display name by passed key of the locale resource
-/// </summary>
-[AttributeUsage(AttributeTargets.Property)]
-public sealed class NopResourceDisplayNameAttribute : DisplayNameAttribute, IModelAttribute
+namespace Nop.Web.Framework.Mvc.ModelBinding
 {
-    #region Fields
-
-    private string _resourceValue = string.Empty;
-
-    #endregion
-
-    #region Ctor
-
     /// <summary>
-    /// Create instance of the attribute
+    /// Represents model attribute that specifies the display name by passed key of the locale resource
     /// </summary>
-    /// <param name="resourceKey">Key of the locale resource</param>
-    public NopResourceDisplayNameAttribute(string resourceKey) : base(resourceKey)
+    public sealed class NopResourceDisplayNameAttribute : DisplayNameAttribute, IModelAttribute
     {
-        ResourceKey = resourceKey;
-    }
+        #region Fields
 
-    #endregion
+        private string _resourceValue = string.Empty;
 
-    #region Properties
+        #endregion
 
-    /// <summary>
-    /// Gets or sets key of the locale resource 
-    /// </summary>
-    public string ResourceKey { get; set; }
+        #region Ctor
 
-    /// <summary>
-    /// Gets the display name
-    /// </summary>
-    public override string DisplayName
-    {
-        get
+        /// <summary>
+        /// Create instance of the attribute
+        /// </summary>
+        /// <param name="resourceKey">Key of the locale resource</param>
+        public NopResourceDisplayNameAttribute(string resourceKey) : base(resourceKey)
         {
-            //get locale resource value
-            _resourceValue = EngineContext.Current.Resolve<ILocalizationService>().GetResourceAsync(ResourceKey).Result;
-
-            return _resourceValue;
+            ResourceKey = resourceKey;
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets key of the locale resource 
+        /// </summary>
+        public string ResourceKey { get; set; }
+
+        /// <summary>
+        /// Gets the display name
+        /// </summary>
+        public override string DisplayName
+        {
+            get
+            {
+                //get working language identifier
+                var workingLanguageId = EngineContext.Current.Resolve<IWorkContext>().GetWorkingLanguageAsync().Result.Id;
+
+                //get locale resource value
+                _resourceValue = EngineContext.Current.Resolve<ILocalizationService>().GetResourceAsync(ResourceKey, workingLanguageId, true, ResourceKey).Result;
+
+                return _resourceValue;
+            }
+        }
+
+        /// <summary>
+        /// Gets name of the attribute
+        /// </summary>
+        public string Name => nameof(NopResourceDisplayNameAttribute);
+
+        #endregion
     }
-
-    /// <summary>
-    /// Gets name of the attribute
-    /// </summary>
-    public string Name => nameof(NopResourceDisplayNameAttribute);
-
-    #endregion
 }

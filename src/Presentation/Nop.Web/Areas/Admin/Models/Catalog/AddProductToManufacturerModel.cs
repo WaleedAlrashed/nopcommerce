@@ -1,25 +1,27 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Catalog;
-
-/// <summary>
-/// Represents a product model to add to the manufacturer
-/// </summary>
-public partial record AddProductToManufacturerModel : BaseNopModel
+namespace Nop.Web.Areas.Admin.Models.Catalog
 {
-    #region Ctor
-
-    public AddProductToManufacturerModel()
+    /// <summary>
+    /// Represents a product model to add to the manufacturer
+    /// </summary>
+    public partial record AddProductToManufacturerModel : BaseNopModel
     {
-        SelectedProductIds = new List<int>();
+        #region Ctor
+
+        public AddProductToManufacturerModel()
+        {
+            SelectedProductIds = new List<int>();
+        }
+        #endregion
+
+        #region Properties
+
+        public int ManufacturerId { get; set; }
+
+        public IList<int> SelectedProductIds { get; set; }
+
+        #endregion
     }
-    #endregion
-
-    #region Properties
-
-    public int ManufacturerId { get; set; }
-
-    public IList<int> SelectedProductIds { get; set; }
-
-    #endregion
 }

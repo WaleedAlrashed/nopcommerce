@@ -1,15 +1,16 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Customers;
-
-/// <summary>
-/// Represents a customer address search model
-/// </summary>
-public partial record CustomerAddressSearchModel : BaseSearchModel
+namespace Nop.Web.Areas.Admin.Models.Customers
 {
-    #region Properties
+    /// <summary>
+    /// Represents a customer address search model
+    /// </summary>
+    public partial record CustomerAddressSearchModel : BaseSearchModel
+    {
+        #region Properties
 
-    public int CustomerId { get; set; }
+        public int CustomerId { get; set; }
 
-    #endregion
+        #endregion
+    }
 }

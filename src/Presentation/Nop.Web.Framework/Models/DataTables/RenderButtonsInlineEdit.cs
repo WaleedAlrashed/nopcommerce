@@ -1,28 +1,29 @@
-﻿namespace Nop.Web.Framework.Models.DataTables;
-
-/// <summary>
-/// Represents button render for DataTables column
-/// </summary>
-public partial class RenderButtonsInlineEdit : IRender
+﻿namespace Nop.Web.Framework.Models.DataTables
 {
-    #region Ctor
-
     /// <summary>
-    /// Initializes a new instance of the RenderButton class 
+    /// Represents button render for DataTables column
     /// </summary>
-    public RenderButtonsInlineEdit()
+    public partial class RenderButtonsInlineEdit : IRender
     {
-        ClassName = NopButtonClassDefaults.Default;
+        #region Ctor
+
+        /// <summary>
+        /// Initializes a new instance of the RenderButton class 
+        /// </summary>
+        public RenderButtonsInlineEdit()
+        {
+            ClassName = NopButtonClassDefaults.Default;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets button class name
+        /// </summary>
+        public string ClassName { get; set; }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Gets or sets button class name
-    /// </summary>
-    public string ClassName { get; set; }
-
-    #endregion
 }

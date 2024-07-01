@@ -1,22 +1,25 @@
-﻿namespace Nop.Services.ScheduleTasks;
+﻿using System.Threading.Tasks;
 
-/// <summary>
-/// Task manager interface
-/// </summary>
-public partial interface ITaskScheduler
+namespace Nop.Services.ScheduleTasks
 {
     /// <summary>
-    /// Initializes task scheduler
+    /// Task manager interface
     /// </summary>
-    Task InitializeAsync();
+    public interface ITaskScheduler
+    {
+        /// <summary>
+        /// Initializes task scheduler
+        /// </summary>
+        Task InitializeAsync();
 
-    /// <summary>
-    /// Starts the task scheduler
-    /// </summary>
-    public void StartScheduler();
+        /// <summary>
+        /// Starts the task scheduler
+        /// </summary>
+        public void StartScheduler();
 
-    /// <summary>
-    /// Stops the task scheduler
-    /// </summary>
-    public void StopScheduler();
+        /// <summary>
+        /// Stops the task scheduler
+        /// </summary>
+        public void StopScheduler();
+    }
 }

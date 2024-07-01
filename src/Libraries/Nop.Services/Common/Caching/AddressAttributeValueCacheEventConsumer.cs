@@ -1,21 +1,22 @@
-﻿using Nop.Core.Domain.Common;
-using Nop.Services.Attributes;
+﻿using System.Threading.Tasks;
+using Nop.Core.Domain.Common;
 using Nop.Services.Caching;
 
-namespace Nop.Services.Common.Caching;
-
-/// <summary>
-/// Represents a address attribute value cache event consumer
-/// </summary>
-public partial class AddressAttributeValueCacheEventConsumer : CacheEventConsumer<AddressAttributeValue>
+namespace Nop.Services.Common.Caching
 {
     /// <summary>
-    /// Clear cache data
+    /// Represents a address attribute value cache event consumer
     /// </summary>
-    /// <param name="entity">Entity</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected override async Task ClearCacheAsync(AddressAttributeValue entity)
+    public partial class AddressAttributeValueCacheEventConsumer : CacheEventConsumer<AddressAttributeValue>
     {
-        await RemoveAsync(NopAttributeDefaults.AttributeValuesByAttributeCacheKey, nameof(AddressAttribute), entity.AttributeId);
+        /// <summary>
+        /// Clear cache data
+        /// </summary>
+        /// <param name="entity">Entity</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        protected override async Task ClearCacheAsync(AddressAttributeValue entity)
+        {
+            await RemoveAsync(NopCommonDefaults.AddressAttributeValuesByAttributeCacheKey, entity.AddressAttributeId);
+        }
     }
 }

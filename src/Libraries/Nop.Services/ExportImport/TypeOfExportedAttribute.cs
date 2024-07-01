@@ -1,22 +1,23 @@
-﻿namespace Nop.Services.ExportImport;
-
-/// <summary>
-/// Represents the type of the exported attribute
-/// </summary>
-public enum ExportedAttributeType
+﻿namespace Nop.Services.ExportImport
 {
     /// <summary>
-    /// Not specified
+    /// Represents the type of the exported attribute
     /// </summary>
-    NotSpecified = 1,
+    public enum ExportedAttributeType
+    {
+        /// <summary>
+        /// Not specified
+        /// </summary>
+        NotSpecified = 1,
 
-    /// <summary>
-    /// Product attribute
-    /// </summary>
-    ProductAttribute = 10,
+        /// <summary>
+        /// Product attribute
+        /// </summary>
+        ProductAttribute = 10,
 
-    /// <summary>
-    /// Specification attribute
-    /// </summary>
-    SpecificationAttribute = 20
+        /// <summary>
+        /// Specification attribute
+        /// </summary>
+        SpecificationAttribute = 20
+    }
 }

@@ -1,17 +1,18 @@
-namespace Nop.Core.Domain.Catalog;
-
-/// <summary>
-/// Represents a gift card type
-/// </summary>
-public enum GiftCardType
+namespace Nop.Core.Domain.Catalog
 {
     /// <summary>
-    /// Virtual
+    /// Represents a gift card type
     /// </summary>
-    Virtual = 0,
+    public enum GiftCardType
+    {
+        /// <summary>
+        /// Virtual
+        /// </summary>
+        Virtual = 0,
 
-    /// <summary>
-    /// Physical
-    /// </summary>
-    Physical = 1,
+        /// <summary>
+        /// Physical
+        /// </summary>
+        Physical = 1,
+    }
 }

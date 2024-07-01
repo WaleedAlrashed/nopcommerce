@@ -1,23 +1,24 @@
 ﻿using Microsoft.AspNetCore.Html;
 
-namespace Nop.Web.Framework.Localization;
-
-/// <summary>
-/// Localized string
-/// </summary>
-public partial class LocalizedString : HtmlString
+namespace Nop.Web.Framework.Localization
 {
     /// <summary>
-    /// Ctor
+    /// Localized string
     /// </summary>
-    /// <param name="localized">Localized value</param>
-    public LocalizedString(string localized) : base(localized)
+    public partial class LocalizedString : HtmlString
     {
-        Text = localized;
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="localized">Localized value</param>
+        public LocalizedString(string localized): base (localized)
+        {
+            Text = localized;
+        }
+        
+        /// <summary>
+        /// Text
+        /// </summary>
+        public string Text { get; }
     }
-
-    /// <summary>
-    /// Text
-    /// </summary>
-    public string Text { get; }
 }

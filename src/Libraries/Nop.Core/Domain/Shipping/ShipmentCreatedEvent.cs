@@ -1,25 +1,26 @@
-﻿namespace Nop.Core.Domain.Shipping;
-
-/// <summary>
-/// Shipment created event
-/// </summary>
-public partial class ShipmentCreatedEvent
+﻿namespace Nop.Core.Domain.Shipping
 {
-    #region Ctor
-
-    public ShipmentCreatedEvent(Shipment shipment)
-    {
-        Shipment = shipment;
-    }
-
-    #endregion
-
-    #region Properties
-
     /// <summary>
-    /// Gets the shipment
+    /// Shipment created event
     /// </summary>
-    public Shipment Shipment { get; }
+    public partial class ShipmentCreatedEvent
+    {
+        #region Ctor
 
-    #endregion
+        public ShipmentCreatedEvent(Shipment shipment)
+        {
+            Shipment = shipment;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the shipment
+        /// </summary>
+        public Shipment Shipment { get; }
+
+        #endregion
+    }
 }

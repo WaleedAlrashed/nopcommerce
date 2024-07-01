@@ -1,37 +1,35 @@
-﻿using MailKit;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using MailKit;
 using MailKit.Net.Smtp;
 using MimeKit;
 using Nop.Core.Domain.Messages;
-using Nop.Core.Infrastructure;
-using Nop.Services.Localization;
 using Nop.Services.Messages;
 
-namespace Nop.Tests;
-
-public class TestSmtpBuilder : SmtpBuilder
+namespace Nop.Tests
 {
-    public TestSmtpBuilder(EmailAccountSettings emailAccountSettings, 
-        IEmailAccountService emailAccountService,
-        ILocalizationService localizationService,
-        INopFileProvider fileProvider) : base(emailAccountSettings, emailAccountService, localizationService, fileProvider)
+    public class TestSmtpBuilder : SmtpBuilder
     {
-    }
-
-    public override Task<SmtpClient> BuildAsync(EmailAccount emailAccount = null)
-    {
-        return Task.FromResult<SmtpClient>(new TestSmtpClient());
-    }
-
-    public class TestSmtpClient : SmtpClient
-    {
-        public override Task<string> SendAsync(MimeMessage message,
-            CancellationToken cancellationToken = default,
-            ITransferProgress progress = null)
+        public TestSmtpBuilder(EmailAccountSettings emailAccountSettings, IEmailAccountService emailAccountService) : base(emailAccountSettings, emailAccountService)
         {
-            MessageIsSent = true;
-            return Task.FromResult(string.Empty);
         }
 
-        public static bool MessageIsSent { get; set; }
+        public override Task<SmtpClient> BuildAsync(EmailAccount emailAccount = null)
+        {
+            return Task.FromResult<SmtpClient>(new TestSmtpClient());
+        }
+
+        public class TestSmtpClient : SmtpClient
+        {
+            public override Task<string> SendAsync(MimeMessage message,
+                CancellationToken cancellationToken = default,
+                ITransferProgress progress = null)
+            {
+                MessageIsSent = true;
+                return Task.FromResult(string.Empty);
+            }
+
+            public static bool MessageIsSent { get; set; }
+        }
     }
 }

@@ -1,23 +1,24 @@
 ﻿using FluentMigrator.Builders.Create.Table;
 using Nop.Core.Domain.Orders;
 
-namespace Nop.Data.Mapping.Builders.Orders;
-
-/// <summary>
-/// Represents a return request reason entity builder
-/// </summary>
-public partial class ReturnRequestReasonBuilder : NopEntityBuilder<ReturnRequestReason>
+namespace Nop.Data.Mapping.Builders.Orders
 {
-    #region Methods
-
     /// <summary>
-    /// Apply entity configuration
+    /// Represents a return request reason entity builder
     /// </summary>
-    /// <param name="table">Create table expression builder</param>
-    public override void MapEntity(CreateTableExpressionBuilder table)
+    public partial class ReturnRequestReasonBuilder : NopEntityBuilder<ReturnRequestReason>
     {
-        table.WithColumn(nameof(ReturnRequestReason.Name)).AsString(400).NotNullable();
-    }
+        #region Methods
 
-    #endregion
+        /// <summary>
+        /// Apply entity configuration
+        /// </summary>
+        /// <param name="table">Create table expression builder</param>
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+            table.WithColumn(nameof(ReturnRequestReason.Name)).AsString(400).NotNullable();
+        }
+
+        #endregion
+    }
 }

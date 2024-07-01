@@ -1,50 +1,57 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Nop.Core.Http.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Nop.Web.Framework.Mvc.ModelBinding.Binders;
-
-/// <summary>
-/// Represents model binder for CustomProperties
-/// </summary>
-public partial class CustomPropertiesModelBinder : IModelBinder
+namespace Nop.Web.Framework.Mvc.ModelBinding.Binders
 {
-    async Task IModelBinder.BindModelAsync(ModelBindingContext bindingContext)
+    /// <summary>
+    /// Represents model binder for CustomProperties
+    /// </summary>
+    public class CustomPropertiesModelBinder : IModelBinder
     {
-        ArgumentNullException.ThrowIfNull(bindingContext);
-
-        var modelName = bindingContext.ModelName;
-
-        var result = new Dictionary<string, string>();
-        var request = bindingContext.HttpContext.Request;
-
-        if (request.IsPostRequest() && request.HasFormContentType )
+        Task IModelBinder.BindModelAsync(ModelBindingContext bindingContext)
         {
-            var form = await request.ReadFormAsync();
+            if (bindingContext == null)
+                throw new ArgumentNullException(nameof(bindingContext));
 
-            foreach (var item in form.Where(x => x.Key.IndexOf(modelName, StringComparison.Ordinal) == 0))
-            {
-                var dicKey = item.Key.Replace(modelName + "[", "").Replace("]", "");
-                result.Add(dicKey, item.Value.ToString());
-            }
-        }
+            var modelName = bindingContext.ModelName;
 
-        if (bindingContext.HttpContext.Request.Method == "GET")
-        {
-            var queryStringValue = bindingContext.HttpContext.Request.QueryString.Value;
-            if (!string.IsNullOrEmpty(queryStringValue))
+            var result = new Dictionary<string, string>();
+            if (bindingContext.HttpContext.Request.Method == "POST")
             {
-                var keys = queryStringValue.TrimStart('?').Split('&').Where(x => x.StartsWith(modelName)).ToList();
+                var keys = bindingContext.HttpContext.Request.Form.Keys
+                    .Where(x => x.IndexOf(modelName, StringComparison.Ordinal) == 0).ToList();
 
                 foreach (var key in keys)
                 {
-                    var dicKey = key[(key.IndexOf('[') + 1)..key.IndexOf(']')];
-                    var value = key[(key.IndexOf('=') + 1)..];
-
-                    result.Add(dicKey, value);
+                    var dicKey = key.Replace(modelName + "[", "").Replace("]", "");
+                    bindingContext.HttpContext.Request.Form.TryGetValue(key, out var value);
+                    result.Add(dicKey, value.ToString());
                 }
             }
-        }
 
-        bindingContext.Result = ModelBindingResult.Success(result);
+            if (bindingContext.HttpContext.Request.Method == "GET")
+            {
+                var queryStringValue = bindingContext.HttpContext.Request.QueryString.Value;
+                if (!string.IsNullOrEmpty(queryStringValue))
+                {
+                    var keys = queryStringValue.TrimStart('?').Split('&').Where(x => x.StartsWith(modelName)).ToList();
+
+                    foreach (var key in keys)
+                    {
+                        var dicKey = key[(key.IndexOf("[", StringComparison.Ordinal) + 1)..key.IndexOf("]", StringComparison.Ordinal)];
+                        var value = key[(key.IndexOf("=", StringComparison.Ordinal) + 1)..];
+
+                        result.Add(dicKey, value);
+                    }
+                }
+            }
+
+            bindingContext.Result = ModelBindingResult.Success(result);
+            
+            return Task.CompletedTask;
+        }
     }
 }

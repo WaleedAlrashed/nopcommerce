@@ -6,15 +6,16 @@ using Nop.Services.Localization;
 using Nop.Web.Models.Customer;
 using Nop.Web.Validators.Common;
 
-namespace Nop.Web.Validators.Customer;
-
-public partial class CustomerAddressEditValidator : AbstractValidator<CustomerAddressEditModel>
+namespace Nop.Web.Validators.Customer
 {
-    public CustomerAddressEditValidator(ILocalizationService localizationService,
-        IStateProvinceService stateProvinceService,
-        AddressSettings addressSettings,
-        CustomerSettings customerSettings)
+    public partial class CustomerAddressEditValidator : AbstractValidator<CustomerAddressEditModel>
     {
-        RuleFor(model => model.Address).SetValidator(new AddressValidator(localizationService, stateProvinceService, addressSettings, customerSettings));
+        public CustomerAddressEditValidator(ILocalizationService localizationService,
+            IStateProvinceService stateProvinceService,
+            AddressSettings addressSettings,
+            CustomerSettings customerSettings)
+        {
+            RuleFor(model => model.Address).SetValidator(new AddressValidator(localizationService, stateProvinceService, addressSettings, customerSettings));
+        }
     }
 }

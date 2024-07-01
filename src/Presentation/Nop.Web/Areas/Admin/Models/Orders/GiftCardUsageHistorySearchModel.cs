@@ -1,15 +1,16 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Orders;
-
-/// <summary>
-/// Represents a gift card usage history search model
-/// </summary>
-public partial record GiftCardUsageHistorySearchModel : BaseSearchModel
+namespace Nop.Web.Areas.Admin.Models.Orders
 {
-    #region Properties
+    /// <summary>
+    /// Represents a gift card usage history search model
+    /// </summary>
+    public partial record GiftCardUsageHistorySearchModel : BaseSearchModel
+    {
+        #region Properties
 
-    public int GiftCardId { get; set; }
+        public int GiftCardId { get; set; }
 
-    #endregion
+        #endregion
+    }
 }

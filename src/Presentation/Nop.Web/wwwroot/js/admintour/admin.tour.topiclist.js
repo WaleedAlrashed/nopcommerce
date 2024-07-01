@@ -1,4 +1,4 @@
-﻿$(function() {
+﻿$(document).ready(function () {
   $('#topics-grid').on('draw.dt', function () {
     const tour = new Shepherd.Tour(AdminTourCommonTourOptions);
 

@@ -1,24 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class ForumActiveDiscussionsSmallViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly IForumModelFactory _forumModelFactory;
-
-    public ForumActiveDiscussionsSmallViewComponent(IForumModelFactory forumModelFactory)
+    public partial class ForumActiveDiscussionsSmallViewComponent : NopViewComponent
     {
-        _forumModelFactory = forumModelFactory;
-    }
+        private readonly IForumModelFactory _forumModelFactory;
 
-    public async Task<IViewComponentResult> InvokeAsync()
-    {
-        var model = await _forumModelFactory.PrepareActiveDiscussionsModelAsync();
-        if (!model.ForumTopics.Any())
-            return Content("");
+        public ForumActiveDiscussionsSmallViewComponent(IForumModelFactory forumModelFactory)
+        {
+            _forumModelFactory = forumModelFactory;
+        }
 
-        return View(model);
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var model = await _forumModelFactory.PrepareActiveDiscussionsModelAsync();
+            if (!model.ForumTopics.Any())
+                return Content("");
+
+            return View(model);
+        }
     }
 }

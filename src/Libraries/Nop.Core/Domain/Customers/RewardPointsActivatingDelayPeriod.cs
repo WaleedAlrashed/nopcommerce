@@ -1,17 +1,18 @@
-﻿namespace Nop.Core.Domain.Customers;
-
-/// <summary>
-/// Represents the period of delay
-/// </summary>
-public enum RewardPointsActivatingDelayPeriod
+﻿namespace Nop.Core.Domain.Customers
 {
     /// <summary>
-    /// Hours
+    /// Represents the period of delay
     /// </summary>
-    Hours = 0,
+    public enum RewardPointsActivatingDelayPeriod
+    {
+        /// <summary>
+        /// Hours
+        /// </summary>
+        Hours = 0,
 
-    /// <summary>
-    /// Days
-    /// </summary>
-    Days = 1
+        /// <summary>
+        /// Days
+        /// </summary>
+        Days = 1
+    }
 }

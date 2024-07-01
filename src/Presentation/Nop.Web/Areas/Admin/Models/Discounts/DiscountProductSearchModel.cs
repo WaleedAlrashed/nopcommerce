@@ -1,15 +1,16 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Discounts;
-
-/// <summary>
-/// Represents a discount product search model
-/// </summary>
-public partial record DiscountProductSearchModel : BaseSearchModel
+namespace Nop.Web.Areas.Admin.Models.Discounts
 {
-    #region Properties
+    /// <summary>
+    /// Represents a discount product search model
+    /// </summary>
+    public partial record DiscountProductSearchModel : BaseSearchModel
+    {
+        #region Properties
 
-    public int DiscountId { get; set; }
+        public int DiscountId { get; set; }
 
-    #endregion
+        #endregion
+    }
 }

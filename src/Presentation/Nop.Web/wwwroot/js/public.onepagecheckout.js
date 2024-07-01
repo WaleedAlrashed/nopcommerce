@@ -127,7 +127,7 @@ var Billing = {
       $('#billing-new-address-form').show();
       $('#edit-billing-address-button').hide();
       $('#delete-billing-address-button').hide();
-    } else {      
+    } else {
       $('#billing-new-address-form').hide();
       $('#edit-billing-address-button').show();
       $('#delete-billing-address-button').show();
@@ -136,11 +136,6 @@ var Billing = {
     Billing.initializeCountrySelect();
   },
 
-  setDefaultCountry: function (defaultCountry) {
-    $('#opc-billing select[data-trigger="country-select"] option[value="' + defaultCountry + '"]').prop('selected', true);
-    $('#opc-billing select[data-trigger="country-select"] option:selected').change()
-  },
-  
   resetSelectedAddress: function() {
     var selectElement = $('#billing-address-select');
     if (selectElement) {
@@ -705,16 +700,14 @@ var PaymentInfo = {
 
 
 var ConfirmOrder = {
-    form: false,    
+    form: false,
     saveUrl: false,
     isSuccess: false,
     isCaptchaEnabled: false,
     isReCaptchaV3: false,
     recaptchaPublicKey: "",
-    div: false,
 
-  init: function (saveUrl, successUrl, isCaptchaEnabled, isReCaptchaV3, recaptchaPublicKey, div) {
-        this.div = div;
+    init: function (saveUrl, successUrl, isCaptchaEnabled, isReCaptchaV3, recaptchaPublicKey) {
         this.saveUrl = saveUrl;
         this.successUrl = successUrl;
         this.isCaptchaEnabled = isCaptchaEnabled;
@@ -768,11 +761,12 @@ var ConfirmOrder = {
                     recaptchaToken = token;
                 });
             });
-            while (recaptchaToken == '') {
-              await new Promise(t => setTimeout(t, 100));
-            }
         } else {
-          recaptchaToken = $(this.div).find('.captcha-box textarea[name="g-recaptcha-response"]').val();
+            recaptchaToken = grecaptcha.getResponse();
+        }
+
+        while (recaptchaToken == '') {
+            await new Promise(t => setTimeout(t, 100));
         }
 
         return recaptchaToken;

@@ -1,35 +1,38 @@
-﻿namespace Nop.Core.Domain.Messages;
+﻿using System.Collections.Generic;
 
-/// <summary>
-/// Event for "Additional tokens added"
-/// </summary>
-public partial class AdditionalTokensAddedEvent
+namespace Nop.Core.Domain.Messages
 {
-    public AdditionalTokensAddedEvent()
-    {
-        AdditionalTokens = new List<string>();
-    }
-
     /// <summary>
-    /// Add tokens
+    /// Event for "Additional tokens added"
     /// </summary>
-    /// <param name="additionalTokens">Additional tokens</param>
-    public void AddTokens(params string[] additionalTokens)
+    public partial class AdditionalTokensAddedEvent
     {
-        foreach (var additionalToken in additionalTokens)
+        public AdditionalTokensAddedEvent()
         {
-            AdditionalTokens.Add(additionalToken);
+            AdditionalTokens = new List<string>();
         }
+
+        /// <summary>
+        /// Add tokens
+        /// </summary>
+        /// <param name="additionalTokens">Additional tokens</param>
+        public void AddTokens(params string[] additionalTokens)
+        {
+            foreach (var additionalToken in additionalTokens)
+            {
+                AdditionalTokens.Add(additionalToken);
+            }
+        }
+
+        /// <summary>
+        /// Additional tokens
+        /// </summary>
+        public IList<string> AdditionalTokens { get; }
+
+
+        /// <summary>
+        /// Token groups which can be used to filter the AdditionalTokens
+        /// </summary>
+        public IEnumerable<string> TokenGroups { get; set; }
     }
-
-    /// <summary>
-    /// Additional tokens
-    /// </summary>
-    public IList<string> AdditionalTokens { get; }
-
-
-    /// <summary>
-    /// Token groups which can be used to filter the AdditionalTokens
-    /// </summary>
-    public IEnumerable<string> TokenGroups { get; set; }
 }

@@ -1,22 +1,24 @@
 ﻿using FluentValidation;
 using Nop.Core.Domain.Messages;
+using Nop.Data.Mapping;
 using Nop.Services.Localization;
 using Nop.Web.Areas.Admin.Models.Messages;
 using Nop.Web.Framework.Validators;
 
-namespace Nop.Web.Areas.Admin.Validators.Messages;
-
-public partial class QueuedEmailValidator : BaseNopValidator<QueuedEmailModel>
+namespace Nop.Web.Areas.Admin.Validators.Messages
 {
-    public QueuedEmailValidator(ILocalizationService localizationService)
+    public partial class QueuedEmailValidator : BaseNopValidator<QueuedEmailModel>
     {
-        RuleFor(x => x.From).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Admin.System.QueuedEmails.Fields.From.Required"));
-        RuleFor(x => x.To).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Admin.System.QueuedEmails.Fields.To.Required"));
+        public QueuedEmailValidator(ILocalizationService localizationService, IMappingEntityAccessor mappingEntityAccessor)
+        {
+            RuleFor(x => x.From).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Admin.System.QueuedEmails.Fields.From.Required"));
+            RuleFor(x => x.To).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Admin.System.QueuedEmails.Fields.To.Required"));
 
-        RuleFor(x => x.SentTries).NotNull().WithMessageAwait(localizationService.GetResourceAsync("Admin.System.QueuedEmails.Fields.SentTries.Required"))
-            .InclusiveBetween(0, 99999).WithMessageAwait(localizationService.GetResourceAsync("Admin.System.QueuedEmails.Fields.SentTries.Range"));
+            RuleFor(x => x.SentTries).NotNull().WithMessageAwait(localizationService.GetResourceAsync("Admin.System.QueuedEmails.Fields.SentTries.Required"))
+                                    .InclusiveBetween(0, 99999).WithMessageAwait(localizationService.GetResourceAsync("Admin.System.QueuedEmails.Fields.SentTries.Range"));
 
-        SetDatabaseValidationRules<QueuedEmail>();
+            SetDatabaseValidationRules<QueuedEmail>(mappingEntityAccessor);
 
+        }
     }
 }

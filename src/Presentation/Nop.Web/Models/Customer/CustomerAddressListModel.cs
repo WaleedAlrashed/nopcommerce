@@ -1,14 +1,16 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 using Nop.Web.Models.Common;
 
-namespace Nop.Web.Models.Customer;
-
-public partial record CustomerAddressListModel : BaseNopModel
+namespace Nop.Web.Models.Customer
 {
-    public CustomerAddressListModel()
+    public partial record CustomerAddressListModel : BaseNopModel
     {
-        Addresses = new List<AddressModel>();
-    }
+        public CustomerAddressListModel()
+        {
+            Addresses = new List<AddressModel>();
+        }
 
-    public IList<AddressModel> Addresses { get; set; }
+        public IList<AddressModel> Addresses { get; set; }
+    }
 }

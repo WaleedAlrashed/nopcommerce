@@ -1,21 +1,22 @@
-namespace Nop.Core.Domain.News;
-
-/// <summary>
-/// News comment approved event
-/// </summary>
-public partial class NewsCommentApprovedEvent
+namespace Nop.Core.Domain.News
 {
     /// <summary>
-    /// Ctor
+    /// News comment approved event
     /// </summary>
-    /// <param name="newsComment">News comment</param>
-    public NewsCommentApprovedEvent(NewsComment newsComment)
+    public partial class NewsCommentApprovedEvent
     {
-        NewsComment = newsComment;
-    }
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="newsComment">News comment</param>
+        public NewsCommentApprovedEvent(NewsComment newsComment)
+        {
+            NewsComment = newsComment;
+        }
 
-    /// <summary>
-    /// News comment
-    /// </summary>
-    public NewsComment NewsComment { get; }
+        /// <summary>
+        /// News comment
+        /// </summary>
+        public NewsComment NewsComment { get; }
+    }
 }

@@ -1,28 +1,30 @@
-﻿using Nop.Core.Configuration;
+﻿using System.Collections.Generic;
+using Nop.Core.Configuration;
 
-namespace Nop.Core.Domain.Customers;
-
-/// <summary>
-/// Multi-factor authentication settings
-/// </summary>
-public partial class MultiFactorAuthenticationSettings : ISettings
+namespace Nop.Core.Domain.Customers
 {
-    #region Ctor
-
-    public MultiFactorAuthenticationSettings()
+    /// <summary>
+    /// Multi-factor authentication settings
+    /// </summary>
+    public partial class MultiFactorAuthenticationSettings : ISettings
     {
-        ActiveAuthenticationMethodSystemNames = new List<string>();
+        #region Ctor
+
+        public MultiFactorAuthenticationSettings()
+        {
+            ActiveAuthenticationMethodSystemNames = new List<string>();
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Gets or sets system names of active multi-factor authentication methods
+        /// </summary>
+        public List<string> ActiveAuthenticationMethodSystemNames { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to force multi-factor authentication
+        /// </summary>
+        public bool ForceMultifactorAuthentication { get; set; }
     }
-
-    #endregion
-
-    /// <summary>
-    /// Gets or sets system names of active multi-factor authentication methods
-    /// </summary>
-    public List<string> ActiveAuthenticationMethodSystemNames { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to force multi-factor authentication
-    /// </summary>
-    public bool ForceMultifactorAuthentication { get; set; }
 }

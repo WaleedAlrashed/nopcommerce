@@ -1,50 +1,52 @@
-﻿using FluentValidation;
+﻿using System.Linq;
+using FluentValidation;
 using FluentValidation.Validators;
 
-namespace Nop.Web.Framework.Validators;
-
-/// <summary>
-/// Credit card validator
-/// </summary>
-public partial class CreditCardPropertyValidator<T, TProperty> : PropertyValidator<T, TProperty>
+namespace Nop.Web.Framework.Validators
 {
-    public override string Name => "CreditCardPropertyValidator";
-
     /// <summary>
-    /// Is valid?
+    /// Credit card validator
     /// </summary>
-    /// <param name="context">Validation context</param>
-    /// <returns>Result</returns>
-    public override bool IsValid(ValidationContext<T> context, TProperty value)
+    public partial class CreditCardPropertyValidator<T, TProperty> : PropertyValidator<T, TProperty>
     {
-        var ccValue = value as string;
-        if (string.IsNullOrWhiteSpace(ccValue))
-            return false;
+        public override string Name => "CreditCardPropertyValidator";
 
-        ccValue = ccValue.Replace(" ", "");
-        ccValue = ccValue.Replace("-", "");
-
-        var checksum = 0;
-        var evenDigit = false;
-
-        //http://www.beachnet.com/~hstiles/cardtype.html
-        foreach (var digit in ccValue.Reverse())
+        /// <summary>
+        /// Is valid?
+        /// </summary>
+        /// <param name="context">Validation context</param>
+        /// <returns>Result</returns>
+        public override bool IsValid(ValidationContext<T> context, TProperty value)
         {
-            if (!char.IsDigit(digit))
+            var ccValue = value as string;
+            if (string.IsNullOrWhiteSpace(ccValue))
                 return false;
 
-            var digitValue = (digit - '0') * (evenDigit ? 2 : 1);
-            evenDigit = !evenDigit;
+            ccValue = ccValue.Replace(" ", "");
+            ccValue = ccValue.Replace("-", "");
 
-            while (digitValue > 0)
+            var checksum = 0;
+            var evenDigit = false;
+
+            //http://www.beachnet.com/~hstiles/cardtype.html
+            foreach (var digit in ccValue.Reverse())
             {
-                checksum += digitValue % 10;
-                digitValue /= 10;
+                if (!char.IsDigit(digit))
+                    return false;
+
+                var digitValue = (digit - '0') * (evenDigit ? 2 : 1);
+                evenDigit = !evenDigit;
+
+                while (digitValue > 0)
+                {
+                    checksum += digitValue % 10;
+                    digitValue /= 10;
+                }
             }
+
+            return (checksum % 10) == 0;
         }
 
-        return (checksum % 10) == 0;
+        protected override string GetDefaultMessageTemplate(string errorCode) => "Credit card number is not valid";
     }
-
-    protected override string GetDefaultMessageTemplate(string errorCode) => "Credit card number is not valid";
 }

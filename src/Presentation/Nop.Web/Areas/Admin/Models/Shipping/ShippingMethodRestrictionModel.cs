@@ -1,32 +1,34 @@
-﻿using Nop.Web.Areas.Admin.Models.Directory;
+﻿using System.Collections.Generic;
+using Nop.Web.Areas.Admin.Models.Directory;
 using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Shipping;
-
-/// <summary>
-/// Represents a shipping method restriction model
-/// </summary>
-public partial record ShippingMethodRestrictionModel : BaseNopModel
+namespace Nop.Web.Areas.Admin.Models.Shipping
 {
-    #region Ctor
-
-    public ShippingMethodRestrictionModel()
+    /// <summary>
+    /// Represents a shipping method restriction model
+    /// </summary>
+    public partial record ShippingMethodRestrictionModel : BaseNopModel
     {
-        AvailableShippingMethods = new List<ShippingMethodModel>();
-        AvailableCountries = new List<CountryModel>();
-        Restricted = new Dictionary<int, IDictionary<int, bool>>();
+        #region Ctor
+
+        public ShippingMethodRestrictionModel()
+        {
+            AvailableShippingMethods = new List<ShippingMethodModel>();
+            AvailableCountries = new List<CountryModel>();
+            Restricted = new Dictionary<int, IDictionary<int, bool>>();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public IList<ShippingMethodModel> AvailableShippingMethods { get; set; }
+
+        public IList<CountryModel> AvailableCountries { get; set; }
+
+        //[country id] / [shipping method id] / [restricted]
+        public IDictionary<int, IDictionary<int, bool>> Restricted { get; set; }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    public IList<ShippingMethodModel> AvailableShippingMethods { get; set; }
-
-    public IList<CountryModel> AvailableCountries { get; set; }
-
-    //[country id] / [shipping method id] / [restricted]
-    public IDictionary<int, IDictionary<int, bool>> Restricted { get; set; }
-
-    #endregion
 }

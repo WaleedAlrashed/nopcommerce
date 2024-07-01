@@ -1,51 +1,51 @@
 ﻿using FluentValidation.TestHelper;
-using Nop.Services.Localization;
 using Nop.Web.Areas.Admin.Models.Catalog;
 using Nop.Web.Areas.Admin.Validators.Catalog;
 using NUnit.Framework;
 
-namespace Nop.Tests.Nop.Web.Tests.Admin.Validators.Catalog;
-
-[TestFixture]
-public class CategoryValidatorTests : BaseNopTest
+namespace Nop.Tests.Nop.Web.Tests.Admin.Validators.Catalog
 {
-    private CategoryValidator _validator;
-
-    [OneTimeSetUp]
-    public void Setup()
+    [TestFixture]
+    public class CategoryValidatorTests : BaseNopTest
     {
-        _validator = new CategoryValidator(GetService<ILocalizationService>());
-    }
+        private CategoryValidator _validator;
 
-    [Test]
-    public void ShouldHaveErrorWhenPageSizeOptionsHasDuplicateItems()
-    {
-        var model = new CategoryModel
+        [OneTimeSetUp]
+        public void Setup()
         {
-            PageSizeOptions = "1, 2, 3, 5, 2"
-        };
-        _validator.TestValidate(model).ShouldHaveValidationErrorFor(x => x.PageSizeOptions);
-    }
+            _validator = GetService<CategoryValidator>();
+        }
 
-    [Test]
-    public void ShouldNotHaveErrorWhenPageSizeOptionsHasNotDuplicateItems()
-    {
-        var model = new CategoryModel
+        [Test]
+        public void ShouldHaveErrorWhenPageSizeOptionsHasDuplicateItems()
         {
-            PageSizeOptions = "1, 2, 3, 5, 9"
-        };
-        _validator.TestValidate(model).ShouldNotHaveValidationErrorFor(x => x.PageSizeOptions);
-    }
+            var model = new CategoryModel
+            {
+                PageSizeOptions = "1, 2, 3, 5, 2"
+            };
+            _validator.TestValidate(model).ShouldHaveValidationErrorFor(x => x.PageSizeOptions);
+        }
 
-    [Test]
-    public void ShouldNotHaveErrorWhenPageSizeOptionsIsNullOrEmpty()
-    {
-        var model = new CategoryModel
+        [Test]
+        public void ShouldNotHaveErrorWhenPageSizeOptionsHasNotDuplicateItems()
         {
-            PageSizeOptions = null
-        };
-        _validator.TestValidate(model).ShouldNotHaveValidationErrorFor(x => x.PageSizeOptions);
-        model.PageSizeOptions = string.Empty;
-        _validator.TestValidate(model).ShouldNotHaveValidationErrorFor(x => x.PageSizeOptions);
+            var model = new CategoryModel
+            {
+                PageSizeOptions = "1, 2, 3, 5, 9"
+            };
+            _validator.TestValidate(model).ShouldNotHaveValidationErrorFor(x => x.PageSizeOptions);
+        }
+
+        [Test]
+        public void ShouldNotHaveErrorWhenPageSizeOptionsIsNullOrEmpty()
+        {
+            var model = new CategoryModel
+            {
+                PageSizeOptions = null
+            };
+            _validator.TestValidate(model).ShouldNotHaveValidationErrorFor(x => x.PageSizeOptions);
+            model.PageSizeOptions = string.Empty;
+            _validator.TestValidate(model).ShouldNotHaveValidationErrorFor(x => x.PageSizeOptions);
+        }
     }
 }

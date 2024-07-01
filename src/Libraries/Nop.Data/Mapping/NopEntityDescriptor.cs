@@ -1,13 +1,16 @@
-﻿namespace Nop.Data.Mapping;
+﻿using System.Collections.Generic;
 
-public partial class NopEntityDescriptor
+namespace Nop.Data.Mapping
 {
-    public NopEntityDescriptor()
+    public partial class NopEntityDescriptor
     {
-        Fields = new List<NopEntityFieldDescriptor>();
-    }
+        public NopEntityDescriptor()
+        {
+            Fields = new List<NopEntityFieldDescriptor>();
+        }
 
-    public string EntityName { get; set; }
-    public string SchemaName { get; set; }
-    public ICollection<NopEntityFieldDescriptor> Fields { get; set; }
+        public string EntityName { get; set; }
+        public string SchemaName { get; set; }
+        public ICollection<NopEntityFieldDescriptor> Fields { get; set; }
+    }
 }

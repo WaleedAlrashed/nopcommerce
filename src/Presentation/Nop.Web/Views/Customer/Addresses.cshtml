@@ -17,7 +17,6 @@
         <h1>@T("Account.MyAccount") - @T("Account.CustomerAddresses")</h1>
     </div>
     <div class="page-body">
-        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.CustomerAddressesTop, additionalData = Model })
         @if (Model.Addresses.Count > 0)
         {
                 <div class="address-list">
@@ -54,9 +53,65 @@
                                 {
                                     <li class="company">@address.Company</li>
                                 }
-                                @foreach(var item in address.AddressFields)
+                                @if (address.StreetAddressEnabled)
                                 {
-                                    <li class=@item.Key.ToString().ToLower()>@item.Value</li>                                    
+                                    <li class="address1">
+                                        @address.Address1
+                                    </li>
+                                }
+                                @if (address.StreetAddress2Enabled && !string.IsNullOrEmpty(address.Address2))
+                                {
+                                    <li class="address2">
+                                        @address.Address2
+                                    </li>
+                                }
+                                @if (address.CityEnabled && !string.IsNullOrEmpty(address.City)||
+                             address.CountyEnabled && !string.IsNullOrEmpty(address.County) ||
+                             address.StateProvinceEnabled && !string.IsNullOrEmpty(address.StateProvinceName) ||
+                             address.ZipPostalCodeEnabled && !string.IsNullOrEmpty(address.ZipPostalCode))
+                                {
+                                    var addressLine = string.Empty;
+                                    if (address.CityEnabled && !string.IsNullOrEmpty(address.City))
+                                    {
+                                        addressLine += address.City;
+                                        if (address.CountyEnabled && !string.IsNullOrEmpty(address.County) ||
+                                            address.StateProvinceEnabled && !string.IsNullOrEmpty(address.StateProvinceName) ||
+                                            address.ZipPostalCodeEnabled && !string.IsNullOrEmpty(address.ZipPostalCode))
+                                        {
+                                            addressLine += ", ";
+                                        }
+                                    }
+                                    if (address.CountyEnabled && !string.IsNullOrEmpty(address.County))
+                                    {
+                                        addressLine += address.County;
+                                        if (address.StateProvinceEnabled && !string.IsNullOrEmpty(address.StateProvinceName) ||
+                                            address.ZipPostalCodeEnabled && !string.IsNullOrEmpty(address.ZipPostalCode))
+                                        {
+                                            addressLine += ", ";
+                                        }
+                                    }
+                                    if (address.StateProvinceEnabled && !string.IsNullOrEmpty(address.StateProvinceName))
+                                    {
+                                        addressLine += address.StateProvinceName;
+                                        if (address.ZipPostalCodeEnabled && !string.IsNullOrEmpty(address.ZipPostalCode))
+                                        {
+                                            addressLine += ", ";
+                                        }
+                                    }
+                                    if (address.ZipPostalCodeEnabled && !string.IsNullOrEmpty(address.ZipPostalCode))
+                                    {
+                                        addressLine += address.ZipPostalCode;
+                                    }
+
+                                    <li class="city-state-zip">
+                                        @addressLine
+                                    </li>
+                                }
+                                @if (address.CountryEnabled && !string.IsNullOrEmpty(address.CountryName))
+                                {
+                                    <li class="country">
+                                        @address.CountryName
+                                    </li>
                                 }
                                 @if (!string.IsNullOrEmpty(address.FormattedCustomAddressAttributes))
                                 {
@@ -84,7 +139,7 @@
                             $.ajax({
                                 cache: false,
                                 type: "POST",
-                                url: "@Url.RouteUrl("CustomerAddressDelete")",
+                                url: "@Url.Action("AddressDelete", "Customer")",
                                 data: postData,
                                 dataType: "json",
                                 success: function (data, textStatus, jqXHR) {
@@ -107,6 +162,5 @@
         <div class="add-button">
             <button type="button" class="button-1 add-address-button" onclick="location.href='@Url.RouteUrl("CustomerAddressAdd")'">@T("Common.AddNew")</button>
         </div>
-        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.CustomerAddressesBottom, additionalData = Model })
     </div>
 </div>

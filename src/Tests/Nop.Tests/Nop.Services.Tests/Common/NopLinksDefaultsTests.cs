@@ -9,58 +9,56 @@ using Nop.Core.Http;
 using NUnit.Framework;
 using static Nop.Services.Common.NopLinksDefaults;
 
-namespace Nop.Tests.Nop.Services.Tests.Common;
-
-[TestFixture]
-internal class NopLinksDefaultsTests : ServiceTest
+namespace Nop.Tests.Nop.Services.Tests.Common
 {
-    private IHttpClientFactory _httpClientFactory;
-
-    [OneTimeSetUp]
-    public void SetUp()
+    [TestFixture]
+    internal class NopLinksDefaultsTests : ServiceTest
     {
-        _httpClientFactory = GetService<IHttpClientFactory>();
-    }
+        private IHttpClientFactory _httpClientFactory;
 
-    protected async Task TestUrlsAsync(IList<PropertyInfo> properties)
-    {
-        var client = _httpClientFactory.CreateClient(NopHttpDefaults.DefaultHttpClient);
-
-        foreach (var propertyInfo in properties)
+        [OneTimeSetUp]
+        public void SetUp()
         {
-            var url = propertyInfo.GetValue(null)?.ToString();
-
-            if (string.IsNullOrEmpty(url))
-                continue;
-
-            var res = await client.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
-
-            res.StatusCode.Should().BeOneOf(new[]
-            {
-                HttpStatusCode.OK , HttpStatusCode.Found
-            }, $"{url} {res.ReasonPhrase}");
+            _httpClientFactory = GetService<IHttpClientFactory>();
         }
-    }
 
-    [Test]
-    public async Task TestOfficialSiteLinks()
-    {
-        var prop = typeof(OfficialSite).GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.GetProperty)
-            .Where(p => p.PropertyType == typeof(string)).ToList();
+        protected async Task TestUrlsAsync(IList<PropertyInfo> properties)
+        {
+            var client = _httpClientFactory.CreateClient(NopHttpDefaults.DefaultHttpClient);
 
-        prop.Should().NotBeEmpty();
+            foreach (var propertyInfo in properties)
+            {
+                var url = propertyInfo.GetValue(null)?.ToString();
 
-        await TestUrlsAsync(prop);
-    }
+                if (string.IsNullOrEmpty(url))
+                    continue;
 
-    [Test]
-    public async Task TestDocsLinks()
-    {
-        var prop = typeof(Docs).GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.GetProperty)
-            .Where(p => p.PropertyType == typeof(string)).ToList();
+                var res = await client.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
 
-        prop.Should().NotBeEmpty();
+                res.StatusCode.Should().Be(HttpStatusCode.OK, $"{url} {res.ReasonPhrase}");
+            }
+        }
 
-        await TestUrlsAsync(prop);
+        [Test]
+        public async Task TestOfficialSiteLinks()
+        {
+           var prop = typeof(OfficialSite).GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.GetProperty)
+                .Where(p => p.PropertyType == typeof(string)).ToList();
+
+           prop.Should().NotBeEmpty();
+
+           await TestUrlsAsync(prop);
+        }
+
+        [Test]
+        public async Task TestDocsLinks()
+        {
+            var prop = typeof(Docs).GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.GetProperty)
+                .Where(p => p.PropertyType == typeof(string)).ToList();
+
+            prop.Should().NotBeEmpty();
+
+            await TestUrlsAsync(prop);
+        }
     }
 }

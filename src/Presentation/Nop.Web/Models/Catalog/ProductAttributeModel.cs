@@ -1,32 +1,34 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Catalog;
-
-/// <summary>
-/// Represents a product attribute model
-/// </summary>
-public partial record ProductAttributeModel : BaseNopModel
+namespace Nop.Web.Models.Catalog
 {
-    #region Properties
-
     /// <summary>
-    /// Gets or sets the attribute id
+    /// Represents a product attribute model
     /// </summary>
-    public int Id { get; set; }
-
-    /// <summary>
-    /// Gets or sets the value IDs of the attribute
-    /// </summary>
-    public IList<int> ValueIds { get; set; }
-
-    #endregion
-
-    #region Ctor
-
-    public ProductAttributeModel()
+    public partial record ProductAttributeModel : BaseNopModel
     {
-        ValueIds = new List<int>();
-    }
+        #region Properties
 
-    #endregion
+        /// <summary>
+        /// Gets or sets the attribute id
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value IDs of the attribute
+        /// </summary>
+        public IList<int> ValueIds { get; set; }
+
+        #endregion
+
+        #region Ctor
+
+        public ProductAttributeModel()
+        {
+            ValueIds = new List<int>();
+        }
+
+        #endregion
+    }
 }

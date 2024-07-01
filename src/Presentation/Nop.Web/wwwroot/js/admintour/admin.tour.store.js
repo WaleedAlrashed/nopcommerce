@@ -1,4 +1,4 @@
-﻿$(function() {
+﻿$(document).ready(function () {
   const tour = new Shepherd.Tour(AdminTourCommonTourOptions);
 
   AdminTourNextPageButton.action = function () { window.location = '/Admin/Shipping/Providers?showtour=True' };

@@ -1,22 +1,23 @@
-﻿namespace Nop.Core.Domain.Customers;
-
-/// <summary>
-/// Password format
-/// </summary>
-public enum PasswordFormat
+﻿namespace Nop.Core.Domain.Customers 
 {
     /// <summary>
-    /// Clear
+    /// Password format
     /// </summary>
-    Clear = 0,
+    public enum PasswordFormat
+    {
+        /// <summary>
+        /// Clear
+        /// </summary>
+        Clear = 0,
 
-    /// <summary>
-    /// Hashed
-    /// </summary>
-    Hashed = 1,
+        /// <summary>
+        /// Hashed
+        /// </summary>
+        Hashed = 1,
 
-    /// <summary>
-    /// Encrypted
-    /// </summary>
-    Encrypted = 2
+        /// <summary>
+        /// Encrypted
+        /// </summary>
+        Encrypted = 2
+    }
 }

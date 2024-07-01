@@ -1,4 +1,4 @@
-﻿$(function() {
+﻿$(document).ready(function () {
   $('#shipping-rate-grid').on('draw.dt', function () {
     if ($('body').hasClass('advanced-settings-mode')) {
       $('.onoffswitch-checkbox').trigger('click');

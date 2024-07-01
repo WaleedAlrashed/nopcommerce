@@ -1,4 +1,4 @@
-'use strict'
+﻿'use strict'
 
 import gulp from 'gulp';
 import { prepareCldr } from './gulp/tasks/prepareCldr.js';

@@ -1,21 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class FooterViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly ICommonModelFactory _commonModelFactory;
-
-    public FooterViewComponent(ICommonModelFactory commonModelFactory)
+    public partial class FooterViewComponent : NopViewComponent
     {
-        _commonModelFactory = commonModelFactory;
-    }
+        private readonly ICommonModelFactory _commonModelFactory;
 
-    public async Task<IViewComponentResult> InvokeAsync()
-    {
-        var model = await _commonModelFactory.PrepareFooterModelAsync();
-        return View(model);
+        public FooterViewComponent(ICommonModelFactory commonModelFactory)
+        {
+            _commonModelFactory = commonModelFactory;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var model = await _commonModelFactory.PrepareFooterModelAsync();
+            return View(model);
+        }
     }
 }

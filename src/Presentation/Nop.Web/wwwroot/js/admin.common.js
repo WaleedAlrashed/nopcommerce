@@ -30,7 +30,7 @@ function showThrobber(message) {
     }, 1000);
 }
 
-$(function() {
+$(document).ready(function () {
     $('.multi-store-override-option').each(function (k, v) {
         checkOverriddenStoreValue(v, $(v).attr('data-for-input-selector'));
     });
@@ -38,7 +38,7 @@ $(function() {
     //we must intercept all events of pressing the Enter button in the search bar to be sure that the input focus remains in the context of the search
     $("div.card-search").keypress(function (event) {
         if (event.which == 13 || event.keyCode == 13) {
-          $("button.btn-search").trigger("click");
+            $("button.btn-search").click();
             return false;
         }
     });
@@ -69,9 +69,23 @@ function checkOverriddenStoreValue(obj, selector) {
 
     if (!$(obj).is(':checked')) {
         $(selector).attr('disabled', true);
+        //Kendo UI elements are enabled/disabled some other way
+        $.each(elementsArray, function (key, value) {
+            var kenoduiElement = $(value).data("kendoNumericTextBox") || $(value).data("kendoMultiSelect");
+            if (kenoduiElement !== undefined && kenoduiElement !== null) {
+                kenoduiElement.enable(false);
+            }
+        });
     }
     else {
         $(selector).removeAttr('disabled');
+        //Kendo UI elements are enabled/disabled some other way
+        $.each(elementsArray, function (key, value) {
+            var kenoduiElement = $(value).data("kendoNumericTextBox") || $(value).data("kendoMultiSelect");
+            if (kenoduiElement !== undefined && kenoduiElement !== null) {
+                kenoduiElement.enable();
+            }
+        });
     }
 }
 
@@ -237,7 +251,7 @@ $(document).ajaxStart(function () {
     });
 
 //no-tabs solution
-$(function() {
+$(document).ready(function () {
   $(".card.card-secondary >.card-header").click(CardToggle);
 
   //expanded
@@ -268,7 +282,7 @@ function WrapAndSaveBlockData(card, collapsed) {
 }
 
 //collapse search block
-$(function() {
+$(document).ready(function () {
   $(".row.search-row").click(ToggleSearchBlockAndSavePreferences);
 });
 
@@ -312,12 +326,12 @@ function reloadAllDataTables(itemCount) {
 function showAlert(alertId, text)
 {
     $('#' + alertId + '-info').text(text);
-    $('#' + alertId).trigger("click");
+    $('#' + alertId).click();
 }
 
 //scrolling and hidden DataTables issue workaround
 //More info - https://datatables.net/examples/api/tabs_and_scrolling.html
-$(function() {
+$(document).ready(function () {
   $('button[data-card-widget="collapse"]').on('click', function (e) {
     //hack with waiting animation. 
     //when page is loaded, a box that should be collapsed have style 'display: none;'.that's why a table is not updated

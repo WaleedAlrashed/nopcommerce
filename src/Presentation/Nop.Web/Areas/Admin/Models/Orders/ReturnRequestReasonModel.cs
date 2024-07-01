@@ -1,39 +1,41 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 using Nop.Web.Framework.Mvc.ModelBinding;
 
-namespace Nop.Web.Areas.Admin.Models.Orders;
-
-/// <summary>
-/// Represents a return request reason model
-/// </summary>
-public partial record ReturnRequestReasonModel : BaseNopEntityModel, ILocalizedModel<ReturnRequestReasonLocalizedModel>
+namespace Nop.Web.Areas.Admin.Models.Orders
 {
-    #region Ctor
-
-    public ReturnRequestReasonModel()
+    /// <summary>
+    /// Represents a return request reason model
+    /// </summary>
+    public partial record ReturnRequestReasonModel : BaseNopEntityModel, ILocalizedModel<ReturnRequestReasonLocalizedModel>
     {
-        Locales = new List<ReturnRequestReasonLocalizedModel>();
+        #region Ctor
+
+        public ReturnRequestReasonModel()
+        {
+            Locales = new List<ReturnRequestReasonLocalizedModel>();
+        }
+
+        #endregion
+
+        #region Properties
+
+        [NopResourceDisplayName("Admin.Configuration.Settings.Order.ReturnRequestReasons.Name")]
+        public string Name { get; set; }
+
+        [NopResourceDisplayName("Admin.Configuration.Settings.Order.ReturnRequestReasons.DisplayOrder")]
+        public int DisplayOrder { get; set; }
+
+        public IList<ReturnRequestReasonLocalizedModel> Locales { get; set; }
+
+        #endregion
     }
 
-    #endregion
+    public partial record ReturnRequestReasonLocalizedModel : ILocalizedLocaleModel
+    {
+        public int LanguageId { get; set; }
 
-    #region Properties
-
-    [NopResourceDisplayName("Admin.Configuration.Settings.Order.ReturnRequestReasons.Name")]
-    public string Name { get; set; }
-
-    [NopResourceDisplayName("Admin.Configuration.Settings.Order.ReturnRequestReasons.DisplayOrder")]
-    public int DisplayOrder { get; set; }
-
-    public IList<ReturnRequestReasonLocalizedModel> Locales { get; set; }
-
-    #endregion
-}
-
-public partial record ReturnRequestReasonLocalizedModel : ILocalizedLocaleModel
-{
-    public int LanguageId { get; set; }
-
-    [NopResourceDisplayName("Admin.Configuration.Settings.Order.ReturnRequestReasons.Name")]
-    public string Name { get; set; }
+        [NopResourceDisplayName("Admin.Configuration.Settings.Order.ReturnRequestReasons.Name")]
+        public string Name { get; set; }
+    }
 }

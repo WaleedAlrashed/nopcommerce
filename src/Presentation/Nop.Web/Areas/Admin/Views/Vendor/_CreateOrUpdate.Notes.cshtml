@@ -54,7 +54,7 @@
     </div>
 </div>
 <script>
-    $(function() {
+    $(document).ready(function() {
         $('#addVendorNote').click(function() {
             var vendorNoteMessage = $("#@Html.IdFor(model => model.AddVendorNoteMessage)").val();
             $('#addVendorNote').attr('disabled', true);

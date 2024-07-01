@@ -4,26 +4,27 @@ using Nop.Core.Domain.News;
 using Nop.Core.Domain.Stores;
 using Nop.Data.Extensions;
 
-namespace Nop.Data.Mapping.Builders.News;
-
-/// <summary>
-/// Represents a news comment entity builder
-/// </summary>
-public partial class NewsCommentBuilder : NopEntityBuilder<NewsComment>
+namespace Nop.Data.Mapping.Builders.News
 {
-    #region Methods
-
     /// <summary>
-    /// Apply entity configuration
+    /// Represents a news comment entity builder
     /// </summary>
-    /// <param name="table">Create table expression builder</param>
-    public override void MapEntity(CreateTableExpressionBuilder table)
+    public partial class NewsCommentBuilder : NopEntityBuilder<NewsComment>
     {
-        table
-            .WithColumn(nameof(NewsComment.CustomerId)).AsInt32().ForeignKey<Customer>()
-            .WithColumn(nameof(NewsComment.NewsItemId)).AsInt32().ForeignKey<NewsItem>()
-            .WithColumn(nameof(NewsComment.StoreId)).AsInt32().ForeignKey<Store>();
-    }
+        #region Methods
 
-    #endregion
+        /// <summary>
+        /// Apply entity configuration
+        /// </summary>
+        /// <param name="table">Create table expression builder</param>
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+            table
+                .WithColumn(nameof(NewsComment.CustomerId)).AsInt32().ForeignKey<Customer>()
+                .WithColumn(nameof(NewsComment.NewsItemId)).AsInt32().ForeignKey<NewsItem>()
+                .WithColumn(nameof(NewsComment.StoreId)).AsInt32().ForeignKey<Store>();
+        }
+
+        #endregion
+    }
 }

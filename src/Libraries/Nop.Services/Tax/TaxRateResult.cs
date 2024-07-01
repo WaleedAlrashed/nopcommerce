@@ -1,36 +1,40 @@
-﻿namespace Nop.Services.Tax;
+﻿using System.Collections.Generic;
+using System.Linq;
 
-/// <summary>
-/// Represents a result of tax rate calculation
-/// </summary>
-public partial class TaxRateResult
+namespace Nop.Services.Tax
 {
-    public TaxRateResult()
+    /// <summary>
+    /// Represents a result of tax rate calculation
+    /// </summary>
+    public partial class TaxRateResult
     {
-        Errors = new List<string>();
-    }
+        public TaxRateResult()
+        {
+            Errors = new List<string>();
+        }
 
-    /// <summary>
-    /// Gets or sets a tax rate
-    /// </summary>
-    public decimal TaxRate { get; set; }
+        /// <summary>
+        /// Gets or sets a tax rate
+        /// </summary>
+        public decimal TaxRate { get; set; }
 
-    /// <summary>
-    /// Gets or sets errors
-    /// </summary>
-    public IList<string> Errors { get; set; }
+        /// <summary>
+        /// Gets or sets errors
+        /// </summary>
+        public IList<string> Errors { get; set; }
 
-    /// <summary>
-    /// Gets a value indicating whether request has been completed successfully
-    /// </summary>
-    public bool Success => !Errors.Any();
+        /// <summary>
+        /// Gets a value indicating whether request has been completed successfully
+        /// </summary>
+        public bool Success => !Errors.Any();
 
-    /// <summary>
-    /// Add error
-    /// </summary>
-    /// <param name="error">Error</param>
-    public void AddError(string error)
-    {
-        Errors.Add(error);
+        /// <summary>
+        /// Add error
+        /// </summary>
+        /// <param name="error">Error</param>
+        public void AddError(string error)
+        {
+            Errors.Add(error);
+        }
     }
 }

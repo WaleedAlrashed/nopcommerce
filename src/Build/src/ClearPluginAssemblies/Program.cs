@@ -1,4 +1,8 @@
-﻿namespace ClearPluginAssemblies
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+namespace ClearPluginAssemblies
 {
     public class Program
     {
@@ -38,7 +42,7 @@
                                 File.Delete(pdbfilePath);
                         }
 
-                        if (directoryInfo.GetFiles().Length == 0 && directoryInfo.GetDirectories().Length == 0 && !saveLocalesFolders)
+                        if (!directoryInfo.GetFiles().Any() && !directoryInfo.GetDirectories().Any() && !saveLocalesFolders)
                             directoryInfo.Delete(true);
                     }
                 }
@@ -55,7 +59,7 @@
             var pluginPaths = string.Empty;
             var saveLocalesFolders = true;
 
-            var settings = args.FirstOrDefault(a => a.Contains('|')) ?? string.Empty;
+            var settings = args.FirstOrDefault(a => a.Contains("|")) ?? string.Empty;
             if(string.IsNullOrEmpty(settings))
                 return;
 
@@ -75,7 +79,7 @@
                         pluginPaths = value;
                         break;
                     case "SaveLocalesFolders":
-                        _ = bool.TryParse(value, out saveLocalesFolders);
+                        bool.TryParse(value, out saveLocalesFolders);
                         break;
                 }
             }
@@ -84,13 +88,11 @@
                 return;
 
             var di = new DirectoryInfo(outputPath);
-            var separator = Path.DirectorySeparatorChar;
-            var folderToIgnore = string.Concat(separator, "Plugins", separator);
             var fileNames = di.GetFiles("*.dll", SearchOption.AllDirectories)
-                .Where(fi => !fi.FullName.Contains(folderToIgnore))
+                .Where(fi => !fi.FullName.Contains(@"\Plugins\"))
                 .Select(fi => fi.Name.Replace(fi.Extension, "")).ToList();
            
-            if (string.IsNullOrEmpty(pluginPaths) || fileNames.Count == 0)
+            if (string.IsNullOrEmpty(pluginPaths) || !fileNames.Any())
             {
                 return;
             }

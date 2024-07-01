@@ -1,21 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class LogoViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly ICommonModelFactory _commonModelFactory;
-
-    public LogoViewComponent(ICommonModelFactory commonModelFactory)
+    public partial class LogoViewComponent : NopViewComponent
     {
-        _commonModelFactory = commonModelFactory;
-    }
+        private readonly ICommonModelFactory _commonModelFactory;
 
-    public async Task<IViewComponentResult> InvokeAsync()
-    {
-        var model = await _commonModelFactory.PrepareLogoModelAsync();
-        return View(model);
+        public LogoViewComponent(ICommonModelFactory commonModelFactory)
+        {
+            _commonModelFactory = commonModelFactory;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var model = await _commonModelFactory.PrepareLogoModelAsync();
+            return View(model);
+        }
     }
 }

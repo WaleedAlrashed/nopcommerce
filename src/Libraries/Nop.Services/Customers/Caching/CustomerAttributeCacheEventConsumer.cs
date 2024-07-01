@@ -1,21 +1,22 @@
-﻿using Nop.Core.Domain.Customers;
-using Nop.Services.Attributes;
+﻿using System.Threading.Tasks;
+using Nop.Core.Domain.Customers;
 using Nop.Services.Caching;
 
-namespace Nop.Services.Customers.Caching;
-
-/// <summary>
-/// Represents a customer attribute cache event consumer
-/// </summary>
-public partial class CustomerAttributeCacheEventConsumer : CacheEventConsumer<CustomerAttribute>
+namespace Nop.Services.Customers.Caching
 {
     /// <summary>
-    /// Clear cache data
+    /// Represents a customer attribute cache event consumer
     /// </summary>
-    /// <param name="entity">Entity</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected override async Task ClearCacheAsync(CustomerAttribute entity)
+    public partial class CustomerAttributeCacheEventConsumer : CacheEventConsumer<CustomerAttribute>
     {
-        await RemoveAsync(NopAttributeDefaults.AttributeValuesByAttributeCacheKey, nameof(CustomerAttribute), entity);
+        /// <summary>
+        /// Clear cache data
+        /// </summary>
+        /// <param name="entity">Entity</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        protected override async Task ClearCacheAsync(CustomerAttribute entity)
+        {
+            await RemoveAsync(NopCustomerServicesDefaults.CustomerAttributeValuesByAttributeCacheKey, entity);
+        }
     }
 }

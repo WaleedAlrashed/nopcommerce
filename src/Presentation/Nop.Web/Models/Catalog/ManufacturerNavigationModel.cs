@@ -1,24 +1,26 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Catalog;
-
-public partial record ManufacturerNavigationModel : BaseNopModel
+namespace Nop.Web.Models.Catalog
 {
-    public ManufacturerNavigationModel()
+    public partial record ManufacturerNavigationModel : BaseNopModel
     {
-        Manufacturers = new List<ManufacturerBriefInfoModel>();
+        public ManufacturerNavigationModel()
+        {
+            Manufacturers = new List<ManufacturerBriefInfoModel>();
+        }
+
+        public IList<ManufacturerBriefInfoModel> Manufacturers { get; set; }
+
+        public int TotalManufacturers { get; set; }
     }
 
-    public IList<ManufacturerBriefInfoModel> Manufacturers { get; set; }
+    public partial record ManufacturerBriefInfoModel : BaseNopEntityModel
+    {
+        public string Name { get; set; }
 
-    public int TotalManufacturers { get; set; }
-}
-
-public partial record ManufacturerBriefInfoModel : BaseNopEntityModel
-{
-    public string Name { get; set; }
-
-    public string SeName { get; set; }
-
-    public bool IsActive { get; set; }
+        public string SeName { get; set; }
+        
+        public bool IsActive { get; set; }
+    }
 }

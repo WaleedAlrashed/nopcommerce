@@ -1,24 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class HomepagePollsViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly IPollModelFactory _pollModelFactory;
-
-    public HomepagePollsViewComponent(IPollModelFactory pollModelFactory)
+    public partial class HomepagePollsViewComponent : NopViewComponent
     {
-        _pollModelFactory = pollModelFactory;
-    }
+        private readonly IPollModelFactory _pollModelFactory;
 
-    public async Task<IViewComponentResult> InvokeAsync()
-    {
-        var model = await _pollModelFactory.PrepareHomepagePollModelsAsync();
-        if (!model.Any())
-            return Content("");
+        public HomepagePollsViewComponent(IPollModelFactory pollModelFactory)
+        {
+            _pollModelFactory = pollModelFactory;
+        }
 
-        return View(model);
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var model = await _pollModelFactory.PrepareHomepagePollModelsAsync();
+            if (!model.Any())
+                return Content("");
+
+            return View(model);
+        }
     }
 }

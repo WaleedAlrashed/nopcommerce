@@ -3,25 +3,26 @@ using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Customers;
 using Nop.Data.Extensions;
 
-namespace Nop.Data.Mapping.Builders.Catalog;
-
-/// <summary>
-/// Represents a tier price entity builder
-/// </summary>
-public partial class TierPriceBuilder : NopEntityBuilder<TierPrice>
+namespace Nop.Data.Mapping.Builders.Catalog
 {
-    #region Methods
-
     /// <summary>
-    /// Apply entity configuration
+    /// Represents a tier price entity builder
     /// </summary>
-    /// <param name="table">Create table expression builder</param>
-    public override void MapEntity(CreateTableExpressionBuilder table)
+    public partial class TierPriceBuilder : NopEntityBuilder<TierPrice>
     {
-        table
-            .WithColumn(nameof(TierPrice.CustomerRoleId)).AsInt32().Nullable().ForeignKey<CustomerRole>()
-            .WithColumn(nameof(TierPrice.ProductId)).AsInt32().ForeignKey<Product>();
-    }
+        #region Methods
 
-    #endregion
+        /// <summary>
+        /// Apply entity configuration
+        /// </summary>
+        /// <param name="table">Create table expression builder</param>
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+            table
+                .WithColumn(nameof(TierPrice.CustomerRoleId)).AsInt32().Nullable().ForeignKey<CustomerRole>()
+                .WithColumn(nameof(TierPrice.ProductId)).AsInt32().ForeignKey<Product>();
+        }
+
+        #endregion
+    }
 }

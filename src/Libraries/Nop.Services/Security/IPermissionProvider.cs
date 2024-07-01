@@ -1,21 +1,23 @@
-﻿using Nop.Core.Domain.Security;
+﻿using System.Collections.Generic;
+using Nop.Core.Domain.Security;
 
-namespace Nop.Services.Security;
-
-/// <summary>
-/// Permission provider
-/// </summary>
-public partial interface IPermissionProvider
+namespace Nop.Services.Security
 {
     /// <summary>
-    /// Get permissions
+    /// Permission provider
     /// </summary>
-    /// <returns>Permissions</returns>
-    IEnumerable<PermissionRecord> GetPermissions();
+    public interface IPermissionProvider
+    {
+        /// <summary>
+        /// Get permissions
+        /// </summary>
+        /// <returns>Permissions</returns>
+        IEnumerable<PermissionRecord> GetPermissions();
 
-    /// <summary>
-    /// Get default permissions
-    /// </summary>
-    /// <returns>Default permissions</returns>
-    HashSet<(string systemRoleName, PermissionRecord[] permissions)> GetDefaultPermissions();
+        /// <summary>
+        /// Get default permissions
+        /// </summary>
+        /// <returns>Default permissions</returns>
+        HashSet<(string systemRoleName, PermissionRecord[] permissions)> GetDefaultPermissions();
+    }
 }

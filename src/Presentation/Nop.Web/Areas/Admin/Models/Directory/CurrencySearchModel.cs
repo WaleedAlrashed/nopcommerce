@@ -1,24 +1,25 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Directory;
-
-/// <summary>
-/// Represents a currency search model
-/// </summary>
-public partial record CurrencySearchModel : BaseSearchModel
+namespace Nop.Web.Areas.Admin.Models.Directory
 {
-    #region Ctor
-
-    public CurrencySearchModel()
+    /// <summary>
+    /// Represents a currency search model
+    /// </summary>
+    public partial record CurrencySearchModel : BaseSearchModel
     {
-        ExchangeRateProviderModel = new CurrencyExchangeRateProviderModel();
+        #region Ctor
+
+        public CurrencySearchModel()
+        {
+            ExchangeRateProviderModel = new CurrencyExchangeRateProviderModel();
+        }
+
+        #endregion
+
+        #region Properties
+        
+        public CurrencyExchangeRateProviderModel ExchangeRateProviderModel { get; set; }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    public CurrencyExchangeRateProviderModel ExchangeRateProviderModel { get; set; }
-
-    #endregion
 }

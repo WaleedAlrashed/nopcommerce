@@ -132,9 +132,6 @@
   <LocaleResource Name="StoreInformation">
     <Value>Thông tin website</Value>
   </LocaleResource>
-  <LocaleResource Name="SubscribeNewsletters">
-    <Value>Subscribe to nopCommerce newsletter</Value>
-  </LocaleResource>
   <LocaleResource Name="Title">
     <Value>Cài đặt website</Value>
   </LocaleResource>

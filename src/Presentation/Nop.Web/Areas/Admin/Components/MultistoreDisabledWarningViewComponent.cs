@@ -1,51 +1,53 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Catalog;
 using Nop.Services.Configuration;
 using Nop.Services.Stores;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Areas.Admin.Components;
-
-public partial class MultistoreDisabledWarningViewComponent : NopViewComponent
+namespace Nop.Web.Areas.Admin.Components
 {
-    protected readonly CatalogSettings _catalogSettings;
-    protected readonly ISettingService _settingService;
-    protected readonly IStoreService _storeService;
-
-    public MultistoreDisabledWarningViewComponent(CatalogSettings catalogSettings,
-        ISettingService settingService,
-        IStoreService storeService)
+    public partial class MultistoreDisabledWarningViewComponent : NopViewComponent
     {
-        _catalogSettings = catalogSettings;
-        _settingService = settingService;
-        _storeService = storeService;
-    }
+        private readonly CatalogSettings _catalogSettings;
+        private readonly ISettingService _settingService;
+        private readonly IStoreService _storeService;
 
-    public async Task<IViewComponentResult> InvokeAsync()
-    {
-
-        //action displaying notification (warning) to a store owner that "limit per store" feature is ignored
-
-        //default setting
-        var enabled = _catalogSettings.IgnoreStoreLimitations;
-        if (!enabled)
+        public MultistoreDisabledWarningViewComponent(CatalogSettings catalogSettings,
+            ISettingService settingService,
+            IStoreService storeService)
         {
-            //overridden settings
-            var stores = await _storeService.GetAllStoresAsync();
-            foreach (var store in stores)
-            {
-                var catalogSettings = await _settingService.LoadSettingAsync<CatalogSettings>(store.Id);
-                enabled = catalogSettings.IgnoreStoreLimitations;
-
-                if (enabled)
-                    break;
-            }
+            _catalogSettings = catalogSettings;
+            _settingService = settingService;
+            _storeService = storeService;
         }
 
-        //This setting is disabled. No warnings.
-        if (!enabled)
-            return Content("");
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
 
-        return View();
+            //action displaying notification (warning) to a store owner that "limit per store" feature is ignored
+
+            //default setting
+            var enabled = _catalogSettings.IgnoreStoreLimitations;
+            if (!enabled)
+            {
+                //overridden settings
+                var stores = await _storeService.GetAllStoresAsync();
+                foreach (var store in stores)
+                {
+                    var catalogSettings = await _settingService.LoadSettingAsync<CatalogSettings>(store.Id);
+                    enabled = catalogSettings.IgnoreStoreLimitations;
+
+                    if (enabled)
+                        break;
+                }
+            }
+
+            //This setting is disabled. No warnings.
+            if (!enabled)
+                return Content("");
+
+            return View();
+        }
     }
 }

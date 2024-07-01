@@ -313,7 +313,7 @@
                             </div>
                         </div>
                         <script>
-                            $(function() {
+                            $(document).ready(function() {
                                 //load states when changing a country dropdownlist
                                 $("#@Html.IdFor(model => model.CountryId)").change(function() {
                                     var selectedItem = $(this).val();
@@ -333,7 +333,7 @@
                                             });
                                         },
                                         error: function (jqXHR, textStatus, errorThrown) {
-                                            $("#statesAlert").trigger("click");
+                                            $("#statesAlert").click();
                                         }
                                     });
                                 });
@@ -378,13 +378,13 @@
 </form>
 
 <script>
-    $(function() {
+    $(document).ready(function () {
         $('#exportpackagingslips-selected').click(function (e) {
             e.preventDefault();
             var ids = selectedIds.join(",");
             if (!ids) {
                 $('#exportPackagingSlipsSelected-info').text("@T("Admin.Orders.Shipments.NoShipmentsSelected")");
-                $("#exportPackagingSlipsSelected").trigger("click");
+                $("#exportPackagingSlipsSelected").click();
             }
             else {
                 $('#pdf-packaging-slip-selected-form #selectedIds').val(ids);

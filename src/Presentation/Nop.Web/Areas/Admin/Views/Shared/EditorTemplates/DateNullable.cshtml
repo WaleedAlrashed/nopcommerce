@@ -1,2 +1,7 @@
 ﻿@model DateTime?
-<input id="@Html.IdForModel()" name="@Html.NameForModel()" value="@(Model > DateTime.MinValue || Model.HasValue ? Model.Value.ToShortDateString() : null)" type="date" class="form-control" />
+<input id="@Html.IdForModel()" name="@Html.NameForModel()" value="@(Model > DateTime.MinValue || Model.HasValue ? Model.Value.ToShortDateString() : null)" />
+<script>
+    $(document).ready(function () {
+        $("#@Html.IdForModel()").kendoDatePicker();
+    });
+</script>

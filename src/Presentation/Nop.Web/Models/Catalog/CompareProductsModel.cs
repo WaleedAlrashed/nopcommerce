@@ -1,15 +1,17 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Catalog;
-
-public partial record CompareProductsModel : BaseNopEntityModel
+namespace Nop.Web.Models.Catalog
 {
-    public CompareProductsModel()
+    public partial record CompareProductsModel : BaseNopEntityModel
     {
-        Products = new List<ProductOverviewModel>();
-    }
-    public IList<ProductOverviewModel> Products { get; set; }
+        public CompareProductsModel()
+        {
+            Products = new List<ProductOverviewModel>();
+        }
+        public IList<ProductOverviewModel> Products { get; set; }
 
-    public bool IncludeShortDescriptionInCompareProducts { get; set; }
-    public bool IncludeFullDescriptionInCompareProducts { get; set; }
+        public bool IncludeShortDescriptionInCompareProducts { get; set; }
+        public bool IncludeFullDescriptionInCompareProducts { get; set; }
+    }
 }

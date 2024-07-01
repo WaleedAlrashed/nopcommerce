@@ -1,17 +1,13 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Common;
-
-public partial record SystemWarningModel : BaseNopModel
+namespace Nop.Web.Areas.Admin.Models.Common
 {
-    public SystemWarningLevel Level { get; set; }
-
-    public string Text { get; set; }
-
-    public bool DontEncode { get; set; }
-
-    public override string ToString()
+    public partial record SystemWarningModel : BaseNopModel
     {
-        return Text;
+        public SystemWarningLevel Level { get; set; }
+
+        public string Text { get; set; }
+
+        public bool DontEncode { get; set; }
     }
 }

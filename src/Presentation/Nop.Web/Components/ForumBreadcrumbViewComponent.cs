@@ -1,21 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class ForumBreadcrumbViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly IForumModelFactory _forumModelFactory;
-
-    public ForumBreadcrumbViewComponent(IForumModelFactory forumModelFactory)
+    public partial class ForumBreadcrumbViewComponent : NopViewComponent
     {
-        _forumModelFactory = forumModelFactory;
-    }
+        private readonly IForumModelFactory _forumModelFactory;
 
-    public async Task<IViewComponentResult> InvokeAsync(int? forumGroupId, int? forumId, int? forumTopicId)
-    {
-        var model = await _forumModelFactory.PrepareForumBreadcrumbModelAsync(forumGroupId, forumId, forumTopicId);
-        return View(model);
+        public ForumBreadcrumbViewComponent(IForumModelFactory forumModelFactory)
+        {
+            _forumModelFactory = forumModelFactory;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync(int? forumGroupId, int? forumId, int? forumTopicId)
+        {
+            var model = await _forumModelFactory.PrepareForumBreadcrumbModelAsync(forumGroupId, forumId, forumTopicId);
+            return View(model);
+        }
     }
 }

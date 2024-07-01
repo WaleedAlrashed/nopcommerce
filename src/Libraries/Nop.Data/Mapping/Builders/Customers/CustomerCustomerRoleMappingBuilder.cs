@@ -2,27 +2,28 @@
 using Nop.Core.Domain.Customers;
 using Nop.Data.Extensions;
 
-namespace Nop.Data.Mapping.Builders.Customers;
-
-/// <summary>
-/// Represents a customer customer role mapping entity builder
-/// </summary>
-public partial class CustomerCustomerRoleMappingBuilder : NopEntityBuilder<CustomerCustomerRoleMapping>
+namespace Nop.Data.Mapping.Builders.Customers
 {
-    #region Methods
-
     /// <summary>
-    /// Apply entity configuration
+    /// Represents a customer customer role mapping entity builder
     /// </summary>
-    /// <param name="table">Create table expression builder</param>
-    public override void MapEntity(CreateTableExpressionBuilder table)
+    public partial class CustomerCustomerRoleMappingBuilder : NopEntityBuilder<CustomerCustomerRoleMapping>
     {
-        table
-            .WithColumn(NameCompatibilityManager.GetColumnName(typeof(CustomerCustomerRoleMapping), nameof(CustomerCustomerRoleMapping.CustomerId)))
-            .AsInt32().ForeignKey<Customer>().PrimaryKey()
-            .WithColumn(NameCompatibilityManager.GetColumnName(typeof(CustomerCustomerRoleMapping), nameof(CustomerCustomerRoleMapping.CustomerRoleId)))
-            .AsInt32().ForeignKey<CustomerRole>().PrimaryKey();
-    }
+        #region Methods
 
-    #endregion
+        /// <summary>
+        /// Apply entity configuration
+        /// </summary>
+        /// <param name="table">Create table expression builder</param>
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+            table
+                .WithColumn(NameCompatibilityManager.GetColumnName(typeof(CustomerCustomerRoleMapping), nameof(CustomerCustomerRoleMapping.CustomerId)))
+                    .AsInt32().ForeignKey<Customer>().PrimaryKey()
+                .WithColumn(NameCompatibilityManager.GetColumnName(typeof(CustomerCustomerRoleMapping), nameof(CustomerCustomerRoleMapping.CustomerRoleId)))
+                    .AsInt32().ForeignKey<CustomerRole>().PrimaryKey();
+        }
+
+        #endregion
+    }
 }

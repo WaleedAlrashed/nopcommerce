@@ -1,17 +1,18 @@
-﻿namespace Nop.Core.Domain.Common;
-
-/// <summary>
-/// Search term record (for statistics)
-/// </summary>
-public partial class SearchTermReportLine
+﻿namespace Nop.Core.Domain.Common
 {
     /// <summary>
-    /// Gets or sets the keyword
+    /// Search term record (for statistics)
     /// </summary>
-    public string Keyword { get; set; }
+    public partial class SearchTermReportLine
+    {
+        /// <summary>
+        /// Gets or sets the keyword
+        /// </summary>
+        public string Keyword { get; set; }
 
-    /// <summary>
-    /// Gets or sets search count
-    /// </summary>
-    public int Count { get; set; }
+        /// <summary>
+        /// Gets or sets search count
+        /// </summary>
+        public int Count { get; set; }
+    }
 }

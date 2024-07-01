@@ -1,130 +1,135 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
-namespace Nop.Services.Media.RoxyFileman;
-
-/// <summary>
-/// RoxyFileman service interface
-/// </summary>
-public partial interface IRoxyFilemanService
+namespace Nop.Services.Media.RoxyFileman
 {
-    #region Configuration
-
     /// <summary>
-    /// Initial service configuration
+    /// RoxyFileman service interface
     /// </summary>
-    /// <param name="pathBase">The base path for the current request</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    Task ConfigureAsync(string pathBase);
+    public partial interface IRoxyFilemanService
+    {
+        #region Configuration
 
-    #endregion
+        /// <summary>
+        /// Initial service configuration
+        /// </summary>
+        /// <param name="pathBase">The base path for the current request</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        Task ConfigureAsync(string pathBase);
 
-    #region Directories
+        #endregion
 
-    /// <summary>
-    /// Copy the directory
-    /// </summary>
-    /// <param name="sourcePath">Path to the source directory</param>
-    /// <param name="destinationPath">Path to the destination directory</param>
-    void CopyDirectory(string sourcePath, string destinationPath);
+        #region Directories
 
-    /// <summary>
-    /// Create the new directory
-    /// </summary>
-    /// <param name="parentDirectoryPath">Path to the parent directory</param>
-    /// <param name="name">Name of the new directory</param>
-    void CreateDirectory(string parentDirectoryPath, string name);
+        /// <summary>
+        /// Copy the directory
+        /// </summary>
+        /// <param name="sourcePath">Path to the source directory</param>
+        /// <param name="destinationPath">Path to the destination directory</param>
+        void CopyDirectory(string sourcePath, string destinationPath);
 
-    /// <summary>
-    /// Delete the directory
-    /// </summary>
-    /// <param name="path">Path to the directory</param>
-    void DeleteDirectory(string path);
+        /// <summary>
+        /// Create the new directory
+        /// </summary>
+        /// <param name="parentDirectoryPath">Path to the parent directory</param>
+        /// <param name="name">Name of the new directory</param>
+        void CreateDirectory(string parentDirectoryPath, string name);
 
-    /// <summary>
-    /// Download the directory from the server as a zip archive
-    /// </summary>
-    /// <param name="path">Path to the directory</param>
-    byte[] DownloadDirectory(string path);
+        /// <summary>
+        /// Delete the directory
+        /// </summary>
+        /// <param name="path">Path to the directory</param>
+        void DeleteDirectory(string path);
 
-    /// <summary>
-    /// Get all available directories as a directory tree
-    /// </summary>
-    /// <param name="type">Type of the file</param>
-    /// <returns>List of directories</returns>
-    IEnumerable<object> GetDirectoryList(string type);
+        /// <summary>
+        /// Download the directory from the server as a zip archive
+        /// </summary>
+        /// <param name="path">Path to the directory</param>
+        byte[] DownloadDirectory(string path);
 
-    /// <summary>
-    /// Move the directory
-    /// </summary>
-    /// <param name="sourcePath">Path to the source directory</param>
-    /// <param name="destinationPath">Path to the destination directory</param>
-    void MoveDirectory(string sourcePath, string destinationPath);
+        /// <summary>
+        /// Get all available directories as a directory tree
+        /// </summary>
+        /// <param name="type">Type of the file</param>
+        /// <returns>List of directories</returns>
+        IEnumerable<object> GetDirectoryList(string type);
 
-    /// <summary>
-    /// Rename the directory
-    /// </summary>
-    /// <param name="sourcePath">Path to the source directory</param>
-    /// <param name="newName">New name of the directory</param>
-    void RenameDirectory(string sourcePath, string newName);
+        /// <summary>
+        /// Move the directory
+        /// </summary>
+        /// <param name="sourcePath">Path to the source directory</param>
+        /// <param name="destinationPath">Path to the destination directory</param>
+        void MoveDirectory(string sourcePath, string destinationPath);
 
-    #endregion
+        /// <summary>
+        /// Rename the directory
+        /// </summary>
+        /// <param name="sourcePath">Path to the source directory</param>
+        /// <param name="newName">New name of the directory</param>
+        void RenameDirectory(string sourcePath, string newName);
 
-    #region Files
+        #endregion
 
-    /// <summary>
-    /// Get filename and read-only content stream
-    /// </summary>
-    /// <param name="path">Path to the file</param>
-    (Stream stream, string name) GetFileStream(string path);
+        #region Files
 
-    /// <summary>
-    /// Copy the file
-    /// </summary>
-    /// <param name="sourcePath">Path to the source file</param>
-    /// <param name="destinationPath">Path to the destination file</param>
-    void CopyFile(string sourcePath, string destinationPath);
+        /// <summary>
+        /// Get filename and read-only content stream
+        /// </summary>
+        /// <param name="path">Path to the file</param>
+        (Stream stream, string name) GetFileStream(string path);
 
-    /// <summary>
-    /// Get binary image thumbnail data
-    /// </summary>
-    /// <param name="path">Path to the image</param>
-    /// <param name="contentType">The resulting MIME type</param>
-    byte[] CreateImageThumbnail(string path, string contentType);
+        /// <summary>
+        /// Copy the file
+        /// </summary>
+        /// <param name="sourcePath">Path to the source file</param>
+        /// <param name="destinationPath">Path to the destination file</param>
+        void CopyFile(string sourcePath, string destinationPath);
 
-    /// <summary>
-    /// Delete the file
-    /// </summary>
-    /// <param name="path">Path to the file</param>
-    void DeleteFile(string path);
+        /// <summary>
+        /// Get binary image thumbnail data
+        /// </summary>
+        /// <param name="path">Path to the image</param>
+        /// <param name="contentType">The resulting MIME type</param>
+        byte[] CreateImageThumbnail(string path, string contentType);
 
-    /// <summary>
-    /// Get files in the passed directory
-    /// </summary>
-    /// <param name="directoryPath">Path to the files directory</param>
-    /// <param name="type">Type of the files</param>
-    IEnumerable<object> GetFiles(string directoryPath, string type);
+        /// <summary>
+        /// Delete the file
+        /// </summary>
+        /// <param name="path">Path to the file</param>
+        void DeleteFile(string path);
 
-    /// <summary>
-    /// Move the file
-    /// </summary>
-    /// <param name="sourcePath">Path to the source file</param>
-    /// <param name="destinationPath">Path to the destination file</param>
-    void MoveFile(string sourcePath, string destinationPath);
+        /// <summary>
+        /// Get files in the passed directory
+        /// </summary>
+        /// <param name="directoryPath">Path to the files directory</param>
+        /// <param name="type">Type of the files</param>
+        IEnumerable<object> GetFiles(string directoryPath, string type);
 
-    /// <summary>
-    /// Rename the file
-    /// </summary>
-    /// <param name="sourcePath">Path to the source file</param>
-    /// <param name="newName">New name of the file</param>
-    void RenameFile(string sourcePath, string newName);
+        /// <summary>
+        /// Move the file
+        /// </summary>
+        /// <param name="sourcePath">Path to the source file</param>
+        /// <param name="destinationPath">Path to the destination file</param>
+        void MoveFile(string sourcePath, string destinationPath);
 
-    /// <summary>
-    /// Upload files to a directory on passed path
-    /// </summary>
-    /// <param name="directoryPath">Path to directory to upload files</param>
-    /// <param name="files">Files sent with the HttpRequest</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    Task UploadFilesAsync(string directoryPath, IEnumerable<IFormFile> files);
+        /// <summary>
+        /// Rename the file
+        /// </summary>
+        /// <param name="sourcePath">Path to the source file</param>
+        /// <param name="newName">New name of the file</param>
+        void RenameFile(string sourcePath, string newName);
 
-    #endregion
+        /// <summary>
+        /// Upload files to a directory on passed path
+        /// </summary>
+        /// <param name="directoryPath">Path to directory to upload files</param>
+        /// <param name="files">Files sent with the HttpRequest</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        Task UploadFilesAsync(string directoryPath, IEnumerable<IFormFile> files);
+
+        #endregion
+    }
 }

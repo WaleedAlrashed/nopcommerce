@@ -1,29 +1,32 @@
-namespace Nop.Services.Themes;
+using System.Collections.Generic;
 
-/// <summary>
-/// Themes uploaded event
-/// </summary>
-public partial class ThemesUploadedEvent
+namespace Nop.Services.Themes
 {
-    #region Ctor
-
     /// <summary>
-    /// Ctor
+    /// Themes uploaded event
     /// </summary>
-    /// <param name="uploadedThemes">Uploaded themes</param>
-    public ThemesUploadedEvent(IList<ThemeDescriptor> uploadedThemes)
+    public partial class ThemesUploadedEvent
     {
-        UploadedThemes = uploadedThemes;
+        #region Ctor
+
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="uploadedThemes">Uploaded themes</param>
+        public ThemesUploadedEvent(IList<ThemeDescriptor> uploadedThemes)
+        {
+            UploadedThemes = uploadedThemes;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Uploaded themes
+        /// </summary>
+        public IList<ThemeDescriptor> UploadedThemes { get; }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Uploaded themes
-    /// </summary>
-    public IList<ThemeDescriptor> UploadedThemes { get; }
-
-    #endregion
 }

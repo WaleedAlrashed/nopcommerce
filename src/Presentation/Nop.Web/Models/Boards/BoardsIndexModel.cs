@@ -1,13 +1,15 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Boards;
-
-public partial record BoardsIndexModel : BaseNopModel
+namespace Nop.Web.Models.Boards
 {
-    public BoardsIndexModel()
+    public partial record BoardsIndexModel : BaseNopModel
     {
-        ForumGroups = new List<ForumGroupModel>();
+        public BoardsIndexModel()
+        {
+            ForumGroups = new List<ForumGroupModel>();
+        }
+        
+        public IList<ForumGroupModel> ForumGroups { get; set; }
     }
-
-    public IList<ForumGroupModel> ForumGroups { get; set; }
 }

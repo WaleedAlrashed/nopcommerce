@@ -1,41 +1,42 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Catalog;
-
-/// <summary>
-/// Represents a products price range filter model
-/// </summary>
-public partial record PriceRangeFilterModel : BaseNopModel
+namespace Nop.Web.Models.Catalog
 {
-    #region Properties
-
     /// <summary>
-    /// Gets or sets a value indicating whether filtering is enabled
+    /// Represents a products price range filter model
     /// </summary>
-    public bool Enabled { get; set; }
-
-    /// <summary>
-    /// Gets or sets the selected price range
-    /// </summary>
-    public PriceRangeModel SelectedPriceRange { get; set; }
-
-    /// <summary>
-    /// Gets or sets the available price range
-    /// </summary>
-    public PriceRangeModel AvailablePriceRange { get; set; }
-
-    #endregion
-
-    #region Ctor
-
-    /// <summary>
-    /// Ctor
-    /// </summary>
-    public PriceRangeFilterModel()
+    public partial record PriceRangeFilterModel : BaseNopModel
     {
-        SelectedPriceRange = new PriceRangeModel();
-        AvailablePriceRange = new PriceRangeModel();
-    }
+        #region Properties
 
-    #endregion
+        /// <summary>
+        /// Gets or sets a value indicating whether filtering is enabled
+        /// </summary>
+        public bool Enabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the selected price range
+        /// </summary>
+        public PriceRangeModel SelectedPriceRange { get; set; }
+
+        /// <summary>
+        /// Gets or sets the available price range
+        /// </summary>
+        public PriceRangeModel AvailablePriceRange { get; set; }
+
+        #endregion
+
+        #region Ctor
+
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        public PriceRangeFilterModel()
+        {
+            SelectedPriceRange = new PriceRangeModel();
+            AvailablePriceRange = new PriceRangeModel();
+        }
+
+        #endregion
+    }
 }

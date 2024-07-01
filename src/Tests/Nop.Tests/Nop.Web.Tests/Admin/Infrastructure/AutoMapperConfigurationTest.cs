@@ -3,20 +3,21 @@ using Nop.Core.Infrastructure.Mapper;
 using Nop.Web.Areas.Admin.Infrastructure.Mapper;
 using NUnit.Framework;
 
-namespace Nop.Tests.Nop.Web.Tests.Admin.Infrastructure;
-
-[TestFixture]
-public class AutoMapperConfigurationTest
+namespace Nop.Tests.Nop.Web.Tests.Admin.Infrastructure
 {
-    [Test]
-    public void ConfigurationIsValid()
+    [TestFixture]
+    public class AutoMapperConfigurationTest
     {
-        var config = new MapperConfiguration(cfg =>
+        [Test]
+        public void ConfigurationIsValid()
         {
-            cfg.AddProfile(typeof(AdminMapperConfiguration));
-        });
-
-        AutoMapperConfiguration.Init(config);
-        AutoMapperConfiguration.MapperConfiguration.AssertConfigurationIsValid();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(typeof(AdminMapperConfiguration));
+            });
+            
+            AutoMapperConfiguration.Init(config);
+            AutoMapperConfiguration.MapperConfiguration.AssertConfigurationIsValid();
+        }
     }
 }

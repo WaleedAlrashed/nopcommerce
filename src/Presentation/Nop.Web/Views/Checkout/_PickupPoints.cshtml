@@ -13,24 +13,15 @@
             @T("Checkout.PickupPoints.Description")
         </div>
         <script asp-location="Footer">
-            $(function() {
-                togglePickupInStore($("#@Html.IdFor(model => model.PickupInStore)")[0]);
-
-                $(document).on('checkout_toggle_pickup_in_store', function (e) {
-                    if (e.checked)
-                        $('.method-list').hide();
-                    else
-                        $('.method-list').show();
-                });
+            $(document).ready(function () {
+                togglePickupInStore($("#@Html.IdFor(model => model.PickupInStore)"));
             });
 
             function togglePickupInStore(pickupInStore) {
                 if (pickupInStore.checked) {
                     $('#pickup-points-form').show();
-                    $('.method-list').hide();
                 } else {
                     $('#pickup-points-form').hide();
-                    $('.method-list').show();
                 }
 
                 $(document).trigger({ type: "checkout_toggle_pickup_in_store", checked: pickupInStore.checked });
@@ -54,7 +45,7 @@
                 <input name="pickup-points-id" id="pickup-points-id" type="hidden" value="@($"{point.Id}___{point.ProviderSystemName}")" />
                 <ul>
                     <li class="single-pickup-point name">@point.Name</li>
-                    <li class="single-pickup-point address">@($"{point.AddressLine}")</li>
+                    <li class="single-pickup-point address">@($"{point.Address} {point.City} {point.County} {point.StateName} {point.CountryName}")</li>
                     @if (!string.IsNullOrEmpty(point.PickupFee))
                     {
                         <li class="single-pickup-point fee">@point.PickupFee</li>
@@ -98,7 +89,7 @@
                             parameters.Add(point.PickupFee);
                         }
                         addressLine.AppendJoin(", ", parameters);
-                        <option selected="@point.IsPreSelected" value="@($"{point.Id}___{point.ProviderSystemName}")">@(addressLine)</option>
+                        <option value="@($"{point.Id}___{point.ProviderSystemName}")">@(addressLine)</option>
                     }
                 </select>
             }
@@ -111,7 +102,7 @@
                 <script asp-location="Footer">
                     var markers = new Map();
                     var googleMap = null;
-                    $(function() {
+                    $(document).ready(function () {
                         $.getScript("@src", function( data, textStatus, jqxhr ) {
                             google.maps.visualRefresh = true;
                             googleMap = new google.maps.Map(document.getElementById("map"), {
@@ -154,7 +145,7 @@
                                 {
                                     var address = $"{point.Address} {point.City} {point.ZipPostalCode} {point.CountryName}";
                                     <text>
-                                        var interval_@(i) = setInterval( function () {
+                                        var interval_@i = setInterval( function () {
                                             geocoder.geocode({ 'address': "@address" }, function(results, status) {
                                                 if (status === google.maps.GeocoderStatus.OK) {
                                                     var marker = new google.maps.Marker({

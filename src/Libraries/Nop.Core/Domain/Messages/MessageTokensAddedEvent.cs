@@ -1,29 +1,32 @@
-namespace Nop.Core.Domain.Messages;
+using System.Collections.Generic;
 
-/// <summary>
-/// A container for tokens that are added.
-/// </summary>
-/// <typeparam name="U">Type</typeparam>
-public partial class MessageTokensAddedEvent<U>
+namespace Nop.Core.Domain.Messages
 {
     /// <summary>
-    /// Ctor
+    /// A container for tokens that are added.
     /// </summary>
-    /// <param name="message">Message</param>
-    /// <param name="tokens">Tokens</param>
-    public MessageTokensAddedEvent(MessageTemplate message, IList<U> tokens)
+    /// <typeparam name="U">Type</typeparam>
+    public partial class MessageTokensAddedEvent<U>
     {
-        Message = message;
-        Tokens = tokens;
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <param name="tokens">Tokens</param>
+        public MessageTokensAddedEvent(MessageTemplate message, IList<U> tokens)
+        {
+            Message = message;
+            Tokens = tokens;
+        }
+
+        /// <summary>
+        /// Message
+        /// </summary>
+        public MessageTemplate Message { get; }
+
+        /// <summary>
+        /// Tokens
+        /// </summary>
+        public IList<U> Tokens { get; }
     }
-
-    /// <summary>
-    /// Message
-    /// </summary>
-    public MessageTemplate Message { get; }
-
-    /// <summary>
-    /// Tokens
-    /// </summary>
-    public IList<U> Tokens { get; }
 }

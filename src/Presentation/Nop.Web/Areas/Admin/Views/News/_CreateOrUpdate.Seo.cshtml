@@ -38,7 +38,7 @@
         </div>
     </div>
     <script>
-        $(function() {
+        $(document).ready(function () {
             $('#@Html.IdFor(model => model.SeName)').on('input change', function () {
                 var parameters = {
                     entityId: '@Model.Id',

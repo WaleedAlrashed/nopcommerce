@@ -3,17 +3,16 @@ using Nop.Services.Localization;
 using Nop.Web.Framework.Validators;
 using Nop.Web.Models.Vendors;
 
-namespace Nop.Web.Validators.Vendors;
-
-public partial class VendorInfoValidator : BaseNopValidator<VendorInfoModel>
+namespace Nop.Web.Validators.Vendors
 {
-    public VendorInfoValidator(ILocalizationService localizationService)
+    public partial class VendorInfoValidator : BaseNopValidator<VendorInfoModel>
     {
-        RuleFor(x => x.Name).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Account.VendorInfo.Name.Required"));
+        public VendorInfoValidator(ILocalizationService localizationService)
+        {
+            RuleFor(x => x.Name).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Account.VendorInfo.Name.Required"));
 
-        RuleFor(x => x.Email).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Account.VendorInfo.Email.Required"));
-        RuleFor(x => x.Email)
-            .IsEmailAddress()
-            .WithMessageAwait(localizationService.GetResourceAsync("Common.WrongEmail"));
+            RuleFor(x => x.Email).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Account.VendorInfo.Email.Required"));
+            RuleFor(x => x.Email).EmailAddress().WithMessageAwait(localizationService.GetResourceAsync("Common.WrongEmail"));
+        }
     }
 }

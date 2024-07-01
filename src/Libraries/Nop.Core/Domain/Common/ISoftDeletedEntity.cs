@@ -1,12 +1,13 @@
-﻿namespace Nop.Core.Domain.Common;
-
-/// <summary>
-/// Represents a soft-deleted (without actually deleting from storage) entity
-/// </summary>
-public partial interface ISoftDeletedEntity
+﻿namespace Nop.Core.Domain.Common
 {
     /// <summary>
-    /// Gets or sets a value indicating whether the entity has been deleted
+    /// Represents a soft-deleted (without actually deleting from storage) entity
     /// </summary>
-    bool Deleted { get; set; }
+    public partial interface ISoftDeletedEntity
+    {
+        /// <summary>
+        /// Gets or sets a value indicating whether the entity has been deleted
+        /// </summary>
+        bool Deleted { get; set; }
+    }
 }

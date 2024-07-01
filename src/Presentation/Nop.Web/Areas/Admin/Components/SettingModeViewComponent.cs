@@ -1,46 +1,48 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Areas.Admin.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Areas.Admin.Components;
-
-/// <summary>
-/// Represents a view component that displays the setting mode
-/// </summary>
-public partial class SettingModeViewComponent : NopViewComponent
+namespace Nop.Web.Areas.Admin.Components
 {
-    #region Fields
-
-    protected readonly ISettingModelFactory _settingModelFactory;
-
-    #endregion
-
-    #region Ctor
-
-    public SettingModeViewComponent(ISettingModelFactory settingModelFactory)
-    {
-        _settingModelFactory = settingModelFactory;
-    }
-
-    #endregion
-
-    #region Methods
-
     /// <summary>
-    /// Invoke view component
+    /// Represents a view component that displays the setting mode
     /// </summary>
-    /// <param name="modeName">Setting mode name</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the view component result
-    /// </returns>
-    public async Task<IViewComponentResult> InvokeAsync(string modeName = "settings-advanced-mode")
+    public partial class SettingModeViewComponent : NopViewComponent
     {
-        //prepare model
-        var model = await _settingModelFactory.PrepareSettingModeModelAsync(modeName);
+        #region Fields
 
-        return View(model);
+        private readonly ISettingModelFactory _settingModelFactory;
+
+        #endregion
+
+        #region Ctor
+
+        public SettingModeViewComponent(ISettingModelFactory settingModelFactory)
+        {
+            _settingModelFactory = settingModelFactory;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Invoke view component
+        /// </summary>
+        /// <param name="modeName">Setting mode name</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the view component result
+        /// </returns>
+        public async Task<IViewComponentResult> InvokeAsync(string modeName = "settings-advanced-mode")
+        {
+            //prepare model
+            var model = await _settingModelFactory.PrepareSettingModeModelAsync(modeName);
+
+            return View(model);
+        }
+
+        #endregion
     }
-
-    #endregion
 }

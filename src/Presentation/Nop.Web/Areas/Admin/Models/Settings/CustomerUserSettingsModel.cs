@@ -2,45 +2,46 @@
 using Nop.Web.Areas.Admin.Models.Customers;
 using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Settings;
-
-/// <summary>
-/// Represents a customer user settings model
-/// </summary>
-public partial record CustomerUserSettingsModel : BaseNopModel, ISettingsModel
+namespace Nop.Web.Areas.Admin.Models.Settings
 {
-    #region Ctor
-
-    public CustomerUserSettingsModel()
+    /// <summary>
+    /// Represents a customer user settings model
+    /// </summary>
+    public partial record CustomerUserSettingsModel : BaseNopModel, ISettingsModel
     {
-        CustomerSettings = new CustomerSettingsModel();
-        AddressSettings = new AddressSettingsModel();
-        DateTimeSettings = new DateTimeSettingsModel();
-        ExternalAuthenticationSettings = new ExternalAuthenticationSettingsModel();
-        MultiFactorAuthenticationSettings = new MultiFactorAuthenticationSettingsModel();
-        CustomerAttributeSearchModel = new CustomerAttributeSearchModel();
-        AddressAttributeSearchModel = new AddressAttributeSearchModel();
+        #region Ctor
+
+        public CustomerUserSettingsModel()
+        {
+            CustomerSettings = new CustomerSettingsModel();
+            AddressSettings = new AddressSettingsModel();
+            DateTimeSettings = new DateTimeSettingsModel();
+            ExternalAuthenticationSettings = new ExternalAuthenticationSettingsModel();
+            MultiFactorAuthenticationSettings = new MultiFactorAuthenticationSettingsModel();
+            CustomerAttributeSearchModel = new CustomerAttributeSearchModel();
+            AddressAttributeSearchModel = new AddressAttributeSearchModel();
+        }
+
+        #endregion
+
+        #region Properties
+
+        public int ActiveStoreScopeConfiguration { get; set; }
+
+        public CustomerSettingsModel CustomerSettings { get; set; }
+
+        public AddressSettingsModel AddressSettings { get; set; }
+
+        public DateTimeSettingsModel DateTimeSettings { get; set; }
+
+        public ExternalAuthenticationSettingsModel ExternalAuthenticationSettings { get; set; }
+
+        public MultiFactorAuthenticationSettingsModel MultiFactorAuthenticationSettings { get; set; }
+
+        public CustomerAttributeSearchModel CustomerAttributeSearchModel { get; set; }
+
+        public AddressAttributeSearchModel AddressAttributeSearchModel { get; set; }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    public int ActiveStoreScopeConfiguration { get; set; }
-
-    public CustomerSettingsModel CustomerSettings { get; set; }
-
-    public AddressSettingsModel AddressSettings { get; set; }
-
-    public DateTimeSettingsModel DateTimeSettings { get; set; }
-
-    public ExternalAuthenticationSettingsModel ExternalAuthenticationSettings { get; set; }
-
-    public MultiFactorAuthenticationSettingsModel MultiFactorAuthenticationSettings { get; set; }
-
-    public CustomerAttributeSearchModel CustomerAttributeSearchModel { get; set; }
-
-    public AddressAttributeSearchModel AddressAttributeSearchModel { get; set; }
-
-    #endregion
 }

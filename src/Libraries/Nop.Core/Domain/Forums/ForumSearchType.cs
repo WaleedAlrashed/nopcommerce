@@ -1,22 +1,23 @@
-﻿namespace Nop.Core.Domain.Forums;
-
-/// <summary>
-/// Represents a forum search type
-/// </summary>
-public enum ForumSearchType
+﻿namespace Nop.Core.Domain.Forums
 {
     /// <summary>
-    /// Topic titles and post text
+    /// Represents a forum search type
     /// </summary>
-    All = 0,
+    public enum ForumSearchType
+    {
+        /// <summary>
+        /// Topic titles and post text
+        /// </summary>
+        All = 0,
 
-    /// <summary>
-    /// Topic titles only
-    /// </summary>
-    TopicTitlesOnly = 10,
+        /// <summary>
+        /// Topic titles only
+        /// </summary>
+        TopicTitlesOnly = 10,
 
-    /// <summary>
-    /// Post text only
-    /// </summary>
-    PostTextOnly = 20
+        /// <summary>
+        /// Post text only
+        /// </summary>
+        PostTextOnly = 20
+    }
 }

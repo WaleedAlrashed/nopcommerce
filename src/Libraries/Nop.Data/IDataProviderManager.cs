@@ -1,16 +1,17 @@
-﻿namespace Nop.Data;
-
-/// <summary>
-/// Represents a data provider manager
-/// </summary>
-public partial interface IDataProviderManager
+﻿namespace Nop.Data
 {
-    #region Properties
-
     /// <summary>
-    /// Gets data provider
+    /// Represents a data provider manager
     /// </summary>
-    INopDataProvider DataProvider { get; }
+    public partial interface IDataProviderManager
+    {
+        #region Properties
 
-    #endregion
+        /// <summary>
+        /// Gets data provider
+        /// </summary>
+        INopDataProvider DataProvider { get; }
+
+        #endregion
+    }
 }

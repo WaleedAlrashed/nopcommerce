@@ -2,25 +2,26 @@
 using Nop.Core.Domain.Catalog;
 using Nop.Data.Extensions;
 
-namespace Nop.Data.Mapping.Builders.Catalog;
-
-/// <summary>
-/// Represents a product category entity builder
-/// </summary>
-public partial class ProductCategoryBuilder : NopEntityBuilder<ProductCategory>
+namespace Nop.Data.Mapping.Builders.Catalog
 {
-    #region Methods
-
     /// <summary>
-    /// Apply entity configuration
+    /// Represents a product category entity builder
     /// </summary>
-    /// <param name="table">Create table expression builder</param>
-    public override void MapEntity(CreateTableExpressionBuilder table)
+    public partial class ProductCategoryBuilder : NopEntityBuilder<ProductCategory>
     {
-        table
-            .WithColumn(nameof(ProductCategory.CategoryId)).AsInt32().ForeignKey<Category>()
-            .WithColumn(nameof(ProductCategory.ProductId)).AsInt32().ForeignKey<Product>();
-    }
+        #region Methods
 
-    #endregion
+        /// <summary>
+        /// Apply entity configuration
+        /// </summary>
+        /// <param name="table">Create table expression builder</param>
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+            table
+                .WithColumn(nameof(ProductCategory.CategoryId)).AsInt32().ForeignKey<Category>()
+                .WithColumn(nameof(ProductCategory.ProductId)).AsInt32().ForeignKey<Product>();
+        }
+
+        #endregion
+    }
 }

@@ -1,36 +1,38 @@
-﻿using FluentAssertions;
+﻿using System.Threading.Tasks;
+using FluentAssertions;
 using Nop.Core.Domain.Customers;
 using Nop.Web.Factories;
 using NUnit.Framework;
 
-namespace Nop.Tests.Nop.Web.Tests.Public.Factories;
-
-[TestFixture]
-public class NewsletterModelFactoryTests : BaseNopTest
+namespace Nop.Tests.Nop.Web.Tests.Public.Factories
 {
-    private INewsletterModelFactory _newsletterModelFactory;
-
-    [OneTimeSetUp]
-    public void SetUp()
+    [TestFixture]
+    public class NewsletterModelFactoryTests : BaseNopTest
     {
-        _newsletterModelFactory = GetService<INewsletterModelFactory>();
-    }
+        private INewsletterModelFactory _newsletterModelFactory;
 
-    [Test]
-    public async Task CanPrepareNewsletterBoxModel()
-    {
-        var model = await _newsletterModelFactory.PrepareNewsletterBoxModelAsync();
+        [OneTimeSetUp]
+        public void SetUp()
+        {
+            _newsletterModelFactory = GetService<INewsletterModelFactory>();
+        }
 
-        model.AllowToUnsubscribe.Should().Be(GetService<CustomerSettings>().NewsletterBlockAllowToUnsubscribe);
-    }
+        [Test]
+        public async Task CanPrepareNewsletterBoxModel()
+        {
+            var model = await _newsletterModelFactory.PrepareNewsletterBoxModelAsync();
 
-    [Test]
-    public async Task CanPrepareSubscriptionActivationModel()
-    {
-        var activated = (await _newsletterModelFactory.PrepareSubscriptionActivationModelAsync(true)).Result;
+            model.AllowToUnsubscribe.Should().Be(GetService<CustomerSettings>().NewsletterBlockAllowToUnsubscribe);
+        }
 
-        var deactivated = (await _newsletterModelFactory.PrepareSubscriptionActivationModelAsync(false)).Result;
+        [Test]
+        public async Task CanPrepareSubscriptionActivationModel()
+        {
+            var activated = (await _newsletterModelFactory.PrepareSubscriptionActivationModelAsync(true)).Result;
 
-        activated.Should().NotBe(deactivated);
+            var deactivated = (await _newsletterModelFactory.PrepareSubscriptionActivationModelAsync(false)).Result;
+
+            activated.Should().NotBe(deactivated);
+        }
     }
 }

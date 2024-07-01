@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Cms;
 using Nop.Core.Events;
 using Nop.Services.Cms;
@@ -9,109 +10,110 @@ using Nop.Web.Areas.Admin.Factories;
 using Nop.Web.Areas.Admin.Models.Cms;
 using Nop.Web.Framework.Mvc;
 
-namespace Nop.Web.Areas.Admin.Controllers;
-
-public partial class WidgetController : BaseAdminController
+namespace Nop.Web.Areas.Admin.Controllers
 {
-    #region Fields
-
-    protected readonly IEventPublisher _eventPublisher;
-    protected readonly IPermissionService _permissionService;
-    protected readonly ISettingService _settingService;
-    protected readonly IWidgetModelFactory _widgetModelFactory;
-    protected readonly IWidgetPluginManager _widgetPluginManager;
-    protected readonly WidgetSettings _widgetSettings;
-
-    #endregion
-
-    #region Ctor
-
-    public WidgetController(IEventPublisher eventPublisher,
-        IPermissionService permissionService,
-        ISettingService settingService,
-        IWidgetModelFactory widgetModelFactory,
-        IWidgetPluginManager widgetPluginManager,
-        WidgetSettings widgetSettings)
+    public partial class WidgetController : BaseAdminController
     {
-        _eventPublisher = eventPublisher;
-        _permissionService = permissionService;
-        _settingService = settingService;
-        _widgetModelFactory = widgetModelFactory;
-        _widgetPluginManager = widgetPluginManager;
-        _widgetSettings = widgetSettings;
-    }
+        #region Fields
 
-    #endregion
+        private readonly IEventPublisher _eventPublisher;
+        private readonly IPermissionService _permissionService;
+        private readonly ISettingService _settingService;
+        private readonly IWidgetModelFactory _widgetModelFactory;
+        private readonly IWidgetPluginManager _widgetPluginManager;
+        private readonly WidgetSettings _widgetSettings;
 
-    #region Methods
+        #endregion
 
-    public virtual IActionResult Index()
-    {
-        return RedirectToAction("List");
-    }
+        #region Ctor
 
-    public virtual async Task<IActionResult> List()
-    {
-        if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-            return AccessDeniedView();
-
-        //prepare model
-        var model = await _widgetModelFactory.PrepareWidgetSearchModelAsync(new WidgetSearchModel());
-
-        return View(model);
-    }
-
-    [HttpPost]
-    public virtual async Task<IActionResult> List(WidgetSearchModel searchModel)
-    {
-        if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-            return await AccessDeniedDataTablesJson();
-
-        //prepare model
-        var model = await _widgetModelFactory.PrepareWidgetListModelAsync(searchModel);
-
-        return Json(model);
-    }
-
-    [HttpPost]
-    public virtual async Task<IActionResult> WidgetUpdate(WidgetModel model)
-    {
-        if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
-            return await AccessDeniedDataTablesJson();
-
-        var widget = await _widgetPluginManager.LoadPluginBySystemNameAsync(model.SystemName);
-        if (_widgetPluginManager.IsPluginActive(widget, _widgetSettings.ActiveWidgetSystemNames))
+        public WidgetController(IEventPublisher eventPublisher,
+            IPermissionService permissionService,
+            ISettingService settingService,
+            IWidgetModelFactory widgetModelFactory,
+            IWidgetPluginManager widgetPluginManager,
+            WidgetSettings widgetSettings)
         {
-            if (!model.IsActive)
-            {
-                //mark as disabled
-                _widgetSettings.ActiveWidgetSystemNames.Remove(widget.PluginDescriptor.SystemName);
-                await _settingService.SaveSettingAsync(_widgetSettings);
-            }
-        }
-        else
-        {
-            if (model.IsActive)
-            {
-                //mark as active
-                _widgetSettings.ActiveWidgetSystemNames.Add(widget.PluginDescriptor.SystemName);
-                await _settingService.SaveSettingAsync(_widgetSettings);
-            }
+            _eventPublisher = eventPublisher;
+            _permissionService = permissionService;
+            _settingService = settingService;
+            _widgetModelFactory = widgetModelFactory;
+            _widgetPluginManager = widgetPluginManager;
+            _widgetSettings = widgetSettings;
         }
 
-        var pluginDescriptor = widget.PluginDescriptor;
+        #endregion
 
-        //display order
-        pluginDescriptor.DisplayOrder = model.DisplayOrder;
+        #region Methods
 
-        //update the description file
-        pluginDescriptor.Save();
+        public virtual IActionResult Index()
+        {
+            return RedirectToAction("List");
+        }
 
-        //raise event
-        await _eventPublisher.PublishAsync(new PluginUpdatedEvent(pluginDescriptor));
+        public virtual async Task<IActionResult> List()
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
 
-        return new NullJsonResult();
+            //prepare model
+            var model = await _widgetModelFactory.PrepareWidgetSearchModelAsync(new WidgetSearchModel());
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> List(WidgetSearchModel searchModel)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return await AccessDeniedDataTablesJson();
+
+            //prepare model
+            var model = await _widgetModelFactory.PrepareWidgetListModelAsync(searchModel);
+
+            return Json(model);
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> WidgetUpdate(WidgetModel model)
+        {
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageWidgets))
+                return AccessDeniedView();
+
+            var widget = await _widgetPluginManager.LoadPluginBySystemNameAsync(model.SystemName);
+            if (_widgetPluginManager.IsPluginActive(widget, _widgetSettings.ActiveWidgetSystemNames))
+            {
+                if (!model.IsActive)
+                {
+                    //mark as disabled
+                    _widgetSettings.ActiveWidgetSystemNames.Remove(widget.PluginDescriptor.SystemName);
+                    await _settingService.SaveSettingAsync(_widgetSettings);
+                }
+            }
+            else
+            {
+                if (model.IsActive)
+                {
+                    //mark as active
+                    _widgetSettings.ActiveWidgetSystemNames.Add(widget.PluginDescriptor.SystemName);
+                    await _settingService.SaveSettingAsync(_widgetSettings);
+                }
+            }
+
+            var pluginDescriptor = widget.PluginDescriptor;
+
+            //display order
+            pluginDescriptor.DisplayOrder = model.DisplayOrder;
+
+            //update the description file
+            pluginDescriptor.Save();
+
+            //raise event
+            await _eventPublisher.PublishAsync(new PluginUpdatedEvent(pluginDescriptor));
+
+            return new NullJsonResult();
+        }
+
+        #endregion
     }
-
-    #endregion
 }

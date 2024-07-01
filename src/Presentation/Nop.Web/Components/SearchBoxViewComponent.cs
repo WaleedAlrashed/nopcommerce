@@ -1,21 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class SearchBoxViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly ICatalogModelFactory _catalogModelFactory;
-
-    public SearchBoxViewComponent(ICatalogModelFactory catalogModelFactory)
+    public partial class SearchBoxViewComponent : NopViewComponent
     {
-        _catalogModelFactory = catalogModelFactory;
-    }
+        private readonly ICatalogModelFactory _catalogModelFactory;
 
-    public async Task<IViewComponentResult> InvokeAsync()
-    {
-        var model = await _catalogModelFactory.PrepareSearchBoxModelAsync();
-        return View(model);
+        public SearchBoxViewComponent(ICatalogModelFactory catalogModelFactory)
+        {
+            _catalogModelFactory = catalogModelFactory;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var model = await _catalogModelFactory.PrepareSearchBoxModelAsync();
+            return View(model);
+        }
     }
 }

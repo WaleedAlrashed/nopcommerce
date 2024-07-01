@@ -3,12 +3,13 @@ using Nop.Services.Localization;
 using Nop.Web.Areas.Admin.Models.Plugins;
 using Nop.Web.Framework.Validators;
 
-namespace Nop.Web.Areas.Admin.Validators.Plugins;
-
-public partial class PluginValidator : BaseNopValidator<PluginModel>
+namespace Nop.Web.Areas.Admin.Validators.Plugins
 {
-    public PluginValidator(ILocalizationService localizationService)
+    public partial class PluginValidator : BaseNopValidator<PluginModel>
     {
-        RuleFor(x => x.FriendlyName).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Admin.Configuration.Plugins.Fields.FriendlyName.Required"));
+        public PluginValidator(ILocalizationService localizationService)
+        {
+            RuleFor(x => x.FriendlyName).NotEmpty().WithMessageAwait(localizationService.GetResourceAsync("Admin.Configuration.Plugins.Fields.FriendlyName.Required"));
+        }
     }
 }

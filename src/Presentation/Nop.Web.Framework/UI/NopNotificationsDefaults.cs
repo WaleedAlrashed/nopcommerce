@@ -1,9 +1,10 @@
-﻿namespace Nop.Web.Framework.UI;
-
-public static partial class NopNotificationsDefaults
+﻿namespace Nop.Web.Framework.UI
 {
-    /// <summary>
-    /// Gets the notification prefix
-    /// </summary>
-    public static string Prefix => "nop.notifications.";
+    public static partial class  NopNotificationsDefaults
+    {
+        /// <summary>
+        /// Gets the notification prefix
+        /// </summary>
+        public static string Prefix => "nop.notifications.";
+    }
 }

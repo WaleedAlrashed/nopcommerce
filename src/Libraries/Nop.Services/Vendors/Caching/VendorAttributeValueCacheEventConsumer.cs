@@ -1,21 +1,22 @@
 ﻿using Nop.Core.Domain.Vendors;
-using Nop.Services.Attributes;
 using Nop.Services.Caching;
+using System.Threading.Tasks;
 
-namespace Nop.Services.Vendors.Caching;
-
-/// <summary>
-/// Represents a vendor attribute value cache event consumer
-/// </summary>
-public partial class VendorAttributeValueCacheEventConsumer : CacheEventConsumer<VendorAttributeValue>
+namespace Nop.Services.Vendors.Caching
 {
     /// <summary>
-    /// Clear cache data
+    /// Represents a vendor attribute value cache event consumer
     /// </summary>
-    /// <param name="entity">Entity</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected override async Task ClearCacheAsync(VendorAttributeValue entity)
+    public partial class VendorAttributeValueCacheEventConsumer : CacheEventConsumer<VendorAttributeValue>
     {
-        await RemoveAsync(NopAttributeDefaults.AttributeValuesByAttributeCacheKey, nameof(VendorAttribute), entity.AttributeId);
+        /// <summary>
+        /// Clear cache data
+        /// </summary>
+        /// <param name="entity">Entity</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        protected override async Task ClearCacheAsync(VendorAttributeValue entity)
+        {
+            await RemoveAsync(NopVendorDefaults.VendorAttributeValuesByAttributeCacheKey, entity.VendorAttributeId);
+        }
     }
 }

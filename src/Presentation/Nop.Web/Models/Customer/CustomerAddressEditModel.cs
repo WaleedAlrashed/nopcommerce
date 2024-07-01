@@ -1,14 +1,15 @@
 ﻿using Nop.Web.Framework.Models;
 using Nop.Web.Models.Common;
 
-namespace Nop.Web.Models.Customer;
-
-public partial record CustomerAddressEditModel : BaseNopModel
+namespace Nop.Web.Models.Customer
 {
-    public CustomerAddressEditModel()
+    public partial record CustomerAddressEditModel : BaseNopModel
     {
-        Address = new AddressModel();
+        public CustomerAddressEditModel()
+        {
+            Address = new AddressModel();
+        }
+        
+        public AddressModel Address { get; set; }
     }
-
-    public AddressModel Address { get; set; }
 }

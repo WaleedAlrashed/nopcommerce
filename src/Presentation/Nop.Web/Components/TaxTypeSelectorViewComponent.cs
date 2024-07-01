@@ -1,28 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Tax;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class TaxTypeSelectorViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly ICommonModelFactory _commonModelFactory;
-    protected readonly TaxSettings _taxSettings;
-
-    public TaxTypeSelectorViewComponent(ICommonModelFactory commonModelFactory,
-        TaxSettings taxSettings)
+    public partial class TaxTypeSelectorViewComponent : NopViewComponent
     {
-        _commonModelFactory = commonModelFactory;
-        _taxSettings = taxSettings;
-    }
+        private readonly ICommonModelFactory _commonModelFactory;
+        private readonly TaxSettings _taxSettings;
 
-    public async Task<IViewComponentResult> InvokeAsync()
-    {
-        if (!_taxSettings.AllowCustomersToSelectTaxDisplayType)
-            return Content("");
+        public TaxTypeSelectorViewComponent(ICommonModelFactory commonModelFactory,
+            TaxSettings taxSettings)
+        {
+            _commonModelFactory = commonModelFactory;
+            _taxSettings = taxSettings;
+        }
 
-        var model = await _commonModelFactory.PrepareTaxTypeSelectorModelAsync();
-        return View(model);
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            if (!_taxSettings.AllowCustomersToSelectTaxDisplayType)
+                return Content("");
+
+            var model = await _commonModelFactory.PrepareTaxTypeSelectorModelAsync();
+            return View(model);
+        }
     }
 }

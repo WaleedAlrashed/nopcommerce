@@ -1,8 +1,9 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Sitemap;
-
-public partial record SitemapXmlModel : BaseNopModel
+namespace Nop.Web.Models.Sitemap
 {
-    public string SitemapXmlPath { get; set; }
+    public partial record SitemapXmlModel : BaseNopModel
+    {
+        public string SitemapXmlPath { get; set; }
+    }
 }

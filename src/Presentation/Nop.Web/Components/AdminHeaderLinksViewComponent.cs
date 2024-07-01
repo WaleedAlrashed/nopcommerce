@@ -1,21 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class AdminHeaderLinksViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly ICommonModelFactory _commonModelFactory;
-
-    public AdminHeaderLinksViewComponent(ICommonModelFactory commonModelFactory)
+    public partial class AdminHeaderLinksViewComponent : NopViewComponent
     {
-        _commonModelFactory = commonModelFactory;
-    }
+        private readonly ICommonModelFactory _commonModelFactory;
 
-    public async Task<IViewComponentResult> InvokeAsync()
-    {
-        var model = await _commonModelFactory.PrepareAdminHeaderLinksModelAsync();
-        return View(model);
+        public AdminHeaderLinksViewComponent(ICommonModelFactory commonModelFactory)
+        {
+            _commonModelFactory = commonModelFactory;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var model = await _commonModelFactory.PrepareAdminHeaderLinksModelAsync();
+            return View(model);
+        }
     }
 }

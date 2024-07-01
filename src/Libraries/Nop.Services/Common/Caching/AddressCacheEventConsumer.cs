@@ -1,28 +1,23 @@
-﻿using Nop.Core.Domain.Common;
+﻿using System.Threading.Tasks;
+using Nop.Core.Domain.Common;
 using Nop.Services.Caching;
 using Nop.Services.Customers;
 
-namespace Nop.Services.Common.Caching;
-
-/// <summary>
-/// Represents a address cache event consumer
-/// </summary>
-public partial class AddressCacheEventConsumer : CacheEventConsumer<Address>
+namespace Nop.Services.Common.Caching
 {
     /// <summary>
-    /// Clear cache by entity event type
+    /// Represents a address cache event consumer
     /// </summary>
-    /// <param name="entity">Entity</param>
-    /// <param name="entityEventType">Entity event type</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    protected override async Task ClearCacheAsync(Address entity, EntityEventType entityEventType)
+    public partial class AddressCacheEventConsumer : CacheEventConsumer<Address>
     {
-        switch (entityEventType)
+        /// <summary>
+        /// Clear cache data
+        /// </summary>
+        /// <param name="entity">Entity</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        protected override async Task ClearCacheAsync(Address entity)
         {
-            case EntityEventType.Update:
-            case EntityEventType.Delete:
-                await RemoveByPrefixAsync(NopCustomerServicesDefaults.CustomerAddressesPrefix);
-                break;
+            await RemoveByPrefixAsync(NopCustomerServicesDefaults.CustomerAddressesPrefix);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿$(function() {
+﻿$(document).ready(function () {
   $('#tax-categories-grid').on('draw.dt', function () {
     if ($('body').hasClass('advanced-settings-mode')) {
       $('.onoffswitch-checkbox').trigger('click');

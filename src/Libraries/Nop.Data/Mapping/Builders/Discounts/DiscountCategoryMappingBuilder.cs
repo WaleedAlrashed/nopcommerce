@@ -3,27 +3,28 @@ using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Discounts;
 using Nop.Data.Extensions;
 
-namespace Nop.Data.Mapping.Builders.Discounts;
-
-/// <summary>
-/// Represents a discount category mapping entity builder
-/// </summary>
-public partial class DiscountCategoryMappingBuilder : NopEntityBuilder<DiscountCategoryMapping>
+namespace Nop.Data.Mapping.Builders.Discounts
 {
-    #region Methods
-
     /// <summary>
-    /// Apply entity configuration
+    /// Represents a discount category mapping entity builder
     /// </summary>
-    /// <param name="table">Create table expression builder</param>
-    public override void MapEntity(CreateTableExpressionBuilder table)
+    public partial class DiscountCategoryMappingBuilder : NopEntityBuilder<DiscountCategoryMapping>
     {
-        table
-            .WithColumn(NameCompatibilityManager.GetColumnName(typeof(DiscountCategoryMapping), nameof(DiscountCategoryMapping.DiscountId)))
-            .AsInt32().PrimaryKey().ForeignKey<Discount>()
-            .WithColumn(NameCompatibilityManager.GetColumnName(typeof(DiscountCategoryMapping), nameof(DiscountCategoryMapping.EntityId)))
-            .AsInt32().PrimaryKey().ForeignKey<Category>();
-    }
+        #region Methods
 
-    #endregion
+        /// <summary>
+        /// Apply entity configuration
+        /// </summary>
+        /// <param name="table">Create table expression builder</param>
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+            table
+                .WithColumn(NameCompatibilityManager.GetColumnName(typeof(DiscountCategoryMapping), nameof(DiscountCategoryMapping.DiscountId)))
+                    .AsInt32().PrimaryKey().ForeignKey<Discount>()
+                .WithColumn(NameCompatibilityManager.GetColumnName(typeof(DiscountCategoryMapping), nameof(DiscountCategoryMapping.EntityId)))
+                    .AsInt32().PrimaryKey().ForeignKey<Category>();
+        }
+
+        #endregion
+    }
 }

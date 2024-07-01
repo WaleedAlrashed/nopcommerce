@@ -1,197 +1,204 @@
-﻿using Nop.Core.Domain.Stores;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Nop.Core.Domain.Stores;
 using Nop.Data;
 
-namespace Nop.Services.Stores;
-
-/// <summary>
-/// Store service
-/// </summary>
-public partial class StoreService : IStoreService
+namespace Nop.Services.Stores
 {
-    #region Fields
-
-    protected readonly IRepository<Store> _storeRepository;
-    private static readonly char[] _separator = [','];
-
-    #endregion
-
-    #region Ctor
-
-    public StoreService(IRepository<Store> storeRepository)
-    {
-        _storeRepository = storeRepository;
-    }
-
-    #endregion
-
-    #region Utilities
-
     /// <summary>
-    /// Parse comma-separated Hosts
+    /// Store service
     /// </summary>
-    /// <param name="store">Store</param>
-    /// <returns>Comma-separated hosts</returns>
-    protected virtual string[] ParseHostValues(Store store)
+    public partial class StoreService : IStoreService
     {
-        ArgumentNullException.ThrowIfNull(store);
+        #region Fields
 
-        var parsedValues = new List<string>();
-        if (string.IsNullOrEmpty(store.Hosts))
-            return parsedValues.ToArray();
+        private readonly IRepository<Store> _storeRepository;
 
-        var hosts = store.Hosts.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
+        #endregion
 
-        foreach (var host in hosts)
+        #region Ctor
+
+        public StoreService(IRepository<Store> storeRepository)
         {
-            var tmp = host.Trim();
-            if (!string.IsNullOrEmpty(tmp))
-                parsedValues.Add(tmp);
+            _storeRepository = storeRepository;
         }
 
-        return parsedValues.ToArray();
-    }
+        #endregion
 
-    #endregion
+        #region Utilities
 
-    #region Methods
-
-    /// <summary>
-    /// Deletes a store
-    /// </summary>
-    /// <param name="store">Store</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task DeleteStoreAsync(Store store)
-    {
-        ArgumentNullException.ThrowIfNull(store);
-
-        var allStores = await GetAllStoresAsync();
-        if (allStores.Count == 1)
-            throw new Exception("You cannot delete the only configured store");
-
-        await _storeRepository.DeleteAsync(store);
-    }
-
-    /// <summary>
-    /// Gets all stores
-    /// </summary>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the stores
-    /// </returns>
-    public virtual async Task<IList<Store>> GetAllStoresAsync()
-    {
-        return await _storeRepository.GetAllAsync(query =>
+        /// <summary>
+        /// Parse comma-separated Hosts
+        /// </summary>
+        /// <param name="store">Store</param>
+        /// <returns>Comma-separated hosts</returns>
+        protected virtual string[] ParseHostValues(Store store)
         {
-            return from s in query orderby s.DisplayOrder, s.Id select s;
-        }, _ => default, includeDeleted: false);
-    }
+            if (store == null)
+                throw new ArgumentNullException(nameof(store));
 
-    /// <summary>
-    /// Gets all stores
-    /// </summary>
-    /// <returns>
-    /// The stores
-    /// </returns>
-    public virtual IList<Store> GetAllStores()
-    {
-        return _storeRepository.GetAll(query =>
+            var parsedValues = new List<string>();
+            if (string.IsNullOrEmpty(store.Hosts))
+                return parsedValues.ToArray();
+
+            var hosts = store.Hosts.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var host in hosts)
+            {
+                var tmp = host.Trim();
+                if (!string.IsNullOrEmpty(tmp))
+                    parsedValues.Add(tmp);
+            }
+
+            return parsedValues.ToArray();
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Deletes a store
+        /// </summary>
+        /// <param name="store">Store</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        public virtual async Task DeleteStoreAsync(Store store)
         {
-            return from s in query orderby s.DisplayOrder, s.Id select s;
-        }, _ => default, includeDeleted: false);
-    }
+            if (store == null)
+                throw new ArgumentNullException(nameof(store));
 
-    /// <summary>
-    /// Gets a store 
-    /// </summary>
-    /// <param name="storeId">Store identifier</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the store
-    /// </returns>
-    public virtual async Task<Store> GetStoreByIdAsync(int storeId)
-    {
-        return await _storeRepository.GetByIdAsync(storeId, cache => default, false);
-    }
+            var allStores = await GetAllStoresAsync();
+            if (allStores.Count == 1)
+                throw new Exception("You cannot delete the only configured store");
 
-    /// <summary>
-    /// Inserts a store
-    /// </summary>
-    /// <param name="store">Store</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task InsertStoreAsync(Store store)
-    {
-        await _storeRepository.InsertAsync(store);
-    }
+            await _storeRepository.DeleteAsync(store);
+        }
 
-    /// <summary>
-    /// Updates the store
-    /// </summary>
-    /// <param name="store">Store</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public virtual async Task UpdateStoreAsync(Store store)
-    {
-        await _storeRepository.UpdateAsync(store);
-    }
+        /// <summary>
+        /// Gets all stores
+        /// </summary>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the stores
+        /// </returns>
+        public virtual async Task<IList<Store>> GetAllStoresAsync()
+        {
+            return await _storeRepository.GetAllAsync(query =>
+            {
+                return from s in query orderby s.DisplayOrder, s.Id select s;
+            }, _ => default, includeDeleted: false);
+        }
 
-    /// <summary>
-    /// Updates the store
-    /// </summary>
-    /// <param name="store">Store</param>
-    public virtual void UpdateStore(Store store)
-    {
-        _storeRepository.Update(store);
-    }
+        /// <summary>
+        /// Gets all stores
+        /// </summary>
+        /// <returns>
+        /// The stores
+        /// </returns>
+        public virtual IList<Store> GetAllStores()
+        {
+            return _storeRepository.GetAll(query =>
+            {
+                return from s in query orderby s.DisplayOrder, s.Id select s;
+            }, _ => default, includeDeleted: false);
+        }
 
-    /// <summary>
-    /// Indicates whether a store contains a specified host
-    /// </summary>
-    /// <param name="store">Store</param>
-    /// <param name="host">Host</param>
-    /// <returns>true - contains, false - no</returns>
-    public virtual bool ContainsHostValue(Store store, string host)
-    {
-        ArgumentNullException.ThrowIfNull(store);
+        /// <summary>
+        /// Gets a store 
+        /// </summary>
+        /// <param name="storeId">Store identifier</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the store
+        /// </returns>
+        public virtual async Task<Store> GetStoreByIdAsync(int storeId)
+        {
+            return await _storeRepository.GetByIdAsync(storeId, cache => default, false);
+        }
 
-        if (string.IsNullOrEmpty(host))
-            return false;
+        /// <summary>
+        /// Inserts a store
+        /// </summary>
+        /// <param name="store">Store</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        public virtual async Task InsertStoreAsync(Store store)
+        {
+            await _storeRepository.InsertAsync(store);
+        }
 
-        var contains = ParseHostValues(store).Any(x => x.Equals(host, StringComparison.InvariantCultureIgnoreCase));
+        /// <summary>
+        /// Updates the store
+        /// </summary>
+        /// <param name="store">Store</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        public virtual async Task UpdateStoreAsync(Store store)
+        {
+            await _storeRepository.UpdateAsync(store);
+        }
 
-        return contains;
-    }
+        /// <summary>
+        /// Updates the store
+        /// </summary>
+        /// <param name="store">Store</param>
+        public virtual void UpdateStore(Store store)
+        {
+            _storeRepository.Update(store);
+        }
 
-    /// <summary>
-    /// Returns a list of names of not existing stores
-    /// </summary>
-    /// <param name="storeIdsNames">The names and/or IDs of the store to check</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the list of names and/or IDs not existing stores
-    /// </returns>
-    public async Task<string[]> GetNotExistingStoresAsync(string[] storeIdsNames)
-    {
-        ArgumentNullException.ThrowIfNull(storeIdsNames);
+        /// <summary>
+        /// Indicates whether a store contains a specified host
+        /// </summary>
+        /// <param name="store">Store</param>
+        /// <param name="host">Host</param>
+        /// <returns>true - contains, false - no</returns>
+        public virtual bool ContainsHostValue(Store store, string host)
+        {
+            if (store == null)
+                throw new ArgumentNullException(nameof(store));
 
-        var query = _storeRepository.Table;
-        var queryFilter = storeIdsNames.Distinct().ToArray();
-        //filtering by name
-        var filter = await query.Select(store => store.Name)
-            .Where(store => queryFilter.Contains(store))
-            .ToListAsync();
-        queryFilter = queryFilter.Except(filter).ToArray();
+            if (string.IsNullOrEmpty(host))
+                return false;
 
-        //if some names not found
-        if (!queryFilter.Any())
+            var contains = ParseHostValues(store).Any(x => x.Equals(host, StringComparison.InvariantCultureIgnoreCase));
+
+            return contains;
+        }
+
+        /// <summary>
+        /// Returns a list of names of not existing stores
+        /// </summary>
+        /// <param name="storeIdsNames">The names and/or IDs of the store to check</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the list of names and/or IDs not existing stores
+        /// </returns>
+        public async Task<string[]> GetNotExistingStoresAsync(string[] storeIdsNames)
+        {
+            if (storeIdsNames == null)
+                throw new ArgumentNullException(nameof(storeIdsNames));
+
+            var query = _storeRepository.Table;
+            var queryFilter = storeIdsNames.Distinct().ToArray();
+            //filtering by name
+            var filter = await query.Select(store => store.Name)
+                .Where(store => queryFilter.Contains(store))
+                .ToListAsync();
+            queryFilter = queryFilter.Except(filter).ToArray();
+
+            //if some names not found
+            if (!queryFilter.Any())
+                return queryFilter.ToArray();
+
+            //filtering by IDs
+            filter = await query.Select(store => store.Id.ToString())
+                .Where(store => queryFilter.Contains(store))
+                .ToListAsync();
+            queryFilter = queryFilter.Except(filter).ToArray();
+
             return queryFilter.ToArray();
+        }
 
-        //filtering by IDs
-        filter = await query.Select(store => store.Id.ToString())
-            .Where(store => queryFilter.Contains(store))
-            .ToListAsync();
-        queryFilter = queryFilter.Except(filter).ToArray();
-
-        return queryFilter.ToArray();
+        #endregion
     }
-
-    #endregion
 }

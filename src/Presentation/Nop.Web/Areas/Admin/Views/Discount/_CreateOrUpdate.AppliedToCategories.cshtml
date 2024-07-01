@@ -40,7 +40,7 @@
         </button>
         <button type="submit" id="btnRefreshCategories" style="display: none"></button>
         <script>
-            $(function() {
+            $(document).ready(function () {
                 $('#btnRefreshCategories').click(function () {
                     //refresh grid
                     updateTable('#categories-grid');

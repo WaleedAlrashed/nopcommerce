@@ -2,25 +2,26 @@
 using Nop.Core.Domain.Forums;
 using Nop.Data.Extensions;
 
-namespace Nop.Data.Mapping.Builders.Forums;
-
-/// <summary>
-/// Represents a forum buil entity builder
-/// </summary>
-public partial class ForumBuilder : NopEntityBuilder<Forum>
+namespace Nop.Data.Mapping.Builders.Forums
 {
-    #region Methods
-
     /// <summary>
-    /// Apply entity configuration
+    /// Represents a forum buil entity builder
     /// </summary>
-    /// <param name="table">Create table expression builder</param>
-    public override void MapEntity(CreateTableExpressionBuilder table)
+    public partial class ForumBuilder : NopEntityBuilder<Forum>
     {
-        table
-            .WithColumn(nameof(Forum.Name)).AsString(200).NotNullable()
-            .WithColumn(nameof(Forum.ForumGroupId)).AsInt32().ForeignKey<ForumGroup>();
-    }
+        #region Methods
 
-    #endregion
+        /// <summary>
+        /// Apply entity configuration
+        /// </summary>
+        /// <param name="table">Create table expression builder</param>
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+            table
+                .WithColumn(nameof(Forum.Name)).AsString(200).NotNullable()
+                .WithColumn(nameof(Forum.ForumGroupId)).AsInt32().ForeignKey<ForumGroup>();
+        }
+
+        #endregion
+    }
 }

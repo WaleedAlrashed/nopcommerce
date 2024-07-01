@@ -1,29 +1,32 @@
-﻿namespace Nop.Services.Plugins;
+﻿using System.Collections.Generic;
 
-/// <summary>
-/// Plugins uploaded event
-/// </summary>
-public partial class PluginsUploadedEvent
+namespace Nop.Services.Plugins
 {
-    #region Ctor
-
     /// <summary>
-    /// Ctor
+    /// Plugins uploaded event
     /// </summary>
-    /// <param name="uploadedPlugins">Uploaded plugins</param>
-    public PluginsUploadedEvent(IList<PluginDescriptor> uploadedPlugins)
+    public partial class PluginsUploadedEvent
     {
-        UploadedPlugins = uploadedPlugins;
+        #region Ctor
+
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="uploadedPlugins">Uploaded plugins</param>
+        public PluginsUploadedEvent(IList<PluginDescriptor> uploadedPlugins)
+        {
+            UploadedPlugins = uploadedPlugins;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Uploaded plugins
+        /// </summary>
+        public IList<PluginDescriptor> UploadedPlugins { get; }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Uploaded plugins
-    /// </summary>
-    public IList<PluginDescriptor> UploadedPlugins { get; }
-
-    #endregion
 }

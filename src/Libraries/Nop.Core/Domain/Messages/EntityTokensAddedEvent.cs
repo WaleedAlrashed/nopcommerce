@@ -1,30 +1,33 @@
-namespace Nop.Core.Domain.Messages;
+using System.Collections.Generic;
 
-/// <summary>
-/// A container for tokens that are added.
-/// </summary>
-/// <typeparam name="T">Entity type</typeparam>
-/// <typeparam name="U"></typeparam>
-public partial class EntityTokensAddedEvent<T, U> where T : BaseEntity
+namespace Nop.Core.Domain.Messages
 {
     /// <summary>
-    /// Ctor
+    /// A container for tokens that are added.
     /// </summary>
-    /// <param name="entity">Entity</param>
-    /// <param name="tokens">Tokens</param>
-    public EntityTokensAddedEvent(T entity, IList<U> tokens)
+    /// <typeparam name="T">Entity type</typeparam>
+    /// <typeparam name="U"></typeparam>
+    public partial class EntityTokensAddedEvent<T, U> where T : BaseEntity
     {
-        Entity = entity;
-        Tokens = tokens;
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="entity">Entity</param>
+        /// <param name="tokens">Tokens</param>
+        public EntityTokensAddedEvent(T entity, IList<U> tokens)
+        {
+            Entity = entity;
+            Tokens = tokens;
+        }
+
+        /// <summary>
+        /// Entity
+        /// </summary>
+        public T Entity { get; }
+
+        /// <summary>
+        /// Tokens
+        /// </summary>
+        public IList<U> Tokens { get; }
     }
-
-    /// <summary>
-    /// Entity
-    /// </summary>
-    public T Entity { get; }
-
-    /// <summary>
-    /// Tokens
-    /// </summary>
-    public IList<U> Tokens { get; }
 }

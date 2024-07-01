@@ -3,25 +3,26 @@ using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Media;
 using Nop.Data.Extensions;
 
-namespace Nop.Data.Mapping.Builders.Catalog;
-
-/// <summary>
-/// Represents a product video mapping entity builder
-/// </summary>
-public partial class ProductVideoBuilder : NopEntityBuilder<ProductVideo>
+namespace Nop.Data.Mapping.Builders.Catalog
 {
-    #region Methods
-
     /// <summary>
-    /// Apply entity configuration
+    /// Represents a product video mapping entity builder
     /// </summary>
-    /// <param name="table">Create table expression builder</param>
-    public override void MapEntity(CreateTableExpressionBuilder table)
+    public partial class ProductVideoBuilder : NopEntityBuilder<ProductVideo>
     {
-        table
-            .WithColumn(nameof(ProductVideo.VideoId)).AsInt32().ForeignKey<Video>()
-            .WithColumn(nameof(ProductVideo.ProductId)).AsInt32().ForeignKey<Product>();
-    }
+        #region Methods
 
-    #endregion
+        /// <summary>
+        /// Apply entity configuration
+        /// </summary>
+        /// <param name="table">Create table expression builder</param>
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+            table
+                .WithColumn(nameof(ProductVideo.VideoId)).AsInt32().ForeignKey<Video>()
+                .WithColumn(nameof(ProductVideo.ProductId)).AsInt32().ForeignKey<Product>();
+        }
+
+        #endregion
+    }
 }

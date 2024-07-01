@@ -1,23 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class FaviconViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly ICommonModelFactory _commonModelFactory;
-
-    public FaviconViewComponent(ICommonModelFactory commonModelFactory)
+    public partial class FaviconViewComponent : NopViewComponent
     {
-        _commonModelFactory = commonModelFactory;
-    }
+        private readonly ICommonModelFactory _commonModelFactory;
 
-    public async Task<IViewComponentResult> InvokeAsync()
-    {
-        var model = await _commonModelFactory.PrepareFaviconAndAppIconsModelAsync();
-        if (string.IsNullOrEmpty(model.HeadCode))
-            return Content("");
-        return View(model);
+        public FaviconViewComponent(ICommonModelFactory commonModelFactory)
+        {
+            _commonModelFactory = commonModelFactory;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var model = await _commonModelFactory.PrepareFaviconAndAppIconsModelAsync();
+            if (string.IsNullOrEmpty(model.HeadCode))
+                return Content("");
+            return View(model);
+        }
     }
 }

@@ -1,38 +1,40 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Nop.Web.Framework.Mvc.ModelBinding;
 using Nop.Web.Framework.Models;
-using Nop.Web.Framework.Mvc.ModelBinding;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Nop.Web.Areas.Admin.Models.Common;
-
-/// <summary>
-/// Represents an URL record search model
-/// </summary>
-public partial record UrlRecordSearchModel : BaseSearchModel
+namespace Nop.Web.Areas.Admin.Models.Common
 {
-    #region Ctor
-
-    public UrlRecordSearchModel()
+    /// <summary>
+    /// Represents an URL record search model
+    /// </summary>
+    public partial record UrlRecordSearchModel : BaseSearchModel
     {
-        AvailableLanguages = new List<SelectListItem>();
-        AvailableActiveOptions = new List<SelectListItem>();
+        #region Ctor
+
+        public UrlRecordSearchModel()
+        {
+            AvailableLanguages = new List<SelectListItem>();
+            AvailableActiveOptions = new List<SelectListItem>();
+        }
+
+        #endregion
+
+        #region Properties
+
+        [NopResourceDisplayName("Admin.System.SeNames.List.Name")]
+        public string SeName { get; set; }
+
+        [NopResourceDisplayName("Admin.System.SeNames.List.Language")]
+        public int LanguageId { get; set; }
+
+        [NopResourceDisplayName("Admin.System.SeNames.List.IsActive")]
+        public int IsActiveId { get; set; }
+
+        public IList<SelectListItem> AvailableLanguages { get; set; }
+
+        public IList<SelectListItem> AvailableActiveOptions { get; set; }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    [NopResourceDisplayName("Admin.System.SeNames.List.Name")]
-    public string SeName { get; set; }
-
-    [NopResourceDisplayName("Admin.System.SeNames.List.Language")]
-    public int LanguageId { get; set; }
-
-    [NopResourceDisplayName("Admin.System.SeNames.List.IsActive")]
-    public int IsActiveId { get; set; }
-
-    public IList<SelectListItem> AvailableLanguages { get; set; }
-
-    public IList<SelectListItem> AvailableActiveOptions { get; set; }
-
-    #endregion
 }

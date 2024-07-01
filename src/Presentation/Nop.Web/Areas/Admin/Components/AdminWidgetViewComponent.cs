@@ -1,51 +1,54 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Nop.Web.Framework.Factories;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Nop.Web.Areas.Admin.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Areas.Admin.Components;
-
-/// <summary>
-/// Represents a view component that displays an admin widgets
-/// </summary>
-public partial class AdminWidgetViewComponent : NopViewComponent
+namespace Nop.Web.Areas.Admin.Components
 {
-    #region Fields
-
-    protected readonly IWidgetModelFactory _widgetModelFactory;
-
-    #endregion
-
-    #region Ctor
-
-    public AdminWidgetViewComponent(IWidgetModelFactory widgetModelFactory)
-    {
-        _widgetModelFactory = widgetModelFactory;
-    }
-
-    #endregion
-
-    #region Methods
-
     /// <summary>
-    /// Invoke view component
+    /// Represents a view component that displays an admin widgets
     /// </summary>
-    /// <param name="widgetZone">Widget zone name</param>
-    /// <param name="additionalData">Additional data</param>
-    /// <returns>
-    /// A task that represents the asynchronous operation
-    /// The task result contains the view component result
-    /// </returns>
-    public async Task<IViewComponentResult> InvokeAsync(string widgetZone, object additionalData = null)
+    public partial class AdminWidgetViewComponent : NopViewComponent
     {
-        //prepare model
-        var models = await _widgetModelFactory.PrepareRenderWidgetModelAsync(widgetZone, additionalData, false);
+        #region Fields
 
-        //no data?
-        if (!models.Any())
-            return Content(string.Empty);
+        private readonly IWidgetModelFactory _widgetModelFactory;
 
-        return View(models);
+        #endregion
+
+        #region Ctor
+
+        public AdminWidgetViewComponent(IWidgetModelFactory widgetModelFactory)
+        {
+            _widgetModelFactory = widgetModelFactory;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Invoke view component
+        /// </summary>
+        /// <param name="widgetZone">Widget zone name</param>
+        /// <param name="additionalData">Additional data</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation
+        /// The task result contains the view component result
+        /// </returns>
+        public async Task<IViewComponentResult> InvokeAsync(string widgetZone, object additionalData = null)
+        {
+            //prepare model
+            var models = await _widgetModelFactory.PrepareRenderWidgetModelsAsync(widgetZone, additionalData);
+
+            //no data?
+            if (!models.Any())
+                return Content(string.Empty);
+
+            return View(models);
+        }
+
+        #endregion
     }
-
-    #endregion
 }

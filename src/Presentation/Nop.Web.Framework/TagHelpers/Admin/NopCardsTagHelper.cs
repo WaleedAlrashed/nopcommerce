@@ -2,28 +2,29 @@
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Nop.Web.Framework.TagHelpers.Admin;
-
-/// <summary>
-/// "nop-cards" tag helper
-/// </summary>
-[HtmlTargetElement("nop-cards", Attributes = ID_ATTRIBUTE_NAME)]
-public partial class NopCardsTagHelper : TagHelper
+namespace Nop.Web.Framework.TagHelpers.Admin
 {
-    #region Constants
-
-    protected const string ID_ATTRIBUTE_NAME = "id";
-
-    #endregion
-
-    #region Properties
-
     /// <summary>
-    /// ViewContext
+    /// "nop-cards" tag helper
     /// </summary>
-    [HtmlAttributeNotBound]
-    [ViewContext]
-    public ViewContext ViewContext { get; set; }
+    [HtmlTargetElement("nop-cards", Attributes = ID_ATTRIBUTE_NAME)]
+    public partial class NopCardsTagHelper : TagHelper
+    {
+        #region Constants
 
-    #endregion
+        private const string ID_ATTRIBUTE_NAME = "id";
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// ViewContext
+        /// </summary>
+        [HtmlAttributeNotBound]
+        [ViewContext]
+        public ViewContext ViewContext { get; set; }
+
+        #endregion
+    }
 }

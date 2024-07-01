@@ -1,32 +1,33 @@
-namespace Nop.Core.Domain.Logging;
-
-/// <summary>
-/// Represents a log level
-/// </summary>
-public enum LogLevel
+namespace Nop.Core.Domain.Logging
 {
     /// <summary>
-    /// Debug
+    /// Represents a log level
     /// </summary>
-    Debug = 10,
+    public enum LogLevel
+    {
+        /// <summary>
+        /// Debug
+        /// </summary>
+        Debug = 10,
 
-    /// <summary>
-    /// Information
-    /// </summary>
-    Information = 20,
+        /// <summary>
+        /// Information
+        /// </summary>
+        Information = 20,
 
-    /// <summary>
-    /// Warning
-    /// </summary>
-    Warning = 30,
+        /// <summary>
+        /// Warning
+        /// </summary>
+        Warning = 30,
 
-    /// <summary>
-    /// Error
-    /// </summary>
-    Error = 40,
+        /// <summary>
+        /// Error
+        /// </summary>
+        Error = 40,
 
-    /// <summary>
-    /// Fatal
-    /// </summary>
-    Fatal = 50
+        /// <summary>
+        /// Fatal
+        /// </summary>
+        Fatal = 50
+    }
 }

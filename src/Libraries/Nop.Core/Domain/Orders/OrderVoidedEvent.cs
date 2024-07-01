@@ -1,29 +1,30 @@
-namespace Nop.Core.Domain.Orders;
-
-/// <summary>
-/// Order voided event
-/// </summary>
-public partial class OrderVoidedEvent
+namespace Nop.Core.Domain.Orders
 {
-    #region Ctor
-
     /// <summary>
-    /// Ctor
+    /// Order voided event
     /// </summary>
-    /// <param name="order">Order</param>
-    public OrderVoidedEvent(Order order)
+    public partial class OrderVoidedEvent
     {
-        Order = order;
+        #region Ctor
+
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="order">Order</param>
+        public OrderVoidedEvent(Order order)
+        {
+            Order = order;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Voided order
+        /// </summary>
+        public Order Order { get; }
+
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Voided order
-    /// </summary>
-    public Order Order { get; }
-
-    #endregion
 }

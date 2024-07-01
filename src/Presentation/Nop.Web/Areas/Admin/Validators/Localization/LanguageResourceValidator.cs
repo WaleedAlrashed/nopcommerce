@@ -1,28 +1,30 @@
 ﻿using FluentValidation;
 using Nop.Core.Domain.Localization;
+using Nop.Data.Mapping;
 using Nop.Services.Localization;
 using Nop.Web.Areas.Admin.Models.Localization;
 using Nop.Web.Framework.Validators;
 
-namespace Nop.Web.Areas.Admin.Validators.Localization;
-
-public partial class LanguageResourceValidator : BaseNopValidator<LocaleResourceModel>
+namespace Nop.Web.Areas.Admin.Validators.Localization
 {
-    public LanguageResourceValidator(ILocalizationService localizationService)
+    public partial class LanguageResourceValidator : BaseNopValidator<LocaleResourceModel>
     {
-        //if validation without this set rule is applied, in this case nothing will be validated
-        //it's used to prevent auto-validation of child models
-        RuleSet(NopValidationDefaults.ValidationRuleSet, () =>
+        public LanguageResourceValidator(ILocalizationService localizationService, IMappingEntityAccessor mappingEntityAccessor)
         {
-            RuleFor(model => model.ResourceName)
-                .NotEmpty()
-                .WithMessageAwait(localizationService.GetResourceAsync("Admin.Configuration.Languages.Resources.Fields.Name.Required"));
+            //if validation without this set rule is applied, in this case nothing will be validated
+            //it's used to prevent auto-validation of child models
+            RuleSet(NopValidationDefaults.ValidationRuleSet, () =>
+            {
+                RuleFor(model => model.ResourceName)
+                    .NotEmpty()
+                    .WithMessageAwait(localizationService.GetResourceAsync("Admin.Configuration.Languages.Resources.Fields.Name.Required"));
 
-            RuleFor(model => model.ResourceValue)
-                .NotEmpty()
-                .WithMessageAwait(localizationService.GetResourceAsync("Admin.Configuration.Languages.Resources.Fields.Value.Required"));
+                RuleFor(model => model.ResourceValue)
+                    .NotEmpty()
+                    .WithMessageAwait(localizationService.GetResourceAsync("Admin.Configuration.Languages.Resources.Fields.Value.Required"));
 
-            SetDatabaseValidationRules<LocaleStringResource>();
-        });
+                SetDatabaseValidationRules<LocaleStringResource>(mappingEntityAccessor);
+            });
+        }
     }
 }

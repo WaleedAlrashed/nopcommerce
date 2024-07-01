@@ -1,44 +1,46 @@
 ﻿using System.Globalization;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Nop.Core.Domain.Catalog;
 using Nop.Services.Catalog;
 using Nop.Services.Localization;
 using NUnit.Framework;
 
-namespace Nop.Tests.Nop.Services.Tests.Localization;
-
-[TestFixture]
-public class LocalizedEntityServiceTests : BaseNopTest
+namespace Nop.Tests.Nop.Services.Tests.Localization
 {
-    private ILocalizedEntityService _localizedEntityService;
-
-    [OneTimeSetUp]
-    public void SetUp()
+    [TestFixture]
+    public class LocalizedEntityServiceTests : BaseNopTest
     {
-        _localizedEntityService = GetService<ILocalizedEntityService>();
-    }
+        private ILocalizedEntityService _localizedEntityService;
 
-    [Test]
-    public async Task CanSaveLocalizedValueAsync()
-    {
-        var product = await GetService<IProductService>().GetProductByIdAsync(1);
+        [OneTimeSetUp]
+        public void SetUp()
+        {
+            _localizedEntityService = GetService<ILocalizedEntityService>();
+        }
 
-        await _localizedEntityService.SaveLocalizedValueAsync(product, p => p.Name, "test lang 1", 1);
-        await _localizedEntityService.SaveLocalizedValueAsync(product, p => p.BasepriceAmount, 1.0M, 1);
+        [Test]
+        public async Task CanSaveLocalizedValueAsync()
+        {
+            var product = await GetService<IProductService>().GetProductByIdAsync(1);
 
-        var name = await _localizedEntityService.GetLocalizedValueAsync(1, 1, nameof(Product),
-            nameof(Product.Name));
+            await _localizedEntityService.SaveLocalizedValueAsync(product, p => p.Name, "test lang 1", 1);
+            await _localizedEntityService.SaveLocalizedValueAsync(product, p => p.BasepriceAmount, 1.0M, 1);
 
-        name.Should().Be("test lang 1");
+            var name = await _localizedEntityService.GetLocalizedValueAsync(1, 1, nameof(Product),
+                nameof(Product.Name));
 
-        var basePriceAmount = await _localizedEntityService.GetLocalizedValueAsync(1, 1, nameof(Product),
-            nameof(Product.BasepriceAmount));
+            name.Should().Be("test lang 1");
 
-        decimal.Parse(basePriceAmount, CultureInfo.InvariantCulture).Should().Be(1M);
+            var basePriceAmount = await _localizedEntityService.GetLocalizedValueAsync(1, 1, nameof(Product),
+                nameof(Product.BasepriceAmount));
 
-        basePriceAmount = await _localizedEntityService.GetLocalizedValueAsync(2, 1, nameof(Product),
-            nameof(Product.BasepriceAmount));
+            decimal.Parse(basePriceAmount, CultureInfo.InvariantCulture).Should().Be(1M);
 
-        basePriceAmount.Should().BeNullOrEmpty();
+            basePriceAmount = await _localizedEntityService.GetLocalizedValueAsync(2, 1, nameof(Product),
+                nameof(Product.BasepriceAmount));
+
+            basePriceAmount.Should().BeNullOrEmpty();
+        }
     }
 }

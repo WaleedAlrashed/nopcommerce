@@ -1,26 +1,28 @@
-﻿using FluentAssertions;
+﻿using System.Linq;
+using FluentAssertions;
 using Nop.Core.Infrastructure;
 using NUnit.Framework;
 
-namespace Nop.Tests.Nop.Core.Tests.Infrastructure;
-
-[TestFixture]
-public class TypeFinderTests : BaseNopTest
+namespace Nop.Tests.Nop.Core.Tests.Infrastructure
 {
-    [Test]
-    public void TypeFinderBenchmarkFindings()
+    [TestFixture]
+    public class TypeFinderTests : BaseNopTest
     {
-        var finder = GetService<ITypeFinder>();
-        var type = finder.FindClassesOfType<ISomeInterface>().ToList();
-        type.Count.Should().Be(1);
-        typeof(ISomeInterface).IsAssignableFrom(type.FirstOrDefault()).Should().BeTrue();
-    }
+        [Test]
+        public void TypeFinderBenchmarkFindings()
+        {
+            var finder = GetService<ITypeFinder>();
+            var type = finder.FindClassesOfType<ISomeInterface>().ToList();
+            type.Count.Should().Be(1);
+            typeof(ISomeInterface).IsAssignableFrom(type.FirstOrDefault()).Should().BeTrue();
+        }
 
-    public interface ISomeInterface
-    {
-    }
+        public interface ISomeInterface
+        {
+        }
 
-    public class SomeClass : ISomeInterface
-    {
+        public class SomeClass : ISomeInterface
+        {
+        }
     }
 }

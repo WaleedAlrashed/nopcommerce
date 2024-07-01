@@ -1,34 +1,37 @@
-﻿using FluentAssertions;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Nop.Services.Customers;
 using Nop.Services.Logging;
 using NUnit.Framework;
 
-namespace Nop.Tests.Nop.Services.Tests.Logging;
-
-[TestFixture]
-public class CustomerActivityServiceTests : ServiceTest
+namespace Nop.Tests.Nop.Services.Tests.Logging
 {
-    private ICustomerActivityService _customerActivityService;
-    private ICustomerService _customerService;
-
-    [OneTimeSetUp]
-    public void SetUp()
+    [TestFixture]
+    public class CustomerActivityServiceTests : ServiceTest
     {
-        _customerActivityService = GetService<ICustomerActivityService>();
-        _customerService = GetService<ICustomerService>();
-    }
+        private ICustomerActivityService _customerActivityService;
+        private ICustomerService _customerService;
 
-    [Test]
-    public async Task CanFindActivities()
-    {
-        var customer = await _customerService.GetCustomerByEmailAsync(NopTestsDefaults.AdminEmail);
+        [OneTimeSetUp]
+        public void SetUp()
+        {
+            _customerActivityService = GetService<ICustomerActivityService>();
+            _customerService = GetService<ICustomerService>();
+        }
 
-        var activities = await _customerActivityService.GetAllActivitiesAsync(customerId: customer.Id, pageSize: 10);
-        activities.Any().Should().BeTrue();
+        [Test]
+        public async Task CanFindActivities()
+        {
+            var customer = await _customerService.GetCustomerByEmailAsync(NopTestsDefaults.AdminEmail);
 
-        customer = await _customerService.GetCustomerByEmailAsync("builtin@search_engine_record.com");
+            var activities = await _customerActivityService.GetAllActivitiesAsync(customerId: customer.Id, pageSize: 10);
+            activities.Any().Should().BeTrue();
 
-        activities = await _customerActivityService.GetAllActivitiesAsync(customerId: customer.Id, pageSize: 10);
-        activities.Any().Should().BeFalse();
+            customer = await _customerService.GetCustomerByEmailAsync("builtin@search_engine_record.com");
+
+            activities = await _customerActivityService.GetAllActivitiesAsync(customerId: customer.Id, pageSize: 10);
+            activities.Any().Should().BeFalse();
+        }
     }
 }

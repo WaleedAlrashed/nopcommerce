@@ -1,21 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class PrivateMessagesInboxViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly IPrivateMessagesModelFactory _privateMessagesModelFactory;
-
-    public PrivateMessagesInboxViewComponent(IPrivateMessagesModelFactory privateMessagesModelFactory)
+    public partial class PrivateMessagesInboxViewComponent : NopViewComponent
     {
-        _privateMessagesModelFactory = privateMessagesModelFactory;
-    }
+        private readonly IPrivateMessagesModelFactory _privateMessagesModelFactory;
 
-    public async Task<IViewComponentResult> InvokeAsync(int pageNumber, string tab)
-    {
-        var model = await _privateMessagesModelFactory.PrepareInboxModelAsync(pageNumber, tab);
-        return View(model);
+        public PrivateMessagesInboxViewComponent(IPrivateMessagesModelFactory privateMessagesModelFactory)
+        {
+            _privateMessagesModelFactory = privateMessagesModelFactory;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync(int pageNumber, string tab)
+        {
+            var model = await _privateMessagesModelFactory.PrepareInboxModelAsync(pageNumber, tab);
+            return View(model);
+        }
     }
 }

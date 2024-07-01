@@ -1,25 +1,27 @@
 ﻿using FluentValidation;
 using Nop.Core.Domain.Topics;
+using Nop.Data.Mapping;
 using Nop.Services.Localization;
 using Nop.Services.Seo;
 using Nop.Web.Areas.Admin.Models.Topics;
 using Nop.Web.Framework.Validators;
 
-namespace Nop.Web.Areas.Admin.Validators.Topics;
-
-public partial class TopicValidator : BaseNopValidator<TopicModel>
+namespace Nop.Web.Areas.Admin.Validators.Topics
 {
-    public TopicValidator(ILocalizationService localizationService)
+    public partial class TopicValidator : BaseNopValidator<TopicModel>
     {
-        RuleFor(x => x.SeName)
-            .Length(0, NopSeoDefaults.ForumTopicLength)
-            .WithMessageAwait(localizationService.GetResourceAsync("Admin.SEO.SeName.MaxLengthValidation"), NopSeoDefaults.ForumTopicLength);
+        public TopicValidator(ILocalizationService localizationService, IMappingEntityAccessor mappingEntityAccessor)
+        {
+            RuleFor(x => x.SeName)
+                .Length(0, NopSeoDefaults.ForumTopicLength)
+                .WithMessageAwait(localizationService.GetResourceAsync("Admin.SEO.SeName.MaxLengthValidation"), NopSeoDefaults.ForumTopicLength);
 
-        RuleFor(x => x.Password)
-            .NotEmpty()
-            .When(x => x.IsPasswordProtected)
-            .WithMessageAwait(localizationService.GetResourceAsync("Validation.Password.IsNotEmpty"));
+            RuleFor(x => x.Password)
+                .NotEmpty()
+                .When(x => x.IsPasswordProtected)
+                .WithMessageAwait(localizationService.GetResourceAsync("Validation.Password.IsNotEmpty"));
 
-        SetDatabaseValidationRules<Topic>();
+            SetDatabaseValidationRules<Topic>(mappingEntityAccessor);
+        }
     }
 }

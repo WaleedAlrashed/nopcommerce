@@ -1,10 +1,11 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Areas.Admin.Models.Logging;
-
-/// <summary>
-/// Represents an activity log list model
-/// </summary>
-public partial record ActivityLogListModel : BasePagedListModel<ActivityLogModel>
+namespace Nop.Web.Areas.Admin.Models.Logging
 {
+    /// <summary>
+    /// Represents an activity log list model
+    /// </summary>
+    public partial record ActivityLogListModel : BasePagedListModel<ActivityLogModel>
+    {
+    }
 }

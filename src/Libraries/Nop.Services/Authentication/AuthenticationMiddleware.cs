@@ -1,99 +1,99 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Infrastructure;
 using Nop.Data;
 using Nop.Services.Logging;
 
-namespace Nop.Services.Authentication;
-
-/// <summary>
-/// Represents middleware that enables authentication
-/// </summary>
-public partial class AuthenticationMiddleware
+namespace Nop.Services.Authentication
 {
-    #region Fields
-
-    protected readonly RequestDelegate _next;
-
-    #endregion
-
-    #region Ctor
-
-    public AuthenticationMiddleware(IAuthenticationSchemeProvider schemes, RequestDelegate next)
-    {
-        ArgumentNullException.ThrowIfNull(schemes);
-        Schemes = schemes;
-
-        ArgumentNullException.ThrowIfNull(next);
-        _next = next;
-    }
-
-    #endregion
-
-    #region Methods
-
     /// <summary>
-    /// Invoke middleware actions
+    /// Represents middleware that enables authentication
     /// </summary>
-    /// <param name="context">HTTP context</param>
-    /// <returns>A task that represents the asynchronous operation</returns>
-    public async Task InvokeAsync(HttpContext context)
+    public class AuthenticationMiddleware
     {
-        context.Features.Set<IAuthenticationFeature>(new AuthenticationFeature
+        #region Fields
+
+        private readonly RequestDelegate _next;
+
+        #endregion
+
+        #region Ctor
+
+        public AuthenticationMiddleware(IAuthenticationSchemeProvider schemes, RequestDelegate next)
         {
-            OriginalPath = context.Request.Path,
-            OriginalPathBase = context.Request.PathBase
-        });
-
-        // Give any IAuthenticationRequestHandler schemes a chance to handle the request
-        var handlers = EngineContext.Current.Resolve<IAuthenticationHandlerProvider>();
-        foreach (var scheme in await Schemes.GetRequestHandlerSchemesAsync())
-        {
-            try
-            {
-                if (await handlers.GetHandlerAsync(context, scheme.Name) is IAuthenticationRequestHandler handler && await handler.HandleRequestAsync())
-                    return;
-            }
-            catch (Exception ex)
-            {
-                if (!DataSettingsManager.IsDatabaseInstalled())
-                    continue;
-
-                var externalAuthenticationSettings =
-                    EngineContext.Current.Resolve<ExternalAuthenticationSettings>();
-
-                if (!externalAuthenticationSettings.LogErrors)
-                    continue;
-
-                var logger =
-                    EngineContext.Current.Resolve<ILogger>();
-
-                await logger.ErrorAsync(ex.Message, ex);
-            }
+            Schemes = schemes ?? throw new ArgumentNullException(nameof(schemes));
+            _next = next ?? throw new ArgumentNullException(nameof(next));
         }
 
-        var defaultAuthenticate = await Schemes.GetDefaultAuthenticateSchemeAsync();
-        if (defaultAuthenticate != null)
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IAuthenticationSchemeProvider Schemes { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Invoke middleware actions
+        /// </summary>
+        /// <param name="context">HTTP context</param>
+        /// <returns>A task that represents the asynchronous operation</returns>
+        public async Task InvokeAsync(HttpContext context)
         {
-            var result = await context.AuthenticateAsync(defaultAuthenticate.Name);
-            if (result?.Principal != null)
+            context.Features.Set<IAuthenticationFeature>(new AuthenticationFeature
             {
-                context.User = result.Principal;
+                OriginalPath = context.Request.Path,
+                OriginalPathBase = context.Request.PathBase
+            });
+
+            // Give any IAuthenticationRequestHandler schemes a chance to handle the request
+            var handlers = EngineContext.Current.Resolve<IAuthenticationHandlerProvider>();
+            foreach (var scheme in await Schemes.GetRequestHandlerSchemesAsync())
+            {
+                try
+                {
+                    if (await handlers.GetHandlerAsync(context, scheme.Name) is IAuthenticationRequestHandler handler && await handler.HandleRequestAsync())
+                        return;
+                }
+                catch (Exception ex)
+                {
+                    if (!DataSettingsManager.IsDatabaseInstalled())
+                        continue;
+
+                    var externalAuthenticationSettings =
+                        EngineContext.Current.Resolve<ExternalAuthenticationSettings>();
+
+                    if (!externalAuthenticationSettings.LogErrors)
+                        continue;
+
+                    var logger =
+                        EngineContext.Current.Resolve<ILogger>();
+
+                    await logger.ErrorAsync(ex.Message, ex);
+                }
             }
+
+            var defaultAuthenticate = await Schemes.GetDefaultAuthenticateSchemeAsync();
+            if (defaultAuthenticate != null)
+            {
+                var result = await context.AuthenticateAsync(defaultAuthenticate.Name);
+                if (result?.Principal != null)
+                {
+                    context.User = result.Principal;
+                }
+            }
+
+            await _next(context);
         }
 
-        await _next(context);
+        #endregion
     }
-
-    #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Scheme provider
-    /// </summary>
-    public IAuthenticationSchemeProvider Schemes { get; set; }
-
-    #endregion
 }

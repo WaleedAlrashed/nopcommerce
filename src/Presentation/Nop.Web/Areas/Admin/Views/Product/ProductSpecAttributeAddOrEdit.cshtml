@@ -89,7 +89,7 @@
                                     }
                                     else
                                     {
-                                        <nop-select asp-for="AttributeTypeId" asp-items="@(await ((SpecificationAttributeType) Model.AttributeTypeId).ToSelectListAsync())" />
+                                        <nop-select asp-for="AttributeTypeId" asp-items="@await (((SpecificationAttributeType) Model.AttributeTypeId).ToSelectListAsync())" />
                                     }
                                     <span asp-validation-for="AttributeTypeId"></span>
                                 </div>
@@ -111,7 +111,7 @@
                             </div>
 
                             <script>
-                                $(function() {
+                                $(document).ready(function() {
                                     var valueContainers = {
                                         @((int) SpecificationAttributeType.Option): $('#AttributeValueOptionSection'),
                                         @((int) SpecificationAttributeType.CustomText): $('#AttributeValueCustomTextSection'),
@@ -149,7 +149,7 @@
                             @if (Model.SpecificationId == 0)
                             {
                                 <script>
-                                    $(function() {
+                                    $(document).ready(function() {
                                         $("#@Html.IdFor(model => model.AttributeId)").change(function() {
                                             var selectedAttributeId = $(this).val();
                                             //get options list
@@ -170,7 +170,7 @@
                                                         });
                                                 },
                                                 error: function (jqXHR, textStatus, errorThrown) {
-                                                    $("#getOptionsByAttributeIdAlert").trigger("click");
+                                                    $("#getOptionsByAttributeIdAlert").click();
                                                 }
                                             });
                                         });

@@ -1,23 +1,24 @@
 ﻿using FluentMigrator.Builders.Create.Table;
 using Nop.Core.Domain.Forums;
 
-namespace Nop.Data.Mapping.Builders.Forums;
-
-/// <summary>
-/// Represents a forum group entity builder
-/// </summary>
-public partial class ForumGroupBuilder : NopEntityBuilder<ForumGroup>
+namespace Nop.Data.Mapping.Builders.Forums
 {
-    #region Methods
-
     /// <summary>
-    /// Apply entity configuration
+    /// Represents a forum group entity builder
     /// </summary>
-    /// <param name="table">Create table expression builder</param>
-    public override void MapEntity(CreateTableExpressionBuilder table)
+    public partial class ForumGroupBuilder : NopEntityBuilder<ForumGroup>
     {
-        table.WithColumn(nameof(ForumGroup.Name)).AsString(200).NotNullable();
-    }
+        #region Methods
 
-    #endregion
+        /// <summary>
+        /// Apply entity configuration
+        /// </summary>
+        /// <param name="table">Create table expression builder</param>
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+            table.WithColumn(nameof(ForumGroup.Name)).AsString(200).NotNullable();
+        }
+
+        #endregion
+    }
 }

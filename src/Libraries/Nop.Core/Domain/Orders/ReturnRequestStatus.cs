@@ -1,42 +1,43 @@
-namespace Nop.Core.Domain.Orders;
-
-/// <summary>
-/// Represents a return status
-/// </summary>
-public enum ReturnRequestStatus
+namespace Nop.Core.Domain.Orders
 {
     /// <summary>
-    /// Pending
+    /// Represents a return status
     /// </summary>
-    Pending = 0,
+    public enum ReturnRequestStatus
+    {
+        /// <summary>
+        /// Pending
+        /// </summary>
+        Pending = 0,
 
-    /// <summary>
-    /// Received
-    /// </summary>
-    Received = 10,
+        /// <summary>
+        /// Received
+        /// </summary>
+        Received = 10,
 
-    /// <summary>
-    /// Return authorized
-    /// </summary>
-    ReturnAuthorized = 20,
+        /// <summary>
+        /// Return authorized
+        /// </summary>
+        ReturnAuthorized = 20,
 
-    /// <summary>
-    /// Item(s) repaired
-    /// </summary>
-    ItemsRepaired = 30,
+        /// <summary>
+        /// Item(s) repaired
+        /// </summary>
+        ItemsRepaired = 30,
 
-    /// <summary>
-    /// Item(s) refunded
-    /// </summary>
-    ItemsRefunded = 40,
+        /// <summary>
+        /// Item(s) refunded
+        /// </summary>
+        ItemsRefunded = 40,
 
-    /// <summary>
-    /// Request rejected
-    /// </summary>
-    RequestRejected = 50,
+        /// <summary>
+        /// Request rejected
+        /// </summary>
+        RequestRejected = 50,
 
-    /// <summary>
-    /// Cancelled
-    /// </summary>
-    Cancelled = 60
+        /// <summary>
+        /// Cancelled
+        /// </summary>
+        Cancelled = 60
+    }
 }

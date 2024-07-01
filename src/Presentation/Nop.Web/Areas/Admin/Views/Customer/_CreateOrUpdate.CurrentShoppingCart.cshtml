@@ -62,7 +62,7 @@
     })
 
     <script>
-        $(function() {
+        $(document).ready(function() {
             $('#@Html.IdFor(model => model.CustomerShoppingCartSearchModel.ShoppingCartTypeId)').change(function() {
                 updateTable('#currentshoppingcart-grid');
             });

@@ -2,24 +2,25 @@
 using Nop.Core.Domain.Catalog;
 using Nop.Data.Extensions;
 
-namespace Nop.Data.Mapping.Builders.Catalog;
-
-/// <summary>
-/// Represents a specification attribute entity builder
-/// </summary>
-public partial class SpecificationAttributeBuilder : NopEntityBuilder<SpecificationAttribute>
+namespace Nop.Data.Mapping.Builders.Catalog
 {
-    #region Methods
-
     /// <summary>
-    /// Apply entity configuration
+    /// Represents a specification attribute entity builder
     /// </summary>
-    /// <param name="table">Create table expression builder</param>
-    public override void MapEntity(CreateTableExpressionBuilder table)
+    public partial class SpecificationAttributeBuilder : NopEntityBuilder<SpecificationAttribute>
     {
-        table.WithColumn(nameof(SpecificationAttribute.Name)).AsString(int.MaxValue).NotNullable();
-        table.WithColumn(nameof(SpecificationAttribute.SpecificationAttributeGroupId)).AsInt32().Nullable().ForeignKey<SpecificationAttributeGroup>();
-    }
+        #region Methods
 
-    #endregion
+        /// <summary>
+        /// Apply entity configuration
+        /// </summary>
+        /// <param name="table">Create table expression builder</param>
+        public override void MapEntity(CreateTableExpressionBuilder table)
+        {
+            table.WithColumn(nameof(SpecificationAttribute.Name)).AsString(int.MaxValue).NotNullable();
+            table.WithColumn(nameof(SpecificationAttribute.SpecificationAttributeGroupId)).AsInt32().Nullable().ForeignKey<SpecificationAttributeGroup>();
+        }
+
+        #endregion
+    }
 }

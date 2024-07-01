@@ -1,17 +1,18 @@
-namespace Nop.Core.Domain.Catalog;
-
-/// <summary>
-/// Represents a product type
-/// </summary>
-public enum ProductType
+namespace Nop.Core.Domain.Catalog
 {
     /// <summary>
-    /// Simple
+    /// Represents a product type
     /// </summary>
-    SimpleProduct = 5,
+    public enum ProductType
+    {
+        /// <summary>
+        /// Simple
+        /// </summary>
+        SimpleProduct = 5,
 
-    /// <summary>
-    /// Grouped (product with variants)
-    /// </summary>
-    GroupedProduct = 10,
+        /// <summary>
+        /// Grouped (product with variants)
+        /// </summary>
+        GroupedProduct = 10,
+    }
 }

@@ -1,27 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Services.Customers;
 using Nop.Web.Factories;
 using Nop.Web.Framework.Components;
 
-namespace Nop.Web.Components;
-
-public partial class ProfileInfoViewComponent : NopViewComponent
+namespace Nop.Web.Components
 {
-    protected readonly ICustomerService _customerService;
-    protected readonly IProfileModelFactory _profileModelFactory;
-
-    public ProfileInfoViewComponent(ICustomerService customerService, IProfileModelFactory profileModelFactory)
+    public partial class ProfileInfoViewComponent : NopViewComponent
     {
-        _customerService = customerService;
-        _profileModelFactory = profileModelFactory;
-    }
+        private readonly ICustomerService _customerService;
+        private readonly IProfileModelFactory _profileModelFactory;
 
-    public async Task<IViewComponentResult> InvokeAsync(int customerProfileId)
-    {
-        var customer = await _customerService.GetCustomerByIdAsync(customerProfileId);
-        ArgumentNullException.ThrowIfNull(customer);
+        public ProfileInfoViewComponent(ICustomerService customerService, IProfileModelFactory profileModelFactory)
+        {
+            _customerService = customerService;
+            _profileModelFactory = profileModelFactory;
+        }
 
-        var model = await _profileModelFactory.PrepareProfileInfoModelAsync(customer);
-        return View(model);
+        public async Task<IViewComponentResult> InvokeAsync(int customerProfileId)
+        {
+            var customer = await _customerService.GetCustomerByIdAsync(customerProfileId);
+            if (customer == null)
+                throw new ArgumentNullException(nameof(customer));
+
+            var model = await _profileModelFactory.PrepareProfileInfoModelAsync(customer);
+            return View(model);
+        }
     }
 }

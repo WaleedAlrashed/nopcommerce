@@ -1,14 +1,15 @@
 ﻿using Nop.Core.Domain.Orders;
 
-namespace Nop.Services.Payments;
-
-/// <summary>
-/// Represents a CancelRecurringPaymentResult
-/// </summary>
-public partial class CancelRecurringPaymentRequest
+namespace Nop.Services.Payments
 {
     /// <summary>
-    /// Gets or sets an order
+    /// Represents a CancelRecurringPaymentResult
     /// </summary>
-    public Order Order { get; set; }
+    public partial class CancelRecurringPaymentRequest
+    {
+        /// <summary>
+        /// Gets or sets an order
+        /// </summary>
+        public Order Order { get; set; }
+    }
 }

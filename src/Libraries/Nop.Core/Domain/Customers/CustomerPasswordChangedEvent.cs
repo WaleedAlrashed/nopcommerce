@@ -1,21 +1,22 @@
-namespace Nop.Core.Domain.Customers;
-
-/// <summary>
-/// Customer password changed event
-/// </summary>
-public partial class CustomerPasswordChangedEvent
+namespace Nop.Core.Domain.Customers
 {
     /// <summary>
-    /// Ctor
+    /// Customer password changed event
     /// </summary>
-    /// <param name="password">Password</param>
-    public CustomerPasswordChangedEvent(CustomerPassword password)
+    public partial class CustomerPasswordChangedEvent
     {
-        Password = password;
-    }
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="password">Password</param>
+        public CustomerPasswordChangedEvent(CustomerPassword password)
+        {
+            Password = password;
+        }
 
-    /// <summary>
-    /// Customer password
-    /// </summary>
-    public CustomerPassword Password { get; }
+        /// <summary>
+        /// Customer password
+        /// </summary>
+        public CustomerPassword Password { get; }
+    }
 }

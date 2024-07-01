@@ -1,9 +1,13 @@
-﻿namespace Nop.Data;
+﻿using System;
+using System.Linq;
 
-/// <summary>
-/// Represents temporary storage
-/// </summary>
-/// <typeparam name="T">Storage record mapping class</typeparam>
-public partial interface ITempDataStorage<T> : IQueryable<T>, IDisposable, IAsyncDisposable where T : class
+namespace Nop.Data
 {
+    /// <summary>
+    /// Represents temporary storage
+    /// </summary>
+    /// <typeparam name="T">Storage record mapping class</typeparam>
+    public interface ITempDataStorage<T> : IQueryable<T>, IDisposable, IAsyncDisposable where T : class
+    {
+    }
 }

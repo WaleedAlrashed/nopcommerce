@@ -1,32 +1,34 @@
-﻿using Nop.Web.Framework.Models;
+﻿using System.Collections.Generic;
+using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Catalog;
-
-/// <summary>
-/// Represents a product combination model
-/// </summary>
-public partial record ProductCombinationModel : BaseNopModel
+namespace Nop.Web.Models.Catalog
 {
-    #region Properties
-
     /// <summary>
-    /// Gets or sets the attributes
+    /// Represents a product combination model
     /// </summary>
-    public IList<ProductAttributeModel> Attributes { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to the combination have stock
-    /// </summary>
-    public bool InStock { get; set; }
-
-    #endregion
-
-    #region Ctor
-
-    public ProductCombinationModel()
+    public partial record ProductCombinationModel : BaseNopModel
     {
-        Attributes = new List<ProductAttributeModel>();
-    }
+        #region Properties
 
-    #endregion
+        /// <summary>
+        /// Gets or sets the attributes
+        /// </summary>
+        public IList<ProductAttributeModel> Attributes { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to the combination have stock
+        /// </summary>
+        public bool InStock { get; set; }
+
+        #endregion
+
+        #region Ctor
+
+        public ProductCombinationModel()
+        {
+            Attributes = new List<ProductAttributeModel>();
+        }
+
+        #endregion
+    }
 }

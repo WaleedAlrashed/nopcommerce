@@ -1,8 +1,9 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Customer;
-
-public partial record CustomerAvatarModel : BaseNopModel
+namespace Nop.Web.Models.Customer
 {
-    public string AvatarUrl { get; set; }
+    public partial record CustomerAvatarModel : BaseNopModel
+    {
+        public string AvatarUrl { get; set; }
+    }
 }

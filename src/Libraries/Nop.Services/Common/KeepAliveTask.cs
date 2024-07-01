@@ -1,36 +1,37 @@
 ﻿using Nop.Services.ScheduleTasks;
 
-namespace Nop.Services.Common;
-
-/// <summary>
-/// Represents a task for keeping the site alive
-/// </summary>
-public partial class KeepAliveTask : IScheduleTask
+namespace Nop.Services.Common
 {
-    #region Fields
-
-    protected readonly StoreHttpClient _storeHttpClient;
-
-    #endregion
-
-    #region Ctor
-
-    public KeepAliveTask(StoreHttpClient storeHttpClient)
-    {
-        _storeHttpClient = storeHttpClient;
-    }
-
-    #endregion
-
-    #region Methods
-
     /// <summary>
-    /// Executes a task
+    /// Represents a task for keeping the site alive
     /// </summary>
-    public async System.Threading.Tasks.Task ExecuteAsync()
+    public partial class KeepAliveTask : IScheduleTask
     {
-        await _storeHttpClient.KeepAliveAsync();
-    }
+        #region Fields
 
-    #endregion
+        private readonly StoreHttpClient _storeHttpClient;
+
+        #endregion
+
+        #region Ctor
+
+        public KeepAliveTask(StoreHttpClient storeHttpClient)
+        {
+            _storeHttpClient = storeHttpClient;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Executes a task
+        /// </summary>
+        public async System.Threading.Tasks.Task ExecuteAsync()
+        {
+            await _storeHttpClient.KeepAliveAsync();
+        }
+
+        #endregion
+    }
 }

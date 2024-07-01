@@ -1,10 +1,11 @@
 ﻿using Nop.Web.Framework.Models;
 
-namespace Nop.Web.Models.Blogs;
-
-public partial record BlogPostTagModel : BaseNopModel
+namespace Nop.Web.Models.Blogs
 {
-    public string Name { get; set; }
+    public partial record BlogPostTagModel : BaseNopModel
+    {
+        public string Name { get; set; }
 
-    public int BlogPostCount { get; set; }
+        public int BlogPostCount { get; set; }
+    }
 }
