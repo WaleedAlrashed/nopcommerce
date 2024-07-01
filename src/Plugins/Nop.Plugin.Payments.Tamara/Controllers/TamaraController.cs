@@ -19,7 +19,7 @@ using Nop.Web.Framework.Mvc.Filters;
 
 namespace Nop.Plugin.Payments.Tamara.Controllers
 {
-    [Area(AreaNames.ADMIN)]
+    [Area(AreaNames.Admin)]
     [AutoValidateAntiforgeryToken]
     [ValidateIpAddress]
     [AuthorizeAdmin]

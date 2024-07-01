@@ -80,7 +80,7 @@ namespace Nop.Plugin.Payments.Tabby.Components
         {
             var model = new PaymentInfoModel();
             var paymentRequest = new ProcessPaymentRequest();
-            await _paymentService.GenerateOrderGuidAsync(paymentRequest);
+             _paymentService.GenerateOrderGuid(paymentRequest);
 
 
             var store = await _storeContext.GetCurrentStoreAsync();

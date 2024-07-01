@@ -9,10 +9,9 @@ using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
 
-
 namespace Nop.Plugin.Payments.Tabby.Controllers
 {
-    [Area(AreaNames.ADMIN)]
+    [Area(AreaNames.Admin)]
     [AutoValidateAntiforgeryToken]
     [ValidateIpAddress]
     [AuthorizeAdmin]
@@ -20,14 +19,13 @@ namespace Nop.Plugin.Payments.Tabby.Controllers
     {
         #region Fields
 
-        protected readonly ISettingService _settingService;
-        protected readonly IPermissionService _permissionService;
-        protected readonly ILocalizationService _localizationService;
-        protected readonly INotificationService _notificationService;
-        protected readonly IStoreContext _storeContext;
+        private readonly ISettingService _settingService;
+        private readonly IPermissionService _permissionService;
+        private readonly ILocalizationService _localizationService;
+        private readonly INotificationService _notificationService;
+        private readonly IStoreContext _storeContext;
 
         #endregion
-
 
         #region Ctor
 
@@ -35,7 +33,7 @@ namespace Nop.Plugin.Payments.Tabby.Controllers
                                       IPermissionService permissionService,
                                       ILocalizationService localizationService,
                                       IStoreContext storeContext,
-                                       INotificationService notificationService)
+                                      INotificationService notificationService)
         {
             _settingService = settingService;
             _permissionService = permissionService;
@@ -45,7 +43,6 @@ namespace Nop.Plugin.Payments.Tabby.Controllers
         }
 
         #endregion
-
 
         #region Methods
 
@@ -75,12 +72,12 @@ namespace Nop.Plugin.Payments.Tabby.Controllers
 
             var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
             var settings = await _settingService.LoadSettingAsync<TabbySettings>(storeScope);
+            // _logger.Information($"PublicKey: {settings.PublicKey}, SecretKey: {settings.SecretKey}");
 
             settings.PublicKey = model.PublicKey;
             settings.SecretKey = model.SecretKey;
 
             await _settingService.SaveSettingAsync(settings);
-
             await _settingService.ClearCacheAsync();
 
             _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));

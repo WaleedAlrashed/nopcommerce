@@ -30,7 +30,6 @@ namespace Nop.Plugin.Payments.Tabby.Models
         public bool PublicKey_OverrideForStore { get; set; }
 
         [NopResourceDisplayName("Plugins.Payments.Tabby.Fields.SecretKey")]
-        [NoTrim]
         [DataType(DataType.Password)]
         public string SecretKey { get; set; }
         public bool SecretKey_OverrideForStore { get; set; }

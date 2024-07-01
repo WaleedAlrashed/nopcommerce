@@ -69,7 +69,7 @@ namespace Nop.Plugin.Payments.Tamara.Components
         {
             var model = new PaymentInfoModel();
             var paymentRequest = new ProcessPaymentRequest();
-            await _paymentService.GenerateOrderGuidAsync(paymentRequest);
+             _paymentService.GenerateOrderGuid(paymentRequest);
 
             //try to create an order
             var (order, error) = await _serviceManager.CreateOrderAsync(_settings, paymentRequest.OrderGuid.ToString());
