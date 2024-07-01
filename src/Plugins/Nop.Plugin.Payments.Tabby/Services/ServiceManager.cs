@@ -300,8 +300,8 @@ namespace Nop.Plugin.Payments.Tabby.Services
         }}";
                            }));
 
-                var successUrl = $"{_webHelper.GetStoreHost(false)}/checkout/completed";
-                var cartUrl = $"{_webHelper.GetStoreHost(false)}/cart";
+                var successUrl = $"{_webHelper.GetStoreHost(true)}checkout/completed";
+                var cartUrl = $"{_webHelper.GetStoreHost(true)}cart";
 
                 //            var jsonContent = $@"
                 //{{
