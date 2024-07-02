@@ -30,23 +30,23 @@ namespace Nop.Plugin.Payments.Tabby.Controllers
         {
             var baseUri = $"{Request.Scheme}://{Request.Host}";
 
-            if (!string.IsNullOrEmpty(Request?.QueryString.Value))
-            {
-                var requestParams = GetParamsAsync(queryString: Request?.QueryString.Value);
-                var status = requestParams["?paymentStatus"];
-                var tamaraOrderId = requestParams["orderId"];
+            if (string.IsNullOrEmpty(Request?.QueryString.Value))
+                return Redirect($"{baseUri}/cart");
+            
+            var requestParams = GetParamsAsync(queryString: Request?.QueryString.Value);
+            var status = requestParams["?paymentStatus"];
+            var tabbyOrderId = requestParams["orderId"];
 
-                if (!string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(tamaraOrderId))
-                {
-                    if (status == "approved")
-                    {
-                        await _serviceManager.HandleWebhookAsync(_settings, tamaraOrderId);
-                        return Redirect($"{baseUri}/checkout/completed");
-                    }
-                }
-            }
+            if (string.IsNullOrEmpty(status) || string.IsNullOrEmpty(tabbyOrderId))
+                return Redirect($"{baseUri}/cart");
+                
+            if (status != "approved")
+                return Redirect($"{baseUri}/cart");
+                
+            await _serviceManager.HandleWebhookAsync(_settings, tabbyOrderId);
+                
+            return Redirect($"{baseUri}/checkout/completed");
 
-            return Redirect($"{baseUri}/cart");
         }
 
         private Dictionary<string, string> GetParamsAsync(string queryString)
