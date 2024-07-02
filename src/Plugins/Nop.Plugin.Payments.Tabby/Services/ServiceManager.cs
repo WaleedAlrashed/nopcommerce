@@ -300,7 +300,7 @@ namespace Nop.Plugin.Payments.Tabby.Services
         }}";
                            }));
 
-                var successUrl = $"{_webHelper.GetStoreHost(true)}checkout/completed";
+               var successUrlTemplate = $"{_webHelper.GetStoreHost(true)}onepagecheckout?payment_id={{0}}#opc-confirm_order";
                 var cartUrl = $"{_webHelper.GetStoreHost(true)}cart";
 
                 //            var jsonContent = $@"
@@ -351,7 +351,7 @@ namespace Nop.Plugin.Payments.Tabby.Services
                     MerchantCode = TabbyDefaults.MerchantCode,
                     MerchantUrls = new TabbyMerchantUrlParams
                     {
-                        Success = successUrl,
+                        Success = successUrlTemplate,
                         Cancel = cartUrl,
                         Failure = cartUrl
                     },
@@ -894,19 +894,18 @@ namespace Nop.Plugin.Payments.Tabby.Services
         /// <param name="settings">Plugin settings</param>
         /// <param name="request">HTTP request</param>
         /// <returns>A task that represents the asynchronous operation</returns>
-        public async Task HandleWebhookAsync(TabbySettings settings, string tamaraOrderId)
+        public async Task HandleWebhookAsync(TabbySettings settings, string tabbyOrderId)
         {
             await HandleFunctionAsync(async () =>
             {
                 try
                 {
-                    bool isFromMobile = false;
-                    bool success = false;
+                  
                     //ensure that plugin is configured
                     if (!IsConfigured(settings))
                         throw new NopException("Plugin not configured");
 
-                    var (orderDetailResponse, _) = await GetOrderDetailAsync(settings, tamaraOrderId);
+                    var (orderDetailResponse, _) = await GetOrderDetailAsync(settings, tabbyOrderId);
 
                     if (orderDetailResponse is null)
                         return false;
@@ -920,7 +919,7 @@ namespace Nop.Plugin.Payments.Tabby.Services
                     if (paymentRequest == null)
                     {
 
-                        var tamaraTransaction = await GetTamaraTransactionByOrderReference(orderGuid);
+                        var tamaraTransaction = await GetTabbyTransactionByOrderReference(orderGuid);
                         if (tamaraTransaction is null)
                         {
                             throw new NopException($"Could not find tamaraTransaction {orderGuid}");
@@ -1048,7 +1047,7 @@ namespace Nop.Plugin.Payments.Tabby.Services
                 await _logger.ErrorAsync(ex.Message, ex, await _workContext.GetCurrentCustomerAsync());
             }
         }
-        public async Task<TabbyPaymentTransaction> GetTamaraTransactionByOrderReference(Guid orderReference)
+        public async Task<TabbyPaymentTransaction> GetTabbyTransactionByOrderReference(Guid orderReference)
         {
             var transactions = await _tamaraPaymentTransactionRepository
                 .GetAllAsync(query => query.Where(x => x.OrderReference == orderReference));
